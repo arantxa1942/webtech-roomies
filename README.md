@@ -3,6 +3,21 @@
 - Teodoro Coz
 - Matias Küpfer
 - Arantxa Toledo
+
+## Requirements
+- Ruby 3.x  
+- Rails 8
+- PostgreSQL 
+- Node.js 
+
+## Setup 
+- bundle intall
+- npm install o yarn install 
+- bin/rails db:prepare
+
+## Run
+- bin/dev 
+- Then open  http://localhost:3000
 ## Structure
 webtech-roomies/  
 ├── photo/                 
