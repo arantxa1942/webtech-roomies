@@ -38,7 +38,7 @@ Run the application:
 bin/dev
 Open your browser at http://localhost:3000.
 
-4. Seed Data Overview (db/seeds.rb)
+## 4. Seed Data Overview (db/seeds.rb)
 Running bin/rails db:seed on an empty database populates the app with realistic sample data representing real Santiago neighborhoods (Providencia, Las Condes, Ñuñoa, Santiago Centro):
 
 Complete Model Coverage: Populates Neighborhood, User (Hosts & Seekers), Property, Amenity, PropertyAmenity, Listing, Application, Visit, and Review.
@@ -60,7 +60,7 @@ Competing Applications & Visits: Multiple seekers applying for the same room, wi
 You can view the updated relational diagram here:
 [Updated Domain Model on dbdiagram.io](https://dbdiagram.io/d/6aa5ca6636f998256479d6e2)
 
-6. Repository Structure
+## 6. Repository Structure
 webtech-roomies/
 ├── app/                  # Controllers, Models, Views, Layouts, Partials
 ├── bin/
