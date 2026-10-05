@@ -1,0 +1,61 @@
+<section id="hero" class="bg-primary bg-gradient text-white text-center py-5">
+    <h1 class="display-5 fw-bold">Find a room or list one </h1>
+    <p>Roomies is a platform where people who have a free room in a shared house or apartment can offer it to people looking for a place to live. The host publishes the room with the necessary details for seekers to apply, visit, and move in. </p>
+    <a href="#busqueda" class="btn btn-light fw-normal">Find a room</a>
+    <a href="#accion" class="btn btn-light fw-normal">Publish a room</a>
+</section>
+           
+<section id="funcionamiento"  class="container">
+    <h2 class=" fw-bold" >How it works</h2>
+    <ul >
+        <li>
+            <h3>Publish</h3>
+            <p>A host when register a property, describes the apartment or house in whitch the room is, also what the room itself has, the financial details and finally the household rules</p>                        
+        </li>
+        <li>
+            <h3>Apply</h3>
+            <p>The seeker can apply to a published listing. The application must contain a message introducing themselves, the date they would like to move in, and how long they intend to stay. The application follows a lifecycle which could be: pending, shortlisted, accepted, rejected, and withdrawn. A seeker may not apply twice to the same listing.</p>
+        </li>
+        <li>
+            <h3>Visit and Move In</h3>
+            <p>Once the application is shortlisted, the host arranges a visit to the property on a given date and time. After the visit takes place, it is marked as completed. When the application is accepted, the others are instantly rejected and the listing moves to reserved.</p>
+        </li>
+    </ul>
+</section>
+            
+
+<section id="opciones" class="container py-5">
+    <h2 class="text-center fw-bold">Featured listings</h2>
+
+    <% if @listings.empty? %>
+        <p>No published listings are available.</p>
+    <% else %>
+        <div class="row g-4">
+            <%= render @listings %>
+        </div>
+    <% end %>
+</section>
+
+<section id="busqueda" class="container py-5">
+    <h2 class="text-center">Search</h2>
+    <form class="row g-3">
+        <div class="col-md-4">
+            <label for="barrio" class="form-label">Neighborhood</label>
+            <input type="text" id="barrio" name="barrio" class="form-control" placeholder="ej. providencia">
+        </div>
+ 
+        <div class="col-md-4">
+            <label for="arriendo" class="form-label">Maximum rent</label>
+            <input type="number" id="arriendo" name="arriendo" class="form-control" placeholder="300000">
+        </div>
+ 
+        <div class="col-md-4">
+            <label for="fecha" class="form-label">Availability date</label>
+            <input type="date" id="fecha" name="fecha" class="form-control">
+        </div>
+ 
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</section>

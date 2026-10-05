@@ -1,0 +1,38 @@
+<div class="container py-4">
+    <h1><%= @property.title %></h1>
+
+    <p><%= @property.description %></p>
+    <p>Neighborhood: <%= @property.neighborhood.name %></p>
+    <p>Address: <%= @property.address %></p>
+    <p>Bedrooms: <%= @property.bedrooms %></p>
+    <p>Bathrooms: <%= @property.bathrooms %></p>
+    <p>Shared spaces: <%= @property.shared_spaces ? "Yes" : "No" %></p>
+
+    <h2 class="h4">Listings</h2>
+
+    <% if @listings.empty? %>
+        <p>This property has no listings.</p>
+    <% else %>
+        <div class="row g-4">
+        <%= render @listings %>
+        </div>
+    <% end %>
+
+    <h2 class="h4 mt-4">Reviews</h2>
+
+    <% if @reviews.empty? %>
+        <p>No reviews yet.</p>
+    <% else %>
+        <% @reviews.each do |review| %>
+            <article class="card mb-3">
+                <div class="card-body">
+                    <h3 class="h6"><%= review.reviewer.full_name %></h3>
+                    <p>Rating: <%= review.rating %> / 5</p>
+                    <p><%= review.comment %></p>
+                </div>
+            </article>
+        <% end %>
+    <% end %>
+
+    <%= link_to "Back to properties", properties_path, class: "btn btn-outline-primary" %>
+</div>

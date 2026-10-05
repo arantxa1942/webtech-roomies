@@ -1,0 +1,28 @@
+<div class="container py-4">
+    <h1>Application details</h1>
+
+    <p>Applicant: <%= @application.applicant.full_name %></p>
+
+    <p>
+        Listing:
+        <%= link_to @application.listing.title, listing_path(@application.listing) %>
+    </p>
+
+    <p>Status: <%= @application.status.humanize %></p>
+    <p>Submitted at: <%= @application.created_at %></p>
+
+    <h2 class="h4">Message</h2>
+    <p><%= @application.message %></p>
+
+    <h2 class="h4">Visit</h2>
+
+    <% if @visit.present? %>
+        <p>Scheduled at: <%= @visit.scheduled_at %></p>
+        <p>Status: <%= @visit.status.humanize %></p>
+        <p><%= @visit.notes %></p>
+    <% else %>
+        <p>No visit has been scheduled.</p>
+    <% end %>
+
+    <%= link_to "Back to applications", applications_path, class: "btn btn-outline-primary" %>
+</div>

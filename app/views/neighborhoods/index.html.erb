@@ -1,0 +1,15 @@
+<div class="container py-4">
+    <h1>Neighborhoods</h1>
+
+    <% if @neighborhoods.empty? %>
+        <p>No neighborhoods available.</p>
+    <% else %>
+        <ul class="list-group">
+            <% @neighborhoods.each do |neighborhood| %>
+                <li class="list-group-item">
+                    <%= link_to neighborhood.name, neighborhood_path(neighborhood) %>, <%= neighborhood.city %>
+                </li>
+            <% end %>
+        </ul>
+    <% end %>
+</div>

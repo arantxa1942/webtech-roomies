@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_05_004600) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_05_021648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_004600) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["applicant_id"], name: "index_applications_on_applicant_id"
+    t.index ["listing_id", "applicant_id"], name: "index_applications_on_listing_id_and_applicant_id", unique: true
     t.index ["listing_id"], name: "index_applications_on_listing_id"
   end
 
@@ -72,6 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_004600) do
     t.bigint "property_id", null: false
     t.bigint "amenity_id", null: false
     t.index ["amenity_id"], name: "index_property_amenities_on_amenity_id"
+    t.index ["property_id", "amenity_id"], name: "index_property_amenities_on_property_id_and_amenity_id", unique: true
     t.index ["property_id"], name: "index_property_amenities_on_property_id"
   end
 
@@ -106,6 +108,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_004600) do
     t.bigint "listing_id", null: false
     t.datetime "saved_at", null: false
     t.index ["listing_id"], name: "index_saved_listings_on_listing_id"
+    t.index ["user_id", "listing_id"], name: "index_saved_listings_on_user_id_and_listing_id", unique: true
     t.index ["user_id"], name: "index_saved_listings_on_user_id"
   end
 
@@ -124,7 +127,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_004600) do
     t.datetime "scheduled_at", null: false
     t.string "status", null: false
     t.text "notes"
-    t.index ["application_id"], name: "index_visits_on_application_id"
+    t.index ["application_id"], name: "index_visits_on_application_id", unique: true
   end
 
   add_foreign_key "applications", "listings"

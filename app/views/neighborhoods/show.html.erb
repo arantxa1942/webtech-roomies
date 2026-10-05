@@ -1,0 +1,20 @@
+<div class="container py-4">
+    <h1><%= @neighborhood.name %></h1>
+    <p>City: <%= @neighborhood.city %></p>
+
+    <h2 class="h4">Properties</h2>
+
+    <% if @properties.empty? %>
+        <p>No properties in this neighborhood.</p>
+    <% else %>
+        <ul class="list-group mb-4">
+            <% @properties.each do |property| %>
+                <li class="list-group-item">
+                    <%= link_to property.title, property_path(property) %>
+                    <p class="mb-0"><%= property.address %></p>
+                </li>
+            <% end %>
+        </ul>
+    <% end %>
+    <%= link_to "Back to neighborhoods", neighborhoods_path, class: "btn btn-outline-primary" %>
+</div>

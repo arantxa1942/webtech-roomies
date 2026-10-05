@@ -1,0 +1,11 @@
+<div class="container py-4">
+    <h1>Published listings</h1>
+
+    <% if @listings.empty? %>
+        <p>No published listings are available.</p>
+    <% else %>
+        <div class="row g-4">
+            <%= render @listings %>
+        </div>
+    <% end %>
+</div>

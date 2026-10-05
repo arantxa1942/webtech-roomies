@@ -1,0 +1,66 @@
+<div class="container py-4">
+    <h1><%= @listing.title %></h1>
+
+    <% if @photos.empty? %>
+        <p>No photos available.</p>
+    <% else %>
+        <div class="row g-3 mb-4">
+            <% @photos.each do |photo| %>
+                <div class="col-md-4">
+                    <%= image_tag photo.image_url, class: "img-fluid", alt: "Photo of #{@listing.title}" %>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+    
+    <p><%= @listing.description %></p>
+    <p>
+        Monthly rent: <%= number_to_currency(@listing.monthly_rent, unit: "$", precision: 0) %>
+    </p>
+
+    <p>Available from: <%= @listing.available_from %></p>
+    <p>Status: <%= @listing.status.humanize %></p>
+
+    <h2 class="h4">Property</h2>
+
+    <p>
+        <%= link_to @property.title, property_path(@property) %>
+    </p>
+
+    <p>Neighborhood: <%= @property.neighborhood.name %></p>
+    <p>Address: <%= @property.address %></p>
+    <p><%= @property.description %></p>
+    <p>Bedrooms: <%= @property.bedrooms %></p>
+    <p>Bathrooms: <%= @property.bathrooms %></p>
+    <p>Shared spaces: <%= @property.shared_spaces ? "Yes" : "No" %></p>
+
+    <h2 class="h4">Amenities</h2>
+
+    <% if @amenities.empty? %>
+        <p>No amenities listed.</p>
+    <% else %>
+        <ul>
+            <% @amenities.each do |amenity| %>
+                <li><%= amenity.name %></li>
+            <% end %>
+        </ul>
+    <% end %>
+
+    <h2 class="h4">Reviews</h2>
+
+    <% if @reviews.empty? %>
+        <p>No reviews yet.</p>
+    <% else %>
+        <% @reviews.each do |review| %>
+            <article class="card mb-3">
+                <div class="card-body">
+                    <h3 class="h6"><%= review.reviewer.full_name %></h3>
+                    <p>Rating: <%= review.rating %> / 5</p>
+                    <p><%= review.comment %></p>
+                </div>
+            </article>
+        <% end %>
+    <% end %>
+
+    <%= link_to "Back to listings", listings_path, class: "btn btn-outline-primary" %>
+</div>
