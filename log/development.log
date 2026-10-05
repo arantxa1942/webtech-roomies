@@ -1000,3 +1000,753 @@ Using vips to process variants requires the libvips library. Please install libv
 Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
 Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
   [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT pg_try_advisory_lock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (3.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+Migrating to CreateUsers (20261005004528)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (17.4ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(752344604101426980) /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (97.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_development" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (51.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_test" /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (301.9ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_development" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (58.7ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_test" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[35mSQL (1.1ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "amenities" ("id" bigserial primary key, "name" character varying NOT NULL, "category" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "applications" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "applications" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "applicant_id" bigint NOT NULL, "message" text, "status" character varying DEFAULT 'pending' NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_applications_on_applicant_id" ON "applications" ("applicant_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_applications_on_listing_id" ON "applications" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "listing_photos" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "listing_photos" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "image_url" integer NOT NULL, "is_main" boolean DEFAULT FALSE NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_listing_photos_on_listing_id" ON "listing_photos" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "listings" ("id" bigserial primary key, "property_id" bigint NOT NULL, "title" character varying NOT NULL, "description" text, "monthly_rent" decimal NOT NULL, "status" character varying DEFAULT 'draft' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_listings_on_property_id" ON "listings" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "neighborhoods" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "neighborhoods" ("id" bigserial primary key, "name" character varying NOT NULL, "city" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_neighborhoods_on_name_and_city" ON "neighborhoods" ("name", "city") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "properties" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "properties" ("id" bigserial primary key, "owner_id" bigint NOT NULL, "neighborhood_id" bigint NOT NULL, "title" character varying NOT NULL, "address" character varying NOT NULL, "description" text, "bedrooms" integer NOT NULL, "bathrooms" integer NOT NULL, "shared_spaces" boolean DEFAULT TRUE, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_properties_on_neighborhood_id" ON "properties" ("neighborhood_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_properties_on_owner_id" ON "properties" ("owner_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "property_amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "property_amenities" ("id" bigserial primary key, "property_id" bigint NOT NULL, "amenity_id" bigint NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_amenity_id" ON "property_amenities" ("amenity_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_property_id" ON "property_amenities" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "reports" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "reports" ("id" bigserial primary key, "reproter_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "reason" text NOT NULL, "status" character varying NOT NULL, "moderator_id" bigint, "moderator_notes" text, "created_at" timestamp(6) NOT NULL, "reviewed_at" timestamp(6)) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_reports_on_listing_id" ON "reports" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_reports_on_moderator_id" ON "reports" ("moderator_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_reports_on_reproter_id" ON "reports" ("reproter_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "reviews" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "reviews" ("id" bigserial primary key, "visit_id" bigint, "reviewer_id" bigint NOT NULL, "property_id" bigint NOT NULL, "rating" integer NOT NULL, "comment" text, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_property_id" ON "reviews" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_reviewer_id" ON "reviews" ("reviewer_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_reviews_on_visit_id" ON "reviews" ("visit_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "saved_listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "saved_listings" ("id" bigserial primary key, "user_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "saved_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_listing_id" ON "saved_listings" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_user_id" ON "saved_listings" ("user_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "visits" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "visits" ("id" bigserial primary key, "application_id" bigint NOT NULL, "scheduled_at" timestamp(6) NOT NULL, "status" character varying NOT NULL, "notes" text) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_visits_on_application_id" ON "visits" ("application_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.5ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_2881ca5d4f"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_df32bd9671"
+FOREIGN KEY ("applicant_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "listing_photos" ADD CONSTRAINT "fk_rails_0f101060cd"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "listings" ADD CONSTRAINT "fk_rails_147f5eb13e"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_659aeb2874"
+FOREIGN KEY ("neighborhood_id")
+  REFERENCES "neighborhoods" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_45d6dffcf8"
+FOREIGN KEY ("owner_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_f37dc1f85f"
+FOREIGN KEY ("amenity_id")
+  REFERENCES "amenities" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_e71b8c80fc"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_2608b92ec4"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_cfe003e081"
+FOREIGN KEY ("moderator_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_3c5411f358"
+FOREIGN KEY ("reproter_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cb5be69465"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_007031d9cb"
+FOREIGN KEY ("reviewer_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_4477030b49"
+FOREIGN KEY ("visit_id")
+  REFERENCES "visits" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_63efe8ab53"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_1a5b9f451a"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "visits" ADD CONSTRAINT "fk_rails_f5d2dde823"
+FOREIGN KEY ("application_id")
+  REFERENCES "applications" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20261004192010) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-10-05 01:03:47.948315', '2026-10-05 01:03:47.948317') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '6c1a689985106cdf59db2558c1e7faa7033a751d', '2026-10-05 01:03:47.953007', '2026-10-05 01:03:47.953009') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+Migrating to CreateUsers (20261005004528)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(752344604101426980) /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[35mSQL (0.3ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "amenities" ("id" bigserial primary key, "name" character varying NOT NULL, "category" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "applications" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "applications" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "applicant_id" bigint NOT NULL, "message" text, "status" character varying DEFAULT 'pending' NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_applications_on_applicant_id" ON "applications" ("applicant_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_applications_on_listing_id" ON "applications" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "listing_photos" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "listing_photos" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "image_url" integer NOT NULL, "is_main" boolean DEFAULT FALSE NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_listing_photos_on_listing_id" ON "listing_photos" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "listings" ("id" bigserial primary key, "property_id" bigint NOT NULL, "title" character varying NOT NULL, "description" text, "monthly_rent" decimal NOT NULL, "status" character varying DEFAULT 'draft' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE INDEX "index_listings_on_property_id" ON "listings" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "neighborhoods" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "neighborhoods" ("id" bigserial primary key, "name" character varying NOT NULL, "city" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_neighborhoods_on_name_and_city" ON "neighborhoods" ("name", "city") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "properties" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "properties" ("id" bigserial primary key, "owner_id" bigint NOT NULL, "neighborhood_id" bigint NOT NULL, "title" character varying NOT NULL, "address" character varying NOT NULL, "description" text, "bedrooms" integer NOT NULL, "bathrooms" integer NOT NULL, "shared_spaces" boolean DEFAULT TRUE, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_properties_on_neighborhood_id" ON "properties" ("neighborhood_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_properties_on_owner_id" ON "properties" ("owner_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "property_amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "property_amenities" ("id" bigserial primary key, "property_id" bigint NOT NULL, "amenity_id" bigint NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_amenity_id" ON "property_amenities" ("amenity_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_property_id" ON "property_amenities" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "reports" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "reports" ("id" bigserial primary key, "reproter_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "reason" text NOT NULL, "status" character varying NOT NULL, "moderator_id" bigint, "moderator_notes" text, "created_at" timestamp(6) NOT NULL, "reviewed_at" timestamp(6)) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_reports_on_listing_id" ON "reports" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_reports_on_moderator_id" ON "reports" ("moderator_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE INDEX "index_reports_on_reproter_id" ON "reports" ("reproter_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "reviews" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "reviews" ("id" bigserial primary key, "visit_id" bigint, "reviewer_id" bigint NOT NULL, "property_id" bigint NOT NULL, "rating" integer NOT NULL, "comment" text, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_property_id" ON "reviews" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_reviewer_id" ON "reviews" ("reviewer_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_reviews_on_visit_id" ON "reviews" ("visit_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "saved_listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "saved_listings" ("id" bigserial primary key, "user_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "saved_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_listing_id" ON "saved_listings" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_user_id" ON "saved_listings" ("user_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "visits" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "visits" ("id" bigserial primary key, "application_id" bigint NOT NULL, "scheduled_at" timestamp(6) NOT NULL, "status" character varying NOT NULL, "notes" text) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_visits_on_application_id" ON "visits" ("application_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_2881ca5d4f"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_df32bd9671"
+FOREIGN KEY ("applicant_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mALTER TABLE "listing_photos" ADD CONSTRAINT "fk_rails_0f101060cd"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "listings" ADD CONSTRAINT "fk_rails_147f5eb13e"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_659aeb2874"
+FOREIGN KEY ("neighborhood_id")
+  REFERENCES "neighborhoods" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_45d6dffcf8"
+FOREIGN KEY ("owner_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_f37dc1f85f"
+FOREIGN KEY ("amenity_id")
+  REFERENCES "amenities" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_e71b8c80fc"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_2608b92ec4"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_cfe003e081"
+FOREIGN KEY ("moderator_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_3c5411f358"
+FOREIGN KEY ("reproter_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cb5be69465"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_007031d9cb"
+FOREIGN KEY ("reviewer_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_4477030b49"
+FOREIGN KEY ("visit_id")
+  REFERENCES "visits" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_63efe8ab53"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_1a5b9f451a"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "visits" ADD CONSTRAINT "fk_rails_f5d2dde823"
+FOREIGN KEY ("application_id")
+  REFERENCES "applications" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20261004192010) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-10-05 01:04:53.583171', '2026-10-05 01:04:53.583173') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '6c1a689985106cdf59db2558c1e7faa7033a751d', '2026-10-05 01:04:53.588508', '2026-10-05 01:04:53.588510') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+Migrating to CreateUsers (20261005004528)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(752344604101426980) /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (227.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_development" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (47.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_test" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (53.2ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_development" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (60.4ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_test" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.7ms)[0m  [1m[35mCREATE TABLE "amenities" ("id" bigserial primary key, "name" character varying NOT NULL, "category" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "applications" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "applications" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "applicant_id" bigint NOT NULL, "message" text, "status" character varying DEFAULT 'pending' NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_applications_on_applicant_id" ON "applications" ("applicant_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_applications_on_listing_id" ON "applications" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "listing_photos" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "listing_photos" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "image_url" integer NOT NULL, "is_main" boolean DEFAULT FALSE NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_listing_photos_on_listing_id" ON "listing_photos" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE TABLE "listings" ("id" bigserial primary key, "property_id" bigint NOT NULL, "title" character varying NOT NULL, "description" text, "monthly_rent" decimal NOT NULL, "status" character varying DEFAULT 'draft' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_listings_on_property_id" ON "listings" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "neighborhoods" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "neighborhoods" ("id" bigserial primary key, "name" character varying NOT NULL, "city" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_neighborhoods_on_name_and_city" ON "neighborhoods" ("name", "city") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "properties" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "properties" ("id" bigserial primary key, "owner_id" bigint NOT NULL, "neighborhood_id" bigint NOT NULL, "title" character varying NOT NULL, "address" character varying NOT NULL, "description" text, "bedrooms" integer NOT NULL, "bathrooms" integer NOT NULL, "shared_spaces" boolean DEFAULT TRUE, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_properties_on_neighborhood_id" ON "properties" ("neighborhood_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_properties_on_owner_id" ON "properties" ("owner_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "property_amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "property_amenities" ("id" bigserial primary key, "property_id" bigint NOT NULL, "amenity_id" bigint NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_amenity_id" ON "property_amenities" ("amenity_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_property_id" ON "property_amenities" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "reports" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "reports" ("id" bigserial primary key, "reproter_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "reason" text NOT NULL, "status" character varying NOT NULL, "moderator_id" bigint, "moderator_notes" text, "created_at" timestamp(6) NOT NULL, "reviewed_at" timestamp(6)) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_reports_on_listing_id" ON "reports" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_reports_on_moderator_id" ON "reports" ("moderator_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE INDEX "index_reports_on_reproter_id" ON "reports" ("reproter_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "reviews" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE TABLE "reviews" ("id" bigserial primary key, "visit_id" bigint, "reviewer_id" bigint NOT NULL, "property_id" bigint NOT NULL, "rating" integer NOT NULL, "comment" text, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_property_id" ON "reviews" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_reviewer_id" ON "reviews" ("reviewer_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (22.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_reviews_on_visit_id" ON "reviews" ("visit_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "saved_listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (14.9ms)[0m  [1m[35mCREATE TABLE "saved_listings" ("id" bigserial primary key, "user_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "saved_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (9.7ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_listing_id" ON "saved_listings" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_user_id" ON "saved_listings" ("user_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "visits" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "visits" ("id" bigserial primary key, "application_id" bigint NOT NULL, "scheduled_at" timestamp(6) NOT NULL, "status" character varying NOT NULL, "notes" text) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_visits_on_application_id" ON "visits" ("application_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_2881ca5d4f"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_df32bd9671"
+FOREIGN KEY ("applicant_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mALTER TABLE "listing_photos" ADD CONSTRAINT "fk_rails_0f101060cd"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "listings" ADD CONSTRAINT "fk_rails_147f5eb13e"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_659aeb2874"
+FOREIGN KEY ("neighborhood_id")
+  REFERENCES "neighborhoods" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_45d6dffcf8"
+FOREIGN KEY ("owner_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_f37dc1f85f"
+FOREIGN KEY ("amenity_id")
+  REFERENCES "amenities" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_e71b8c80fc"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_2608b92ec4"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_cfe003e081"
+FOREIGN KEY ("moderator_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_3c5411f358"
+FOREIGN KEY ("reproter_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cb5be69465"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_007031d9cb"
+FOREIGN KEY ("reviewer_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_4477030b49"
+FOREIGN KEY ("visit_id")
+  REFERENCES "visits" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_63efe8ab53"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_1a5b9f451a"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "visits" ADD CONSTRAINT "fk_rails_f5d2dde823"
+FOREIGN KEY ("application_id")
+  REFERENCES "applications" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20261004192010) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-10-05 01:06:41.753643', '2026-10-05 01:06:41.753646') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '6c1a689985106cdf59db2558c1e7faa7033a751d', '2026-10-05 01:06:41.759319', '2026-10-05 01:06:41.759322') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+Migrating to CreateUsers (20261005004528)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(752344604101426980) /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (203.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_development" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (43.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_test" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (46.9ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_development" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (55.2ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_test" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "amenities" ("id" bigserial primary key, "name" character varying NOT NULL, "category" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "applications" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "applications" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "applicant_id" bigint NOT NULL, "message" text, "status" character varying DEFAULT 'pending' NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_applications_on_applicant_id" ON "applications" ("applicant_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_applications_on_listing_id" ON "applications" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "listing_photos" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "listing_photos" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "image_url" integer NOT NULL, "is_main" boolean DEFAULT FALSE NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_listing_photos_on_listing_id" ON "listing_photos" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "listings" ("id" bigserial primary key, "property_id" bigint NOT NULL, "title" character varying NOT NULL, "description" text, "monthly_rent" decimal NOT NULL, "status" character varying DEFAULT 'draft' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_listings_on_property_id" ON "listings" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "neighborhoods" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "neighborhoods" ("id" bigserial primary key, "name" character varying NOT NULL, "city" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_neighborhoods_on_name_and_city" ON "neighborhoods" ("name", "city") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "properties" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "properties" ("id" bigserial primary key, "owner_id" bigint NOT NULL, "neighborhood_id" bigint NOT NULL, "title" character varying NOT NULL, "address" character varying NOT NULL, "description" text, "bedrooms" integer NOT NULL, "bathrooms" integer NOT NULL, "shared_spaces" boolean DEFAULT TRUE, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_properties_on_neighborhood_id" ON "properties" ("neighborhood_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_properties_on_owner_id" ON "properties" ("owner_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "property_amenities" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "property_amenities" ("id" bigserial primary key, "property_id" bigint NOT NULL, "amenity_id" bigint NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_amenity_id" ON "property_amenities" ("amenity_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_property_id" ON "property_amenities" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "reports" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "reports" ("id" bigserial primary key, "reproter_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "reason" text NOT NULL, "status" character varying NOT NULL, "moderator_id" bigint, "moderator_notes" text, "created_at" timestamp(6) NOT NULL, "reviewed_at" timestamp(6)) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_reports_on_listing_id" ON "reports" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE INDEX "index_reports_on_moderator_id" ON "reports" ("moderator_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE INDEX "index_reports_on_reproter_id" ON "reports" ("reproter_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "reviews" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "reviews" ("id" bigserial primary key, "visit_id" bigint, "reviewer_id" bigint NOT NULL, "property_id" bigint NOT NULL, "rating" integer NOT NULL, "comment" text, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_property_id" ON "reviews" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_reviewer_id" ON "reviews" ("reviewer_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_reviews_on_visit_id" ON "reviews" ("visit_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "saved_listings" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "saved_listings" ("id" bigserial primary key, "user_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "saved_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_listing_id" ON "saved_listings" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_user_id" ON "saved_listings" ("user_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "visits" CASCADE /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "visits" ("id" bigserial primary key, "application_id" bigint NOT NULL, "scheduled_at" timestamp(6) NOT NULL, "status" character varying NOT NULL, "notes" text) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE INDEX "index_visits_on_application_id" ON "visits" ("application_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.7ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_2881ca5d4f"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "applications" ADD CONSTRAINT "fk_rails_df32bd9671"
+FOREIGN KEY ("applicant_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.9ms)[0m  [1m[35mALTER TABLE "listing_photos" ADD CONSTRAINT "fk_rails_0f101060cd"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mALTER TABLE "listings" ADD CONSTRAINT "fk_rails_147f5eb13e"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_659aeb2874"
+FOREIGN KEY ("neighborhood_id")
+  REFERENCES "neighborhoods" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mALTER TABLE "properties" ADD CONSTRAINT "fk_rails_45d6dffcf8"
+FOREIGN KEY ("owner_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_f37dc1f85f"
+FOREIGN KEY ("amenity_id")
+  REFERENCES "amenities" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "property_amenities" ADD CONSTRAINT "fk_rails_e71b8c80fc"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_2608b92ec4"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_cfe003e081"
+FOREIGN KEY ("moderator_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mALTER TABLE "reports" ADD CONSTRAINT "fk_rails_3c5411f358"
+FOREIGN KEY ("reproter_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cb5be69465"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_007031d9cb"
+FOREIGN KEY ("reviewer_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_4477030b49"
+FOREIGN KEY ("visit_id")
+  REFERENCES "visits" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_63efe8ab53"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mALTER TABLE "saved_listings" ADD CONSTRAINT "fk_rails_1a5b9f451a"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "visits" ADD CONSTRAINT "fk_rails_f5d2dde823"
+FOREIGN KEY ("application_id")
+  REFERENCES "applications" ("id")
+ /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20261004192010) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-10-05 01:11:12.843079', '2026-10-05 01:11:12.843081') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '6c1a689985106cdf59db2558c1e7faa7033a751d', '2026-10-05 01:11:12.849326', '2026-10-05 01:11:12.849329') RETURNING "key" /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+Migrating to CreateUsers (20261005004528)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(752344604101426980) /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (189.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_development" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (42.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "webtech_roomies_test" /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (50.1ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_development" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35m (50.9ms)[0m  [1m[35mCREATE DATABASE "webtech_roomies_test" ENCODING = 'unicode' /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[35m (13.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-10-05 01:12:26.493037', '2026-10-05 01:12:26.493040') RETURNING "key" /*application='WebtechRoomies'*/[0m
+Migrating to CreateUsers (20261005004528)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "phone" character varying, "role" character varying DEFAULT 'member' NOT NULL, "created_at" timestamp(6) NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004528') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.8ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateNeighborhoods (20261005004536)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "neighborhoods" ("id" bigserial primary key, "name" character varying NOT NULL, "city" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_neighborhoods_on_name_and_city" ON "neighborhoods" ("name", "city") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004536') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateAmenities (20261005004542)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "amenities" ("id" bigserial primary key, "name" character varying NOT NULL, "category" character varying NOT NULL) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004542') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateProperties (20261005004547)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "properties" ("id" bigserial primary key, "owner_id" bigint NOT NULL, "neighborhood_id" bigint NOT NULL, "title" character varying NOT NULL, "address" character varying NOT NULL, "description" text, "bedrooms" integer NOT NULL, "bathrooms" integer NOT NULL, "shared_spaces" boolean DEFAULT TRUE, "created_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_45d6dffcf8"
+FOREIGN KEY ("owner_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_659aeb2874"
+FOREIGN KEY ("neighborhood_id")
+  REFERENCES "neighborhoods" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_properties_on_owner_id" ON "properties" ("owner_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_properties_on_neighborhood_id" ON "properties" ("neighborhood_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004547') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.8ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateListings (20261005004553)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "listings" ("id" bigserial primary key, "property_id" bigint NOT NULL, "title" character varying NOT NULL, "description" text, "monthly_rent" decimal NOT NULL, "available_from" date NOT NULL, "status" character varying DEFAULT 'draft' NOT NULL, "created_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_147f5eb13e"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_listings_on_property_id" ON "listings" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004553') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateListingPhotos (20261005004554)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "listing_photos" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "image_url" character varying NOT NULL, "is_main" boolean DEFAULT FALSE NOT NULL, CONSTRAINT "fk_rails_0f101060cd"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_listing_photos_on_listing_id" ON "listing_photos" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004554') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreatePropertyAmenities (20261005004555)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "property_amenities" ("id" bigserial primary key, "property_id" bigint NOT NULL, "amenity_id" bigint NOT NULL, CONSTRAINT "fk_rails_e71b8c80fc"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+, CONSTRAINT "fk_rails_f37dc1f85f"
+FOREIGN KEY ("amenity_id")
+  REFERENCES "amenities" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_property_id" ON "property_amenities" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_property_amenities_on_amenity_id" ON "property_amenities" ("amenity_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004555') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateApplications (20261005004556)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "applications" ("id" bigserial primary key, "listing_id" bigint NOT NULL, "applicant_id" bigint NOT NULL, "message" text, "status" character varying DEFAULT 'pending' NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_2881ca5d4f"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+, CONSTRAINT "fk_rails_df32bd9671"
+FOREIGN KEY ("applicant_id")
+  REFERENCES "users" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_applications_on_listing_id" ON "applications" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_applications_on_applicant_id" ON "applications" ("applicant_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004556') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateVisits (20261005004557)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "visits" ("id" bigserial primary key, "application_id" bigint NOT NULL, "scheduled_at" timestamp(6) NOT NULL, "status" character varying NOT NULL, "notes" text, CONSTRAINT "fk_rails_f5d2dde823"
+FOREIGN KEY ("application_id")
+  REFERENCES "applications" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE INDEX "index_visits_on_application_id" ON "visits" ("application_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004557') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateReviews (20261005004558)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.1ms)[0m  [1m[35mCREATE TABLE "reviews" ("id" bigserial primary key, "visit_id" bigint, "reviewer_id" bigint NOT NULL, "property_id" bigint NOT NULL, "rating" integer NOT NULL, "comment" text, "created_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_4477030b49"
+FOREIGN KEY ("visit_id")
+  REFERENCES "visits" ("id")
+, CONSTRAINT "fk_rails_007031d9cb"
+FOREIGN KEY ("reviewer_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_cb5be69465"
+FOREIGN KEY ("property_id")
+  REFERENCES "properties" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_reviews_on_visit_id" ON "reviews" ("visit_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_reviewer_id" ON "reviews" ("reviewer_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_reviews_on_property_id" ON "reviews" ("property_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004558') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateReports (20261005004559)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE TABLE "reports" ("id" bigserial primary key, "reporter_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "reason" text NOT NULL, "status" character varying NOT NULL, "moderator_id" bigint, "moderator_notes" text, "created_at" timestamp(6) NOT NULL, "reviewed_at" timestamp(6), CONSTRAINT "fk_rails_c4cb6e6463"
+FOREIGN KEY ("reporter_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_2608b92ec4"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+, CONSTRAINT "fk_rails_cfe003e081"
+FOREIGN KEY ("moderator_id")
+  REFERENCES "users" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_reports_on_reporter_id" ON "reports" ("reporter_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_reports_on_listing_id" ON "reports" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_reports_on_moderator_id" ON "reports" ("moderator_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004559') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.7ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+Migrating to CreateSavedListings (20261005004600)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='WebtechRoomies'*/[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE TABLE "saved_listings" ("id" bigserial primary key, "user_id" bigint NOT NULL, "listing_id" bigint NOT NULL, "saved_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_1a5b9f451a"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_63efe8ab53"
+FOREIGN KEY ("listing_id")
+  REFERENCES "listings" ("id")
+) /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_user_id" ON "saved_listings" ("user_id") /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE INDEX "index_saved_listings_on_listing_id" ON "saved_listings" ("listing_id") /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261005004600') RETURNING "version" /*application='WebtechRoomies'*/[0m
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT /*application='WebtechRoomies'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(752344604101426980) /*application='WebtechRoomies'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO "$user", public /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='WebtechRoomies'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO "$user", public /*application='WebtechRoomies'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='WebtechRoomies'*/[0m

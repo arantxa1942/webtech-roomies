@@ -1,9 +1,9 @@
-class CreateVisit < ActiveRecord::Migration[8.1]
+class CreateVisits < ActiveRecord::Migration[8.1]
   def change
     create_table :visits do |t|
       t.references :application, null: false, foreign_key: true
       t.datetime :scheduled_at, null: false
-      t.string   :status, null: false
+      t.string :status, null: false
       t.text :notes
       #t.timestamps
     end

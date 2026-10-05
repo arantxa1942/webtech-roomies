@@ -1,4 +1,4 @@
-class CreatePropertyAmenity < ActiveRecord::Migration[8.1]
+class CreatePropertyAmenities < ActiveRecord::Migration[8.1]
   def change
     create_table :property_amenities do |t|
       t.references :property, null: false, foreign_key: true

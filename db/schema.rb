@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_04_192010) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_05_004600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,13 +24,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_192010) do
     t.bigint "applicant_id", null: false
     t.text "message"
     t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["applicant_id"], name: "index_applications_on_applicant_id"
     t.index ["listing_id"], name: "index_applications_on_listing_id"
   end
 
   create_table "listing_photos", force: :cascade do |t|
     t.bigint "listing_id", null: false
-    t.integer "image_url", null: false
+    t.string "image_url", null: false
     t.boolean "is_main", default: false, null: false
     t.index ["listing_id"], name: "index_listing_photos_on_listing_id"
   end
@@ -40,6 +42,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_192010) do
     t.string "title", null: false
     t.text "description"
     t.decimal "monthly_rent", null: false
+    t.date "available_from", null: false
     t.string "status", default: "draft", null: false
     t.datetime "created_at", null: false
     t.index ["property_id"], name: "index_listings_on_property_id"
@@ -73,7 +76,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_192010) do
   end
 
   create_table "reports", force: :cascade do |t|
-    t.bigint "reproter_id", null: false
+    t.bigint "reporter_id", null: false
     t.bigint "listing_id", null: false
     t.text "reason", null: false
     t.string "status", null: false
@@ -83,7 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_192010) do
     t.datetime "reviewed_at"
     t.index ["listing_id"], name: "index_reports_on_listing_id"
     t.index ["moderator_id"], name: "index_reports_on_moderator_id"
-    t.index ["reproter_id"], name: "index_reports_on_reproter_id"
+    t.index ["reporter_id"], name: "index_reports_on_reporter_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -134,7 +137,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_192010) do
   add_foreign_key "property_amenities", "properties"
   add_foreign_key "reports", "listings"
   add_foreign_key "reports", "users", column: "moderator_id"
-  add_foreign_key "reports", "users", column: "reproter_id"
+  add_foreign_key "reports", "users", column: "reporter_id"
   add_foreign_key "reviews", "properties"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "reviews", "visits"
