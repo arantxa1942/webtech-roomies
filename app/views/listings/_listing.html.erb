@@ -1,8 +1,7 @@
 <div class="col-md-4">
     <article class="card h-100">
-        <% photo = listing.listing_photos.find(&:is_main) || listing.listing_photos.first %>
-        <% if photo.present? %>
-            <%= image_tag photo.image_url, class: "card-img-top", alt: "Photo of #{listing.title}" %>
+        <% if listing.photos.attached? %>
+            <%= image_tag listing.photos.first, class: "card-img-top", alt: "Photo of #{listing.title}" %>
         <% end %>
     
         <div class="card-body">

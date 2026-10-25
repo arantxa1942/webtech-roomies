@@ -1,0 +1,82 @@
+<%= form_with(model: [@property, @listing], local: true, class: "needs-validation") do |form| %>
+  <% if @listing.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(@listing.errors.count, "error") %> prohibited this listing from being saved:</h4>
+      <ul>
+        <% @listing.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= form.label :monthly_rent, class: "form-label" %>
+      <%= form.number_field :monthly_rent, class: "form-control", step: "0.01" %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= form.label :deposit, class: "form-label" %>
+      <%= form.number_field :deposit, class: "form-control", step: "0.01" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= form.label :available_from, class: "form-label" %>
+      <%= form.date_field :available_from, class: "form-control" %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= form.label :minimum_stay, "Minimum Stay (months)", class: "form-label" %>
+      <%= form.number_field :minimum_stay, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-check">
+        <%= form.check_box :furnished, class: "form-check-input" %>
+        <%= form.label :furnished, "Furnished", class: "form-check-label" %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-check">
+        <%= form.check_box :private_bathroom, class: "form-check-input" %>
+        <%= form.label :private_bathroom, "Private Bathroom", class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, Listing.statuses.keys.map { |s| [s.humanize, s] }, {}, { class: "form-select" } %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.rich_textarea :description, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :house_rules, class: "form-label" %>
+    <%= form.rich_textarea :house_rules, class: "form-control" %>
+  </div>
+
+    <div class="mb-3">
+        <%= form.label :photos, "Photos", class: "form-label" %>
+        <%= form.file_field :photos, multiple: true, class: "form-control" %>
+    </div>
+
+  <div class="mb-3">
+    <%= form.submit "Save Listing", class: "btn btn-primary" %>
+    <%= link_to "Cancel", property_path(@property), class: "btn btn-secondary ms-2" %>
+  </div>
+<% end %>

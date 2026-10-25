@@ -47,7 +47,7 @@ def show
   def set_property
     @property = Property.find(params[:id])
   end
-    def property_params
-    params.require(:property).permit(:title, :address, :neighborhood_id, :bedrooms, :bathrooms, :shared_spaces)
+  def property_params
+    params.require(:property).permit(:title, :address, :neighborhood_id, :property_type, :bedrooms, :bathrooms, :shared_spaces)
   end
 end

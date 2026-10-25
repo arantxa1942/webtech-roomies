@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
     def home
-        @listings = Listing.published.includes(:listing_photos, property: :neighborhood).order(:available_from).limit(3)
+    @listings = Listing.includes(:photos_attachments).all 
     end
 end

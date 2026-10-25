@@ -1,11 +1,14 @@
 class Listing < ApplicationRecord
     belongs_to :property
 
-    has_many :listing_photos
+    has_many_attached :photos
     has_many :applications
     has_many :saved_listings
     has_many :reports
     
+    has_rich_text :description
+    has_rich_text :house_rules
+
     enum :status, {
         draft: "draft",
         published: "published",

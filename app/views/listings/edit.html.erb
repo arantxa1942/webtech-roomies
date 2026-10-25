@@ -1,0 +1,76 @@
+<div class="container py-4">
+    <h1 class="mb-4">Edit Listing</h1>
+
+    <%= form_with(model: @listing, local: true, html: { multipart: true }) do |form| %>
+        <% if @listing.errors.any? %>
+            <div class="alert alert-danger">
+                <h2><%= pluralize(@listing.errors.count, "error") %> prohibited this listing from being saved:</h2>
+                <ul>
+                    <% @listing.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
+
+        <div class="mb-3">
+            <%= form.label :title, class: "form-label" %>
+            <%= form.text_field :title, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+            <%= form.label :monthly_rent, class: "form-label" %>
+            <%= form.number_field :monthly_rent, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+            <%= form.label :deposit, class: "form-label" %>
+            <%= form.number_field :deposit, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+            <%= form.label :minimum_stay, "Minimum stay (months)", class: "form-label" %>
+            <%= form.number_field :minimum_stay, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+            <%= form.label :available_from, class: "form-label" %>
+            <%= form.date_field :available_from, class: "form-control" %>
+        </div>
+<div class="mb-3">
+            <%= form.label :description, class: "form-label" %>
+            <%= form.text_area :description, value: @listing.description&.to_plain_text, rows: 4, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+            <%= form.label :house_rules, class: "form-label" %>
+            <%= form.text_area :house_rules, value: @listing.house_rules&.to_plain_text, rows: 4, class: "form-control" %>
+        </div>
+
+        <div class="mb-3 form-check">
+            <%= form.check_box :furnished, class: "form-check-input" %>
+            <%= form.label :furnished, class: "form-check-label" %>
+        </div>
+
+        <div class="mb-3 form-check">
+            <%= form.check_box :private_bathroom, class: "form-check-input" %>
+            <%= form.label :private_bathroom, class: "form-check-label" %>
+        </div>
+
+        <!-- Campo de Active Storage para adjuntar fotos -->
+        <div class="mb-3">
+            <%= form.label :photos, "Photos", class: "form-label" %>
+            <%= form.file_field :photos, multiple: true, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+            <%= form.label :status, class: "form-label" %>
+            <%= form.select :status, [['Published', 'published'], ['Draft', 'draft'], ['Reserved', 'reserved']], {}, class: "form-select" %>
+        </div>
+
+        <div class="mt-4">
+            <%= form.submit "Update Listing", class: "btn btn-primary" %>
+            <%= link_to "Cancel", listing_path(@listing), class: "btn btn-secondary ms-2" %>
+        </div>
+    <% end %>
+</div>

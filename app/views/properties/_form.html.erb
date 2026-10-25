@@ -20,9 +20,16 @@
     <%= form.text_field :address, class: "form-control" %>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :neighborhood_id, "Neighborhood", class: "form-label" %>
-    <%= form.collection_select :neighborhood_id, Neighborhood.all, :id, :name, { prompt: "Select neighborhood" }, { class: "form-select" } %>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= form.label :neighborhood_id, "Neighborhood", class: "form-label" %>
+      <%= form.collection_select :neighborhood_id, Neighborhood.all, :id, :name, { prompt: "Select neighborhood" }, { class: "form-select" } %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= form.label :property_type, "Property Type", class: "form-label" %>
+      <%= form.select :property_type, options_for_select([['Apartment', 'apartment'], ['House', 'house'], ['Studio', 'studio'], ['Room', 'room']], @property.property_type), { prompt: "Select property type" }, { class: "form-select" } %>
+    </div>
   </div>
 
   <div class="row">

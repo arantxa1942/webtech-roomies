@@ -1,28 +1,42 @@
 <div class="container py-4">
     <h1><%= @listing.title %></h1>
 
-    <% if @photos.empty? %>
-        <p>No photos available.</p>
-    <% else %>
+    <!-- Fotografías con Active Storage -->
+    <% if @listing.photos.attached? %>
         <div class="row g-3 mb-4">
-            <% @photos.each do |photo| %>
-                <div class="col-md-4">
-                    <%= image_tag photo.image_url, class: "img-fluid", alt: "Photo of #{@listing.title}" %>
+            <% @listing.photos.each do |photo| %>
+                <div class="col-md-4 mb-3">
+                    <%= image_tag photo, class: "img-fluid rounded shadow-sm", alt: "Photo of #{@listing.title}" %>
                 </div>
             <% end %>
         </div>
+    <% else %>
+        <p>No photos available.</p>
     <% end %>
     
-    <p><%= @listing.description %></p>
-    <p>
-        Monthly rent: <%= number_to_currency(@listing.monthly_rent, unit: "$", precision: 0) %>
-    </p>
+    <!-- Descripciones de Action Text -->
+    <div class="mb-3">
+        <h3>Description</h3>
+        <div><%= @listing.description %></div>
+    </div>
 
-    <p>Available from: <%= @listing.available_from %></p>
-    <p>Status: <%= @listing.status.humanize %></p>
+    <div class="mb-3">
+        <h3>House Rules</h3>
+        <div><%= @listing.house_rules %></div>
+    </div>
+
+    <!-- Detalles financieros y de estadía -->
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Monthly rent:</strong> <%= number_to_currency(@listing.monthly_rent, unit: "$", precision: 0) %></li>
+        <li class="list-group-item"><strong>Deposit:</strong> <%= number_to_currency(@listing.deposit, unit: "$", precision: 0) %></li>
+        <li class="list-group-item"><strong>Minimum stay:</strong> <%= @listing.minimum_stay %> months</li>
+        <li class="list-group-item"><strong>Available from:</strong> <%= @listing.available_from %></li>
+        <li class="list-group-item"><strong>Status:</strong> <%= @listing.status.humanize %></li>
+        <li class="list-group-item"><strong>Furnished:</strong> <%= @listing.furnished ? "Yes" : "No" %></li>
+        <li class="list-group-item"><strong>Private Bathroom:</strong> <%= @listing.private_bathroom ? "Yes" : "No" %></li>
+    </ul>
 
     <h2 class="h4">Property</h2>
-
     <p>
         <%= link_to @property.title, property_path(@property) %>
     </p>
@@ -35,7 +49,6 @@
     <p>Shared spaces: <%= @property.shared_spaces ? "Yes" : "No" %></p>
 
     <h2 class="h4">Amenities</h2>
-
     <% if @amenities.empty? %>
         <p>No amenities listed.</p>
     <% else %>
@@ -47,7 +60,6 @@
     <% end %>
 
     <h2 class="h4">Reviews</h2>
-
     <% if @reviews.empty? %>
         <p>No reviews yet.</p>
     <% else %>
@@ -61,6 +73,10 @@
             </article>
         <% end %>
     <% end %>
+<div class="mt-4 d-flex gap-2 align-items-center">
+    <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-warning text-dark" %>
+    
+    <%= link_to "Delete", listing_path(@listing), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro de que quieres eliminar este listing?" }, class: "btn btn-danger" %>
 
-    <%= link_to "Back to listings", listings_path, class: "btn btn-outline-primary" %>
+    <%= link_to "Back to properties", properties_path, class: "btn btn-outline-secondary" %>
 </div>
