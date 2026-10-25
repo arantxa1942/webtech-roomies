@@ -1,5 +1,8 @@
 <div class="container py-4">
-    <h1>Properties</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Properties</h1>
+        <%= link_to "New Property", new_property_path, class: "btn btn-primary" %>
+    </div>
 
     <% if @properties.empty? %>
         <p>No properties available.</p>

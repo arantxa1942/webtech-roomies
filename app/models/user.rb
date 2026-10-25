@@ -8,5 +8,5 @@ class User < ApplicationRecord
 
     validates :email, :password_hash, :full_name, presence: true
     validates :email, uniqueness: true
-    validates :role, inclusion: { in: ["member", "moderator"] }
+    validates :role, inclusion: { in: ["host", "seeker", "member", "moderator"] }
 end

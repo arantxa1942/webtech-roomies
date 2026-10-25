@@ -1,0 +1,49 @@
+<%= form_with(model: @property, local: true, class: "needs-validation") do |form| %>
+  <% if @property.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(@property.errors.count, "error") %> prohibited this property from being saved:</h4>
+      <ul>
+        <% @property.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :address, class: "form-label" %>
+    <%= form.text_field :address, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :neighborhood_id, "Neighborhood", class: "form-label" %>
+    <%= form.collection_select :neighborhood_id, Neighborhood.all, :id, :name, { prompt: "Select neighborhood" }, { class: "form-select" } %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= form.label :bedrooms, class: "form-label" %>
+      <%= form.number_field :bedrooms, class: "form-control" %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= form.label :bathrooms, class: "form-label" %>
+      <%= form.number_field :bathrooms, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="mb-3 form-check">
+    <%= form.check_box :shared_spaces, class: "form-check-input" %>
+    <%= form.label :shared_spaces, "Shared Spaces", class: "form-check-label" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit "Save Property", class: "btn btn-primary" %>
+    <%= link_to "Cancel", properties_path, class: "btn btn-secondary ms-2" %>
+  </div>
+<% end %>
