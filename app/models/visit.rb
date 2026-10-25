@@ -7,19 +7,19 @@ class Visit < ApplicationRecord
         confirmed: "confirmed",
         cancelled: "cancelled",
         completed: "completed"
-  }, validate: true
+    }, validate: true
 
     validates :application_id, uniqueness: true
     validates :scheduled_at, presence: true
-    validate :scheduled_after_application
+    validate :scheduled_cannot_be_in_the_past, if: :will_save_change_to_scheduled_at?
 
     private
 
-    def scheduled_after_application
-        return if scheduled_at.blank? || application&.created_at.blank?
+    def scheduled_cannot_be_in_the_past
+        return if scheduled_at.blank?
 
-        if scheduled_at <= application.created_at
-            errors.add(:scheduled_at, "must be after the application was created")
+        if scheduled_at <= Time.current
+            errors.add(:scheduled_at, "cannot be in the past")
         end
     end
 end

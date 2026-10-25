@@ -19,7 +19,7 @@ class Listing < ApplicationRecord
     validates :monthly_rent,
         numericality: { greater_than: 0 }
 
-    validate :availability_cannot_be_in_the_past
+    validate :availability_cannot_be_in_the_past, if: :will_save_change_to_available_from?
 
     scope :under_rent, ->(maximum_rent) {
         where("monthly_rent <= ?", maximum_rent)

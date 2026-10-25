@@ -1,0 +1,14 @@
+/node_modules
+/log/*
+/tmp/*
+/storage/*
+!/log/.keep
+!/tmp/.keep
+!/storage/.keep
+/public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
+/config/master.key
+/config/*.key
+.env*
+.DS_Store
