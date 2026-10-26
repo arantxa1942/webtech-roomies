@@ -1,65 +1,57 @@
 <div class="container py-4">
-    <h1>Application details</h1>
+  <h1>Application details</h1>
+  <% is_host = @application.listing.property.owner_id == current_user&.id %>
 
-    <p>Applicant: <%= @application.applicant.full_name %></p>
+  <p>Applicant: <%= @application.applicant.full_name %></p>
+  <p>Listing: <%= link_to @application.listing.title, listing_path(@application.listing) %></p>
+  <p>Message: <%= @application.message %></p>
+  <p>Move-in: <%= @application.move_in_date %> · Stay: <%= @application.stay_length %> months</p>
+  <p>Status: <strong><%= @application.status.humanize %></strong></p>
+  <p>Submitted at: <%= l(@application.created_at, format: :long) %></p>
 
-    <p>
-        Listing:
-        <%= link_to @application.listing.title, listing_path(@application.listing) %>
-    </p>
-
-    <p>Status: <%= @application.status.humanize %></p>
-    <p>Submitted at: <%= @application.created_at %></p>
-
-        <h2 class="h4">Visit</h2>
-
-    <% is_host = @application.listing.property.owner_id == current_user&.id %>
-
-    <% if @visit.present? %>
-      <p>Scheduled at: <%= l(@visit.scheduled_at, format: :long) %></p>
-      <p>Status: <%= @visit.status.humanize %></p>
-      <p><%= @visit.notes %></p>
-
-      <% if is_host %>
-        <% if @visit.proposed? || @visit.confirmed? %>
-          <%= render "visits/form",
-                visit: @visit,
-                application: @application %>
-        <% end %>
-
-        <% if @visit.proposed? %>
-          <%= button_to "Confirm visit",
-                confirm_application_visit_path(@application),
-                method: :patch,
-                class: "btn btn-success" %>
-        <% end %>
-
-        <% if @visit.proposed? || @visit.confirmed? %>
-          <%= button_to "Cancel visit",
-                cancel_application_visit_path(@application),
-                method: :patch,
-                class: "btn btn-outline-danger",
-                form: { data: { turbo_confirm: "Cancel this visit?" } } %>
-        <% end %>
-
-        <% if @visit.confirmed? %>
-          <%= button_to "Mark as completed",
-                complete_application_visit_path(@application),
-                method: :patch,
-                class: "btn btn-primary" %>
-        <% end %>
+  <% if is_host && (@application.pending? || @application.shortlisted?) %>
+    <div class="d-flex gap-2 mb-4">
+      <% if @application.pending? %>
+        <%= button_to "Shortlist", shortlist_application_path(@application), method: :patch, class: "btn btn-info" %>
       <% end %>
+      <%= button_to "Reject", reject_application_path(@application), method: :patch, class: "btn btn-outline-danger" %>
+      <% if @application.listing.published? %>
+        <%= button_to "Accept", accept_application_path(@application), method: :patch, class: "btn btn-success",
+              form: { data: { turbo_confirm: "Accept this applicant? All others will be rejected." } } %>
+      <% end %>
+    </div>
+  <% end %>
 
-    <% elsif is_host && @application.shortlisted? %>
-      <%= render "visits/form",
-            visit: Visit.new,
-            application: @application %>
+  <h2 class="h4">Visit</h2>
+  <% if @visit.present? %>
+    <p>Scheduled at: <%= l(@visit.scheduled_at, format: :long) %></p>
+    <p>Status: <%= @visit.status.humanize %></p>
+    <p><%= @visit.notes %></p>
 
-    <% elsif !is_host %>
-      <p>No visit has been scheduled.</p>
+    <% if is_host && (@visit.proposed? || @visit.confirmed?) %>
+      <h3 class="h6">Reschedule</h3>
+      <%= render "visits/form", visit: @visit, application: @application %>
+
+      <div class="d-flex gap-2 mt-3">
+        <% if @visit.proposed? %>
+          <%= button_to "Confirm visit", confirm_application_visit_path(@application),
+                method: :patch, class: "btn btn-success" %>
+        <% end %>
+        <% if @visit.confirmed? %>
+          <%= button_to "Mark as completed", complete_application_visit_path(@application),
+                method: :patch, class: "btn btn-primary" %>
+        <% end %>
+        <%= button_to "Cancel visit", cancel_application_visit_path(@application),
+              method: :patch, class: "btn btn-outline-danger",
+              form: { data: { turbo_confirm: "Cancel this visit?" } } %>
+      </div>
     <% end %>
-    <%= render "visits/form",
-      visit: @visit || Visit.new,
-      application: @application %>
-    <%= link_to "Back to applications", applications_path, class: "btn btn-outline-primary" %>
+
+  <% elsif is_host && @application.shortlisted? %>
+    <%= render "visits/form", visit: Visit.new, application: @application %>
+  <% else %>
+    <p>No visit has been scheduled.</p>
+  <% end %>
+
+  <%= link_to "Back to applications", applications_path, class: "btn btn-outline-primary mt-4" %>
 </div>

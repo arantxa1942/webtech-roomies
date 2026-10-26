@@ -4,7 +4,7 @@ class CreatePropertyAmenities < ActiveRecord::Migration[8.1]
       t.references :property, null: false, foreign_key: true
       t.references :amenity, null: false, foreign_key: true
 
-      #t.timestamps
+      # t.timestamps
     end
   end
 end

@@ -1,4 +1,5 @@
 <%= form_with model: [property, review] do |form| %>
+      <%= hidden_field_tag :visit_id, visit.id %>
   <% if review.errors.any? %>
     <div class="alert alert-danger" role="alert">
       <p class="mb-1">

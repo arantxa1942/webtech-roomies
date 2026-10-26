@@ -1,106 +1,51 @@
 class ApplicationsController < ApplicationController
+  include ActionView::RecordIdentifier
+
   before_action :set_application, only: %i[show shortlist reject accept withdraw]
   before_action :authorize_application_view!, only: :show
   before_action :authorize_host!, only: %i[shortlist reject accept]
   before_action :authorize_applicant!, only: :withdraw
 
   def index
-    @applications = Application
-      .joins(listing: :property)
-      .where(properties: { owner_id: current_user.id })
-      .includes(:applicant, listing: :property)
-      .order(created_at: :desc)
-
-    @pending_count = @applications.pending.count
+    load_inbox
   end
 
   def show
     @visit = @application.visit
   end
 
+  # Turbo Frame: responde solo el bloque de aplicación.
   def create
     @listing = Listing.find(params[:listing_id])
     @application = @listing.applications.build(application_params)
     @application.applicant = current_user
 
     if @application.save
-      respond_to do |format|
-        format.html do
-          redirect_to listing_path(@listing), notice: "Application submitted."
-        end
-
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "application_block",
-            partial: "applications/application_block",
-            locals: { listing: @listing, application: @application }
-          )
-        end
-      end
+      redirect_to listing_path(@listing), notice: "Application submitted."
     else
-      respond_to do |format|
-        format.html do
-          redirect_to listing_path(@listing),
-                      alert: @application.errors.full_messages.to_sentence
-        end
-
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "application_block",
-            partial: "applications/application_block",
-            locals: { listing: @listing, application: @application }
-          ), status: :unprocessable_entity
-        end
-      end
+      render partial: "applications/application_block",
+             locals: { listing: @listing, application: @application },
+             status: :unprocessable_entity
     end
   end
 
   def shortlist
-    update_status(:shortlisted, "Application shortlisted.")
+    respond_to_transition(:shortlist!, "Application shortlisted.")
   end
 
   def reject
-    update_status(:rejected, "Application rejected.")
+    respond_to_transition(:reject!, "Application rejected.")
   end
 
   def accept
-    listing = @application.listing
-
-    begin
-      Application.transaction do
-        @application.update!(status: :accepted)
-
-        listing.applications
-               .where(status: %w[pending shortlisted])
-               .where.not(id: @application.id)
-               .find_each do |other_application|
-          other_application.update!(status: :rejected)
-        end
-
-        listing.update!(status: :reserved)
-      end
-
-      respond_to_status_change("Application accepted.")
-    rescue ActiveRecord::RecordInvalid => error
-      redirect_to applications_path,
-                  alert: error.record.errors.full_messages.to_sentence
-    end
+    respond_to_transition(:accept!, "Application accepted. The other applications were rejected.")
   end
 
   def withdraw
-    unless @application.pending? || @application.shortlisted?
-      redirect_to application_path(@application),
-                  alert: "Only pending or shortlisted applications can be withdrawn."
-      return
-    end
-
-    if @application.update(status: :withdrawn)
-      redirect_to listing_path(@application.listing),
-                  notice: "Application withdrawn."
-    else
-      redirect_to application_path(@application),
-                  alert: @application.errors.full_messages.to_sentence
-    end
+    @application.withdraw!
+    redirect_to listing_path(@application.listing), notice: "Application withdrawn."
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to listing_path(@application.listing), alert: e.record.errors.full_messages.to_sentence
   end
 
   private
@@ -115,70 +60,69 @@ class ApplicationsController < ApplicationController
 
   def authorize_host!
     return if @application.listing.property.owner_id == current_user&.id
-
     redirect_to root_path, alert: "You are not allowed to manage this application."
   end
 
   def authorize_applicant!
     return if @application.applicant_id == current_user&.id
-
     redirect_to root_path, alert: "You are not allowed to withdraw this application."
   end
 
   def authorize_application_view!
-    is_applicant = @application.applicant_id == current_user&.id
-    is_host = @application.listing.property.owner_id == current_user&.id
-    return if is_applicant || is_host
-
-    redirect_to root_path, alert: "You are not allowed to view this application."
+    allowed = @application.applicant_id == current_user&.id ||
+              @application.listing.property.owner_id == current_user&.id
+    redirect_to root_path, alert: "You are not allowed to view this application." unless allowed
   end
 
-  def update_status(status, success_message)
-    if @application.update(status: status)
-      respond_to_status_change(success_message)
-    else
-      redirect_to applications_path,
-                  alert: @application.errors.full_messages.to_sentence
+  def load_inbox
+    @applications = Application
+      .joins(listing: :property)
+      .where(properties: { owner_id: current_user.id })
+      .includes(:applicant, listing: :property)
+      .order(created_at: :desc)
+    @pending_count = Application.joins(listing: :property)
+                                .where(properties: { owner_id: current_user.id })
+                                .pending.count
+  end
+
+  def respond_to_transition(action, message)
+    begin
+      @application.public_send(action)
+    rescue ActiveRecord::RecordInvalid => e
+      return respond_with_error(e.record.errors.full_messages.to_sentence)
     end
-  end
 
-  def respond_to_status_change(success_message)
     respond_to do |format|
-      format.html do
-        redirect_to applications_path, notice: success_message
-      end
-
+      format.html { redirect_to applications_path, notice: message }
       format.turbo_stream do
-        @applications = Application
-          .joins(listing: :property)
-          .where(properties: { owner_id: current_user.id })
-          .includes(:applicant, listing: :property)
-          .order(created_at: :desc)
+        load_inbox
+        flash.now[:notice] = message
 
-        @pending_count = @applications.pending.count
-
-        changed_applications =
+        # Si se aceptó, también cambian las filas que se rechazaron automáticamente.
+        changed =
           if @application.accepted?
             @application.listing.applications.includes(:applicant, listing: :property)
           else
-            [@application]
+            [ @application.reload ]
           end
 
-        streams = changed_applications.map do |application|
-          turbo_stream.replace(
-            dom_id(application),
-            partial: "applications/application_row",
-            locals: { application: application }
-          )
+        streams = changed.map do |app|
+          turbo_stream.replace(dom_id(app), partial: "applications/application_row", locals: { application: app })
         end
-
-        streams << turbo_stream.replace(
-          "pending_count",
-          partial: "applications/pending_count",
-          locals: { pending_count: @pending_count }
-        )
-
+        streams << turbo_stream.replace("pending_count", partial: "applications/pending_count",
+                                        locals: { pending_count: @pending_count })
+        streams << turbo_stream.update("flash", partial: "shared/flash")
         render turbo_stream: streams
+      end
+    end
+  end
+
+  def respond_with_error(message)
+    respond_to do |format|
+      format.html { redirect_to applications_path, alert: message }
+      format.turbo_stream do
+        flash.now[:alert] = message
+        render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
       end
     end
   end

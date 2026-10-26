@@ -8,7 +8,7 @@ class CreateListings < ActiveRecord::Migration[8.1]
       t.date :available_from, null: false
       t.string :status, null: false, default: "draft"
       t.datetime :created_at, null: false
-      #t.timestamps
+      # t.timestamps
     end
   end
 end

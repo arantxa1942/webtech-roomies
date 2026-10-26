@@ -43,6 +43,7 @@
             <li class="nav-item">
               <%= link_to "Amenities", amenities_path, class: "nav-link" %>
             </li>
+            <li class="nav-item"><%= link_to "Inbox", applications_path, class: "nav-link" %></li>
           </ul>
           <%= form_with url: current_user_path, method: :patch, class: "d-flex gap-2" do %>
             <%= select_tag :user_id,
@@ -56,14 +57,8 @@
     </header>
 
     <main class="flex-grow-1">
-      <div class="container mt-3">
-        <% flash.each do |key, message| %>
-          <% alert_class = (key.to_s.in?(%w[notice success])) ? "alert-success" : "alert-danger" %>
-          <div class="alert <%= alert_class %> alert-dismissible fade show" role="alert">
-            <%= message %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% end %>
+      <div class="container mt-3" id="flash">
+        <%= render "shared/flash" %>
       </div>
 
       <%= yield %>

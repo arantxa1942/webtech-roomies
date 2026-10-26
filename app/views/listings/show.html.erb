@@ -66,16 +66,31 @@
       </article>
     <% end %>
   <% end %>
-  <%= turbo_frame_tag "application_block" do %>
-    <%= render "applications/application_block",
-               listing: @listing,
-               application: @application %>
-  <% end %>
-  <div class="mt-4 d-flex gap-2 align-items-center">
-    <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-warning" %>
-    <%= button_to "Delete", listing_path(@listing), method: :delete,
-          form: { data: { turbo_confirm: "Delete this listing?" } },
-          class: "btn btn-danger" %>
+  <%= render "applications/application_block", listing: @listing, application: @application %>
+
+  <% is_host = @listing.property.owner_id == current_user&.id %>
+  <div class="mt-4 d-flex flex-wrap gap-2 align-items-center">
+    <% if is_host %>
+      <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-warning" %>
+
+      <% if @listing.draft? %>
+        <%= button_to "Publish", publish_listing_path(@listing), method: :patch, class: "btn btn-success" %>
+      <% end %>
+
+      <% if @listing.reserved? %>
+        <%= button_to "Mark as rented", mark_rented_listing_path(@listing), method: :patch, class: "btn btn-primary" %>
+      <% end %>
+
+      <% if @listing.draft? || @listing.published? || @listing.reserved? %>
+        <%= button_to "Withdraw", withdraw_listing_path(@listing), method: :patch,
+              class: "btn btn-outline-secondary",
+              form: { data: { turbo_confirm: "Withdraw this listing?" } } %>
+      <% end %>
+
+      <%= button_to "Delete", listing_path(@listing), method: :delete,
+            form: { data: { turbo_confirm: "Delete this listing?" } },
+            class: "btn btn-danger" %>
+    <% end %>
     <%= link_to "Back to listings", listings_path, class: "btn btn-outline-secondary" %>
   </div>
 </div>

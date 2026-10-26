@@ -74,3 +74,12 @@ webtech-roomies/
 ├── user-stories.md       # User stories covering core application functionality
 ├── design-decisions.md   # Rationale behind architectural & domain decisions
 └── README.md             # Setup guide, structure, seed info & domain model update
+
+## Assignment 3 — Photos, rich text and business rules
+
+* **Photos (Active Storage):** a listing accepts several photos. Only JPEG, PNG and WEBP
+  images are accepted, with a **maximum of 5 MB per file**. Cards use the `:card` variant
+  (400×300) and the listing page uses the `:large` variant (max 1200×900).
+* **Rich text (Action Text):** listing description and house rules.
+* **Acting as a user:** use the select in the navigation bar (no authentication yet).
+* **Listing lifecycle:** draft → published → reserved → rented; withdrawn from draft, published or reserved.

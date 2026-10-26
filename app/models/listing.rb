@@ -40,8 +40,26 @@ class Listing < ApplicationRecord
   scope :with_amenity, ->(amenity_id) {
     joins(property: :amenities).where(amenities: { id: amenity_id }).distinct
   }
+  def publish!
+    transition_to!(:published, from: %w[draft])
+  end
+
+  def withdraw!
+    transition_to!(:withdrawn, from: %w[draft published reserved])
+  end
+
+  def mark_rented!
+    transition_to!(:rented, from: %w[reserved])
+  end
 
   private
+   def transition_to!(new_status, from:)
+    unless status.in?(from)
+      errors.add(:status, "cannot change from #{status} to #{new_status}")
+      raise ActiveRecord::RecordInvalid, self
+    end
+    update!(status: new_status)
+  end
 
   def availability_cannot_be_in_the_past
     return if available_from.blank?

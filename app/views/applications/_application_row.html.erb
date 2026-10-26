@@ -1,0 +1,25 @@
+<tr id="<%= dom_id(application) %>">
+  <td><%= application.applicant.full_name %></td>
+  <td><%= link_to application.listing.title, listing_path(application.listing) %></td>
+  <td><span class="badge text-bg-secondary"><%= application.status.humanize %></span></td>
+  <td>
+    <div class="d-flex flex-wrap gap-1">
+      <%= link_to "View", application_path(application), class: "btn btn-sm btn-outline-primary" %>
+
+      <% if application.pending? %>
+        <%= button_to "Shortlist", shortlist_application_path(application),
+              method: :patch, class: "btn btn-sm btn-info" %>
+      <% end %>
+
+      <% if application.pending? || application.shortlisted? %>
+        <%= button_to "Reject", reject_application_path(application),
+              method: :patch, class: "btn btn-sm btn-outline-danger" %>
+        <% if application.listing.published? %>
+          <%= button_to "Accept", accept_application_path(application),
+                method: :patch, class: "btn btn-sm btn-success",
+                form: { data: { turbo_confirm: "Accept this applicant? All others will be rejected." } } %>
+        <% end %>
+      <% end %>
+    </div>
+  </td>
+</tr>

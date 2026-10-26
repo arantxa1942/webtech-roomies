@@ -5,7 +5,7 @@ class CreateVisits < ActiveRecord::Migration[8.1]
       t.datetime :scheduled_at, null: false
       t.string :status, null: false
       t.text :notes
-      #t.timestamps
+      # t.timestamps
     end
   end
 end

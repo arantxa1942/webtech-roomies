@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_26_141616) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_26_163933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,6 +69,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_26_141616) do
     t.index ["applicant_id"], name: "index_applications_on_applicant_id"
     t.index ["listing_id", "applicant_id"], name: "index_applications_on_listing_id_and_applicant_id", unique: true
     t.index ["listing_id"], name: "index_applications_on_listing_id"
+    t.index ["listing_id"], name: "index_applications_one_accepted_per_listing", unique: true, where: "((status)::text = 'accepted'::text)"
   end
 
   create_table "listings", force: :cascade do |t|

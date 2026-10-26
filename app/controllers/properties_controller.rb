@@ -1,27 +1,21 @@
 class PropertiesController < ApplicationController
-  before_action :set_property, only: [:show, :edit, :update, :destroy]
+  before_action :set_property, only: %i[show edit update destroy]
+  before_action :require_owner!, only: %i[edit update destroy]
 
   def index
-    @properties = Property.all
+    @properties = Property.includes(:neighborhood).order(:title)
   end
 
-def show
-    @property = Property.find(params[:id])
+  def show
     @listings = @property.listings
+    @reviews = @property.reviews.includes(:reviewer)
     @reviewable_visits =
-      if current_user.present?
-        Visit.joins(application: { listing: :property })
-            .left_outer_joins(:review)
-            .where(
-              applications: { applicant_id: current_user.id },
-              properties: { id: @property.id },
-              status: :completed,
-              reviews: { id: nil }
-            )
-      else
-        Visit.none
-      end
-    @reviews = @property.reviews # Agregamos esta línea para definir las reseñas
+      Visit.joins(application: { listing: :property })
+           .left_outer_joins(:review)
+           .where(applications: { applicant_id: current_user.id },
+                  properties: { id: @property.id },
+                  status: :completed,
+                  reviews: { id: nil })
   end
 
   def new
@@ -32,26 +26,30 @@ def show
     @property = current_user.properties.build(property_params)
 
     if @property.save
-      redirect_to @property, notice: 'Propiedad creada exitosamente.'
+      redirect_to @property, notice: "Property created."
     else
+      flash.now[:alert] = "Could not create the property."
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @property.update(property_params)
-      redirect_to @property, notice: 'Propiedad actualizada exitosamente.'
+      redirect_to @property, notice: "Property updated."
     else
+      flash.now[:alert] = "Could not update the property."
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @property.destroy
-    redirect_to properties_path, notice: 'Propiedad eliminada correctamente.'
+    if @property.destroy
+      redirect_to properties_path, notice: "Property deleted."
+    else
+      redirect_to @property, alert: @property.errors.full_messages.to_sentence
+    end
   end
 
   private
@@ -59,6 +57,12 @@ def show
   def set_property
     @property = Property.find(params[:id])
   end
+
+  def require_owner!
+    return if @property.owner_id == current_user.id
+    redirect_to @property, alert: "Only the host can modify this property."
+  end
+
   def property_params
     params.require(:property).permit(
       :title, :address, :neighborhood_id, :property_type,

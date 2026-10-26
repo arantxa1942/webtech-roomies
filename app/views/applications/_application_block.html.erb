@@ -1,85 +1,63 @@
-<% if application&.persisted? %>
-  <section aria-labelledby="application-status-heading">
-    <h2 id="application-status-heading" class="h4">Your application</h2>
+<%= turbo_frame_tag "application_block" do %>
+  <% is_host = listing.property.owner_id == current_user&.id %>
 
-    <p>
-      Status:
-      <strong><%= application.status.humanize %></strong>
-    </p>
+  <% if application&.persisted? %>
+    <section>
+      <h2 class="h4">Your application</h2>
+      <p>Status: <strong><%= application.status.humanize %></strong></p>
+      <p class="mb-2">
+        Move-in: <%= application.move_in_date %> · Stay: <%= application.stay_length %> months
+      </p>
 
-    <% if application.pending? || application.shortlisted? %>
-      <%= button_to "Withdraw application",
-            withdraw_application_path(application),
-            method: :patch,
-            class: "btn btn-outline-danger",
-            form: { data: { turbo_confirm: "Withdraw this application?" } } %>
-    <% end %>
-  </section>
-
-<% elsif listing.published? && listing.property.owner_id != current_user&.id %>
-  <section aria-labelledby="apply-heading">
-    <h2 id="apply-heading" class="h4">Apply for this room</h2>
-
-    <%= form_with model: [listing, (application || listing.applications.new)],
-          url: listing_applications_path(listing) do |form| %>
-
-      <% if application&.errors&.any? %>
-        <div class="alert alert-danger" role="alert">
-          <p class="mb-1">
-            <%= pluralize(application.errors.count, "error") %>
-            prevented your application from being submitted:
-          </p>
-          <ul class="mb-0">
-            <% application.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
+      <% if application.pending? || application.shortlisted? %>
+        <%= button_to "Withdraw application", withdraw_application_path(application),
+              method: :patch, class: "btn btn-outline-danger",
+              form: { data: { turbo_confirm: "Withdraw this application?" } } %>
       <% end %>
+    </section>
 
-      <div class="mb-3">
-        <%= form.label :message, "Message to the host", class: "form-label" %>
-        <%= form.text_area :message,
-              rows: 4,
-              required: true,
-              placeholder: "Introduce yourself and explain why this room suits you.",
-              class: "form-control #{invalid_class(application || listing.applications.new, :message)}" %>
-        <% if application.present? %>
-          <%= field_errors(application, :message) %>
+  <% elsif is_host %>
+    <p class="text-muted">You cannot apply to a listing for your own property.</p>
+
+  <% elsif listing.published? %>
+    <section>
+      <h2 class="h4">Apply for this room</h2>
+      <% app = application || Application.new %>
+
+      <%= form_with model: app, scope: :application, url: listing_applications_path(listing) do |form| %>
+        <div class="mb-3">
+          <%= form.label :message, "Message to the host", class: "form-label" %>
+          <%= form.text_area :message, rows: 4, required: true,
+                placeholder: "Introduce yourself and explain why this room suits you.",
+                class: "form-control #{invalid_class(app, :message)}" %>
+          <%= field_errors(app, :message) %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :move_in_date, "Move-in date", class: "form-label" %>
+          <%= form.date_field :move_in_date, required: true, min: Date.current,
+                class: "form-control #{invalid_class(app, :move_in_date)}" %>
+          <%= field_errors(app, :move_in_date) %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :stay_length, "Intended stay (months)", class: "form-label" %>
+          <%= form.number_field :stay_length, min: 1, step: 1, required: true, placeholder: "6",
+                class: "form-control #{invalid_class(app, :stay_length)}" %>
+          <%= field_errors(app, :stay_length) %>
+        </div>
+
+        <% if app.errors[:base].any? || app.errors[:listing].any? || app.errors[:applicant].any? %>
+          <div class="alert alert-danger">
+            <%= (app.errors[:base] + app.errors[:listing] + app.errors[:applicant]).to_sentence %>
+          </div>
         <% end %>
-      </div>
 
-      <div class="mb-3">
-        <%= form.label :move_in_date, "Move-in date", class: "form-label" %>
-        <%= form.date_field :move_in_date,
-              required: true,
-              min: Date.current,
-              class: "form-control #{application&.errors&.[](:move_in_date)&.any? ? 'is-invalid' : ''}" %>
-        <% if application.present? %>
-          <%= field_errors(application, :move_in_date) %>
-        <% end %>
-      </div>
+        <%= form.submit "Submit application", class: "btn btn-primary" %>
+      <% end %>
+    </section>
 
-      <div class="mb-3">
-        <%= form.label :stay_length, "Intended stay (months)", class: "form-label" %>
-        <%= form.number_field :stay_length,
-              min: 1,
-              step: 1,
-              required: true,
-              placeholder: "6",
-              class: "form-control #{application&.errors&.[](:stay_length)&.any? ? 'is-invalid' : ''}" %>
-        <% if application.present? %>
-          <%= field_errors(application, :stay_length) %>
-        <% end %>
-      </div>
-
-      <%= form.submit "Submit application", class: "btn btn-primary" %>
-    <% end %>
-  </section>
-
-<% elsif listing.property.owner_id == current_user&.id %>
-  <p class="text-muted">You cannot apply to a listing for your own property.</p>
-
-<% else %>
-  <p class="text-muted">This listing is not currently accepting applications.</p>
+  <% else %>
+    <p class="text-muted">This listing is not currently accepting applications.</p>
+  <% end %>
 <% end %>

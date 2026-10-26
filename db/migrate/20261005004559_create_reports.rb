@@ -6,10 +6,10 @@ class CreateReports < ActiveRecord::Migration[8.1]
       t.text :reason, null: false
       t.string :status, null: false
       t.references :moderator, foreign_key: { to_table: :users }
-      t.text :moderator_notes 
+      t.text :moderator_notes
       t.datetime :created_at, null: false
       t.datetime :reviewed_at
-      #t.timestamps
+      # t.timestamps
     end
   end
 end

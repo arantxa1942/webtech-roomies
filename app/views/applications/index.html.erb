@@ -1,31 +1,24 @@
 <div class="container py-4">
-    <h1>Applications</h1>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Applications inbox</h1>
+    <%= render "applications/pending_count", pending_count: @pending_count %>
+  </div>
 
-    <% if @applications.empty? %>
-        <p>No applications available.</p>
-    <% else %>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Applicant</th>
-                        <th scope="col">Listing</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Details</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <% @applications.each do |application| %>
-                        <tr>
-                            <td><%= application.applicant.full_name %></td>
-                            <td><%= link_to application.listing.title, listing_path(application.listing) %></td>
-                            <td><%= application.status.humanize %></td>
-                            <td><%= link_to "View application", application_path(application) %></td>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        </div>
-    <% end %>
+  <% if @applications.empty? %>
+    <p>No applications available.</p>
+  <% else %>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Applicant</th><th>Listing</th><th>Status</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="applications">
+          <%= render partial: "applications/application_row",
+                     collection: @applications, as: :application %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>

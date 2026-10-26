@@ -10,7 +10,7 @@ class CreateProperties < ActiveRecord::Migration[8.1]
       t.integer :bathrooms, null: false
       t.boolean :shared_spaces, default: true
       t.datetime :created_at, null: false
-      #t.timestamps
+      # t.timestamps
     end
   end
 end

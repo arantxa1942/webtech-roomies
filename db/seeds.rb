@@ -2,7 +2,7 @@
 
 puts "🧹 Cleaning the database..."
 ActiveStorage::Attachment.find_each(&:purge)
-[Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, User].each do |model|
+[ Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, User ].each do |model|
   model.destroy_all if defined?(model)
 end
 
@@ -13,31 +13,31 @@ santiago_c = Neighborhood.create!(name: "Santiago Centro", city: "Santiago")
 
 puts "👥 Creating Users..."
 host1 = User.create!(
-  full_name: "Carlos Mendoza", 
-  email: "carlos@roomies.cl", 
-  password_hash: "hashed_password_123", 
+  full_name: "Carlos Mendoza",
+  email: "carlos@roomies.cl",
+  password_hash: "hashed_password_123",
   role: "host",
   created_at: Time.current
 )
 host2 = User.create!(
-  full_name: "Valeria Gómez", 
-  email: "valeria@roomies.cl", 
-  password_hash: "hashed_password_123", 
+  full_name: "Valeria Gómez",
+  email: "valeria@roomies.cl",
+  password_hash: "hashed_password_123",
   role: "host",
   created_at: Time.current
 )
 
 seeker1 = User.create!(
-  full_name: "Mateo Silva", 
-  email: "mateo@gmail.com", 
-  password_hash: "hashed_password_123", 
+  full_name: "Mateo Silva",
+  email: "mateo@gmail.com",
+  password_hash: "hashed_password_123",
   role: "seeker",
   created_at: Time.current
 )
 seeker2 = User.create!(
-  full_name: "Camila Rojas", 
-  email: "camila@gmail.com", 
-  password_hash: "hashed_password_123", 
+  full_name: "Camila Rojas",
+  email: "camila@gmail.com",
+  password_hash: "hashed_password_123",
   role: "seeker",
   created_at: Time.current
 )
@@ -71,8 +71,8 @@ prop2 = Property.create!(
 )
 
 puts "🔗 Associating Amenities with Properties..."
-prop1.amenities << [wifi, ac]
-prop2.amenities << [wifi, gym, pool]
+prop1.amenities << [ wifi, ac ]
+prop2.amenities << [ wifi, gym, pool ]
 puts "🛏️ Creating Listings..."
 listing1 = Listing.create!(
   property_id: prop1.id,
@@ -113,49 +113,40 @@ attach_seed_photo(listing2, "providencia.jpeg")
 
 puts "📩 Creating Applications..."
 Application.create!(
-  listing_id: listing1.id,
-  applicant_id: seeker1.id,
+  listing_id: listing1.id, applicant_id: seeker1.id,
   message: "Hello! I am very interested in the room.",
-  move_in_date: Date.today + 15.days,
-  stay_length: 6,
-  status: "pending"
+  move_in_date: Date.today + 15.days, stay_length: 6, status: "pending"
 )
 
 shortlisted_app = Application.create!(
-  listing_id: listing1.id,
-  applicant_id: seeker2.id,
+  listing_id: listing1.id, applicant_id: seeker2.id,
   message: "I am urgently looking for a place starting next month.",
-  move_in_date: Date.today + 20.days,
-  stay_length: 12,
-  status: "shortlisted"
+  move_in_date: Date.today + 20.days, stay_length: 12, status: "shortlisted"
 )
 
+# Esta se crea shortlisted para poder tener visita, y se acepta al final.
 accepted_app = Application.create!(
-  listing_id: listing2.id,
-  applicant_id: seeker1.id,
+  listing_id: listing2.id, applicant_id: seeker1.id,
   message: "I am a student and would love this room.",
-  move_in_date: Date.today + 12.days,
-  stay_length: 10,
-  status: "accepted"
+  move_in_date: Date.today + 12.days, stay_length: 10, status: "shortlisted"
 )
-listing2.update!(status: "reserved")
 
 puts "📅 Creating Visits..."
 Visit.create!(
-  application_id: shortlisted_app.id,
+  application: shortlisted_app,
   scheduled_at: Time.current + 3.days,
-  status: "proposed",
   notes: "Proposed visit for next week."
 )
 
 completed_visit = Visit.create!(
-  application_id: accepted_app.id,
+  application: accepted_app,
   scheduled_at: Time.current + 1.day,
-  status: "completed",
   notes: "Visit successfully completed."
 )
-completed_visit.update_columns(scheduled_at: 3.days.ago)
+completed_visit.update_columns(scheduled_at: 3.days.ago, status: "completed")
 
+# Acepta: rechaza otras pendientes y deja listing2 en "reserved".
+accepted_app.accept!
 puts "⭐ Creating Reviews..."
 Review.create!(
   visit_id: completed_visit.id,
