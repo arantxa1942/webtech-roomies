@@ -1,6 +1,7 @@
 # db/seeds.rb
 
 puts "🧹 Cleaning the database..."
+ActiveStorage::Attachment.find_each(&:purge)
 [Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, User].each do |model|
   model.destroy_all if defined?(model)
 end
@@ -76,8 +77,13 @@ puts "🛏️ Creating Listings..."
 listing1 = Listing.create!(
   property_id: prop1.id,
   title: "Master Bedroom with Private Bathroom",
-  description: "Bright room with a king-size bed and a desk.",
+  description: "<div>Bright room with a <strong>king-size bed</strong> and a desk.</div>",
+  house_rules: "<ul><li>Quiet hours after 22:00</li><li><em>No smoking</em> indoors</li></ul>",
   monthly_rent: 380000,
+  deposit: 380000,
+  minimum_stay: 6,
+  furnished: true,
+  private_bathroom: true,
   available_from: Date.today + 5.days,
   status: "published"
 )
@@ -85,41 +91,78 @@ listing1 = Listing.create!(
 listing2 = Listing.create!(
   property_id: prop1.id,
   title: "Furnished Single Room",
-  description: "Ideal for a student; includes common expenses.",
+  description: "<div>Ideal for a student; includes common expenses.</div>",
+  house_rules: "<ul><li>No parties</li><li>Guests allowed until 23:00</li></ul>",
   monthly_rent: 280000,
+  deposit: 280000,
+  minimum_stay: 3,
+  furnished: true,
+  private_bathroom: false,
   available_from: Date.today + 10.days,
   status: "published"
 )
 
-puts "📩 Creating Applications (with applicant_id)..."
-app1 = Application.create!(
+def attach_seed_photo(listing, filename)
+  path = Rails.root.join("app/assets/images", filename)
+  listing.photos.attach(io: File.open(path), filename: filename, content_type: "image/jpeg")
+end
+
+attach_seed_photo(listing1, "providencia.jpeg")
+attach_seed_photo(listing1, "las-condes.jpeg")
+attach_seed_photo(listing2, "providencia.jpeg")
+
+puts "📩 Creating Applications..."
+Application.create!(
   listing_id: listing1.id,
   applicant_id: seeker1.id,
   message: "Hello! I am very interested in the room.",
+  move_in_date: Date.today + 15.days,
+  stay_length: 6,
   status: "pending"
 )
 
-app2 = Application.create!(
+shortlisted_app = Application.create!(
   listing_id: listing1.id,
   applicant_id: seeker2.id,
   message: "I am urgently looking for a place starting next month.",
-  status: "accepted"
+  move_in_date: Date.today + 20.days,
+  stay_length: 12,
+  status: "shortlisted"
 )
 
+accepted_app = Application.create!(
+  listing_id: listing2.id,
+  applicant_id: seeker1.id,
+  message: "I am a student and would love this room.",
+  move_in_date: Date.today + 12.days,
+  stay_length: 10,
+  status: "accepted"
+)
+listing2.update!(status: "reserved")
+
 puts "📅 Creating Visits..."
-visit1 = Visit.create!(  application_id: app2.id,
-  scheduled_at: Time.current + 2.days, # Future date
+Visit.create!(
+  application_id: shortlisted_app.id,
+  scheduled_at: Time.current + 3.days,
+  status: "proposed",
+  notes: "Proposed visit for next week."
+)
+
+completed_visit = Visit.create!(
+  application_id: accepted_app.id,
+  scheduled_at: Time.current + 1.day,
   status: "completed",
   notes: "Visit successfully completed."
 )
+completed_visit.update_columns(scheduled_at: 3.days.ago)
 
 puts "⭐ Creating Reviews..."
 Review.create!(
-  visit_id: visit1.id,
-  reviewer_id: seeker2.id,
+  visit_id: completed_visit.id,
+  reviewer_id: seeker1.id,
   property_id: prop1.id,
   rating: 5,
   comment: "Excellent property and a great host."
 )
 
-puts "✅ Database successfully populated for Assignment 3!" 
+puts "✅ Database successfully populated!"

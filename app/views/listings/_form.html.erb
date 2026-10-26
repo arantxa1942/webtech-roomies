@@ -1,82 +1,81 @@
-<%= form_with(model: [@property, @listing], local: true, class: "needs-validation") do |form| %>
-  <% if @listing.errors.any? %>
-    <div class="alert alert-danger">
-      <h4 class="alert-heading"><%= pluralize(@listing.errors.count, "error") %> prohibited this listing from being saved:</h4>
-      <ul>
-        <% @listing.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with model: listing do |f| %>
+  <div class="mb-3">
+    <%= f.label :property_id, "Property", class: "form-label" %>
+    <%= f.collection_select :property_id, Property.order(:title), :id, :title,
+          { prompt: "Select property" },
+          { class: "form-select #{invalid_class(listing, :property)}", required: true } %>
+    <%= field_errors(listing, :property) %>
+  </div>
 
   <div class="mb-3">
-    <%= form.label :title, class: "form-label" %>
-    <%= form.text_field :title, class: "form-control" %>
+    <%= f.label :title, class: "form-label" %>
+    <%= f.text_field :title, class: "form-control #{invalid_class(listing, :title)}",
+          placeholder: "e.g. Bright room near the metro", required: true %>
+    <%= field_errors(listing, :title) %>
   </div>
 
   <div class="row">
     <div class="col-md-6 mb-3">
-      <%= form.label :monthly_rent, class: "form-label" %>
-      <%= form.number_field :monthly_rent, class: "form-control", step: "0.01" %>
+      <%= f.label :monthly_rent, "Monthly rent (CLP)", class: "form-label" %>
+      <%= f.number_field :monthly_rent, class: "form-control #{invalid_class(listing, :monthly_rent)}",
+            min: 1, step: 1000, placeholder: "350000", required: true %>
+      <%= field_errors(listing, :monthly_rent) %>
     </div>
 
     <div class="col-md-6 mb-3">
-      <%= form.label :deposit, class: "form-label" %>
-      <%= form.number_field :deposit, class: "form-control", step: "0.01" %>
+      <%= f.label :deposit, "Deposit (CLP)", class: "form-label" %>
+      <%= f.number_field :deposit, class: "form-control #{invalid_class(listing, :deposit)}",
+            min: 0, step: 1000, placeholder: "350000" %>
+      <%= field_errors(listing, :deposit) %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-6 mb-3">
-      <%= form.label :available_from, class: "form-label" %>
-      <%= form.date_field :available_from, class: "form-control" %>
+      <%= f.label :available_from, "Available from", class: "form-label" %>
+      <%= f.date_field :available_from, class: "form-control #{invalid_class(listing, :available_from)}",
+            required: true %>
+      <%= field_errors(listing, :available_from) %>
     </div>
 
     <div class="col-md-6 mb-3">
-      <%= form.label :minimum_stay, "Minimum Stay (months)", class: "form-label" %>
-      <%= form.number_field :minimum_stay, class: "form-control" %>
+      <%= f.label :minimum_stay, "Minimum stay (months)", class: "form-label" %>
+      <%= f.number_field :minimum_stay, class: "form-control #{invalid_class(listing, :minimum_stay)}",
+            min: 1, step: 1, placeholder: "6" %>
+      <%= field_errors(listing, :minimum_stay) %>
     </div>
   </div>
 
   <div class="row mb-3">
-    <div class="col-md-6">
-      <div class="form-check">
-        <%= form.check_box :furnished, class: "form-check-input" %>
-        <%= form.label :furnished, "Furnished", class: "form-check-label" %>
-      </div>
+    <div class="col-md-6 form-check ps-5">
+      <%= f.check_box :furnished, class: "form-check-input" %>
+      <%= f.label :furnished, "Furnished", class: "form-check-label" %>
     </div>
-
-    <div class="col-md-6">
-      <div class="form-check">
-        <%= form.check_box :private_bathroom, class: "form-check-input" %>
-        <%= form.label :private_bathroom, "Private Bathroom", class: "form-check-label" %>
-      </div>
+    <div class="col-md-6 form-check ps-5">
+      <%= f.check_box :private_bathroom, class: "form-check-input" %>
+      <%= f.label :private_bathroom, "Private bathroom", class: "form-check-label" %>
     </div>
   </div>
 
   <div class="mb-3">
-    <%= form.label :status, class: "form-label" %>
-    <%= form.select :status, Listing.statuses.keys.map { |s| [s.humanize, s] }, {}, { class: "form-select" } %>
+    <%= f.label :description, class: "form-label" %>
+    <%= f.rich_text_area :description, placeholder: "Describe the room, the house and the neighborhood" %>
+    <%= field_errors(listing, :description) %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :description, class: "form-label" %>
-    <%= form.rich_textarea :description, class: "form-control" %>
+    <%= f.label :house_rules, "House rules", class: "form-label" %>
+    <%= f.rich_text_area :house_rules, placeholder: "Quiet hours, guests, smoking, pets..." %>
+    <%= field_errors(listing, :house_rules) %>
   </div>
 
   <div class="mb-3">
-    <%= form.label :house_rules, class: "form-label" %>
-    <%= form.rich_textarea :house_rules, class: "form-control" %>
+    <%= f.label :photos, "Photos (JPEG, PNG or WEBP, max 5 MB each)", class: "form-label" %>
+    <%= f.file_field :photos, multiple: true, accept: "image/jpeg,image/png,image/webp",
+          class: "form-control #{invalid_class(listing, :photos)}" %>
+    <%= field_errors(listing, :photos) %>
   </div>
 
-    <div class="mb-3">
-        <%= form.label :photos, "Photos", class: "form-label" %>
-        <%= form.file_field :photos, multiple: true, class: "form-control" %>
-    </div>
-
-  <div class="mb-3">
-    <%= form.submit "Save Listing", class: "btn btn-primary" %>
-    <%= link_to "Cancel", property_path(@property), class: "btn btn-secondary ms-2" %>
-  </div>
+  <%= f.submit class: "btn btn-primary" %>
+  <%= link_to "Cancel", listings_path, class: "btn btn-secondary ms-2" %>
 <% end %>

@@ -1,8 +1,9 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  before_action :set_listing, only: %i[show edit update destroy]
 
   def index
-    @listings = Listing.all
+    @listings = Listing.published.with_attached_photos
+                       .includes(property: :neighborhood).order(:available_from)
   end
 
   def show
@@ -17,29 +18,33 @@ class ListingsController < ApplicationController
 
   def create
     @listing = Listing.new(listing_params)
+
     if @listing.save
-      redirect_to @listing, notice: "Listing was successfully created."
+      redirect_to @listing, notice: "Listing created."
     else
+      flash.now[:alert] = "Could not create the listing."
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @property = @listing.property
   end
 
   def update
     if @listing.update(listing_params)
-      redirect_to @listing, notice: "Listing was successfully updated."
+      redirect_to @listing, notice: "Listing updated."
     else
-      @property = @listing.property
+      flash.now[:alert] = "Could not update the listing."
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @listing.destroy
-    redirect_to listings_path, notice: "Listing was successfully deleted."
+    if @listing.destroy
+      redirect_to listings_path, notice: "Listing deleted."
+    else
+      redirect_to @listing, alert: @listing.errors.full_messages.to_sentence
+    end
   end
 
   private
@@ -50,10 +55,9 @@ class ListingsController < ApplicationController
 
   def listing_params
     params.require(:listing).permit(
-      :title, :monthly_rent, :available_from, :deposit, 
-      :minimum_stay, :furnished, :private_bathroom, 
-      :description, :house_rules, :status, :property_id, photos: []
+      :property_id, :title, :monthly_rent, :deposit, :available_from,
+      :minimum_stay, :furnished, :private_bathroom,
+      :description, :house_rules, photos: []
     )
   end
-  
 end
