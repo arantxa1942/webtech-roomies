@@ -14,7 +14,6 @@ class ApplicationsController < ApplicationController
     @visit = @application.visit
   end
 
-  # Turbo Frame: responde solo el bloque de aplicación.
   def create
     @listing = Listing.find(params[:listing_id])
     @application = @listing.applications.build(application_params)
@@ -98,7 +97,6 @@ class ApplicationsController < ApplicationController
         load_inbox
         flash.now[:notice] = message
 
-        # Si se aceptó, también cambian las filas que se rechazaron automáticamente.
         changed =
           if @application.accepted?
             @application.listing.applications.includes(:applicant, listing: :property)

@@ -45,7 +45,8 @@
             </li>
             <li class="nav-item"><%= link_to "Inbox", applications_path, class: "nav-link" %></li>
           </ul>
-          <%= form_with url: current_user_path, method: :patch, class: "d-flex gap-2" do %>
+          <%= form_with url: current_user_path, method: :patch, class: "d-flex flex-wrap align-items-center gap-2" do %>
+            <%= label_tag :user_id, "Acting as", class: "form-label mb-0" %>
             <%= select_tag :user_id,
                   options_from_collection_for_select(User.order(:full_name), :id, :full_name, current_user&.id),
                   class: "form-select",

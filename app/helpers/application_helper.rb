@@ -6,6 +6,6 @@ module ApplicationHelper
   def field_errors(record, attribute)
     return if record.errors[attribute].empty?
 
-    tag.div(record.errors[attribute].to_sentence, class: "invalid-feedback")
+    tag.div(record.errors[attribute].to_sentence, class: "invalid-feedback d-block")
   end
 end

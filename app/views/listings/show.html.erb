@@ -37,6 +37,7 @@
   <p><%= link_to @property.title, property_path(@property) %></p>
   <p>Neighborhood: <%= @property.neighborhood.name %></p>
   <p>Address: <%= @property.address %></p>
+  <p>Property type: <%= @property.property_type.presence&.humanize || "Not specified" %></p>
   <p>Bedrooms: <%= @property.bedrooms %></p>
   <p>Bathrooms: <%= @property.bathrooms %></p>
   <p>Shared spaces: <%= @property.shared_spaces ? "Yes" : "No" %></p>
@@ -66,6 +67,8 @@
       </article>
     <% end %>
   <% end %>
+  
+  <%= link_to "View property and review options", property_path(@property), class: "btn btn-outline-primary mb-4" %>
   <%= render "applications/application_block", listing: @listing, application: @application %>
 
   <% is_host = @listing.property.owner_id == current_user&.id %>

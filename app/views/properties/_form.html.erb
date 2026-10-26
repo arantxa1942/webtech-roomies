@@ -8,7 +8,7 @@
 
   <div class="mb-3">
     <%= form.label :address, class: "form-label" %>
-    <%= form.text_field :address, required: true,
+    <%= form.text_field :address, required: true, placeholder: "e.g. Av. Providencia 1234, apartment 502",
           class: "form-control #{invalid_class(property, :address)}" %>
     <%= field_errors(property, :address) %>
   </div>

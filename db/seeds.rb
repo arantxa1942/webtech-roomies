@@ -1,17 +1,15 @@
-# db/seeds.rb
-
-puts "🧹 Cleaning the database..."
+puts "Cleaning the database..."
 ActiveStorage::Attachment.find_each(&:purge)
 [ Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, User ].each do |model|
   model.destroy_all if defined?(model)
 end
 
-puts "🏙️ Creating Neighborhoods..."
+puts "Creating Neighborhoods..."
 providencia = Neighborhood.create!(name: "Providencia", city: "Santiago")
 las_condes = Neighborhood.create!(name: "Las Condes", city: "Santiago")
 santiago_c = Neighborhood.create!(name: "Santiago Centro", city: "Santiago")
 
-puts "👥 Creating Users..."
+puts "Creating Users..."
 host1 = User.create!(
   full_name: "Carlos Mendoza",
   email: "carlos@roomies.cl",
@@ -42,13 +40,13 @@ seeker2 = User.create!(
   created_at: Time.current
 )
 
-puts "✨ Creating Amenities..."
+puts "Creating Amenities..."
 wifi = Amenity.create!(name: "High-Speed ​​Wi-Fi", category: "Connectivity")
 gym = Amenity.create!(name: "Gym", category: "Building")
 pool = Amenity.create!(name: "Pool", category: "Building")
 ac = Amenity.create!(name: "Air Conditioning", category: "Comfort")
 
-puts "🏢 Creating Properties (using owner_id and neighborhood_id)..."
+puts "Creating Properties (using owner_id and neighborhood_id)..."
 prop1 = Property.create!(
   owner_id: host1.id,
   neighborhood_id: providencia.id,
@@ -70,10 +68,10 @@ prop2 = Property.create!(
   shared_spaces: true
 )
 
-puts "🔗 Associating Amenities with Properties..."
+puts "Associating Amenities with Properties..."
 prop1.amenities << [ wifi, ac ]
 prop2.amenities << [ wifi, gym, pool ]
-puts "🛏️ Creating Listings..."
+puts "Creating Listings..."
 listing1 = Listing.create!(
   property_id: prop1.id,
   title: "Master Bedroom with Private Bathroom",
@@ -111,7 +109,7 @@ attach_seed_photo(listing1, "providencia.jpeg")
 attach_seed_photo(listing1, "las-condes.jpeg")
 attach_seed_photo(listing2, "providencia.jpeg")
 
-puts "📩 Creating Applications..."
+puts "Creating Applications..."
 Application.create!(
   listing_id: listing1.id, applicant_id: seeker1.id,
   message: "Hello! I am very interested in the room.",
@@ -124,14 +122,13 @@ shortlisted_app = Application.create!(
   move_in_date: Date.today + 20.days, stay_length: 12, status: "shortlisted"
 )
 
-# Esta se crea shortlisted para poder tener visita, y se acepta al final.
 accepted_app = Application.create!(
   listing_id: listing2.id, applicant_id: seeker1.id,
   message: "I am a student and would love this room.",
   move_in_date: Date.today + 12.days, stay_length: 10, status: "shortlisted"
 )
 
-puts "📅 Creating Visits..."
+puts "Creating Visits..."
 Visit.create!(
   application: shortlisted_app,
   scheduled_at: Time.current + 3.days,
@@ -145,9 +142,8 @@ completed_visit = Visit.create!(
 )
 completed_visit.update_columns(scheduled_at: 3.days.ago, status: "completed")
 
-# Acepta: rechaza otras pendientes y deja listing2 en "reserved".
 accepted_app.accept!
-puts "⭐ Creating Reviews..."
+puts "Creating Reviews..."
 Review.create!(
   visit_id: completed_visit.id,
   reviewer_id: seeker1.id,
@@ -156,4 +152,4 @@ Review.create!(
   comment: "Excellent property and a great host."
 )
 
-puts "✅ Database successfully populated!"
+puts "Database successfully populated!"

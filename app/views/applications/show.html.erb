@@ -23,8 +23,8 @@
   <% end %>
 
   <h2 class="h4">Visit</h2>
-  <% if @visit.present? %>
-    <p>Scheduled at: <%= l(@visit.scheduled_at, format: :long) %></p>
+  <% if @visit&.persisted? %>
+    <p>Scheduled at: <%= @visit.scheduled_at.present? ? l(@visit.scheduled_at, format: :long) : "Not specified" %></p>
     <p>Status: <%= @visit.status.humanize %></p>
     <p><%= @visit.notes %></p>
 
@@ -48,7 +48,7 @@
     <% end %>
 
   <% elsif is_host && @application.shortlisted? %>
-    <%= render "visits/form", visit: Visit.new, application: @application %>
+    <%= render "visits/form", visit: (@visit || Visit.new), application: @application %>
   <% else %>
     <p>No visit has been scheduled.</p>
   <% end %>

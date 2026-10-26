@@ -13,7 +13,7 @@
   <div class="mb-3">
     <%= form.label :name, class: "form-label" %>
     <%= form.text_field :name,
-          required: true,
+          required: true, placeholder: "e.g. Wi-Fi",
           class: "form-control #{invalid_class(amenity, :name)}" %>
     <%= field_errors(amenity, :name) %>
   </div>
@@ -21,7 +21,7 @@
   <div class="mb-3">
     <%= form.label :category, class: "form-label" %>
     <%= form.text_field :category,
-          required: true,
+          required: true, placeholder: "e.g. Connectivity",
           class: "form-control #{invalid_class(amenity, :category)}" %>
     <%= field_errors(amenity, :category) %>
   </div>

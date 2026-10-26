@@ -10,21 +10,21 @@ class VisitsController < ApplicationController
     if @visit.save
       redirect_to application_path(@application), notice: "Visit proposed."
     else
-      redirect_to application_path(@application), alert: @visit.errors.full_messages.to_sentence
+      flash.now[:alert] = "Could not propose the visit."
+      render "applications/show", status: :unprocessable_entity
     end
   end
 
-  # Reprogramar: vuelve a "proposed" para que se confirme de nuevo.
   def update
     unless @visit.proposed? || @visit.confirmed?
-      return redirect_to application_path(@application),
-                         alert: "Only proposed or confirmed visits can be rescheduled."
+      return redirect_to application_path(@application), alert: "Only proposed or confirmed visits can be rescheduled."
     end
 
     if @visit.update(visit_params.merge(status: "proposed"))
       redirect_to application_path(@application), notice: "Visit rescheduled."
     else
-      redirect_to application_path(@application), alert: @visit.errors.full_messages.to_sentence
+      flash.now[:alert] = "Could not reschedule the visit."
+      render "applications/show", status: :unprocessable_entity
     end
   end
 

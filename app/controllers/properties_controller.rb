@@ -8,6 +8,9 @@ class PropertiesController < ApplicationController
 
   def show
     @listings = @property.listings
+    unless @property.owner_id == current_user&.id
+      @listings = @listings.where.not(status: :draft)
+    end
     @reviews = @property.reviews.includes(:reviewer)
     @reviewable_visits =
       Visit.joins(application: { listing: :property })
