@@ -11,10 +11,25 @@ class Visit < ApplicationRecord
 
     validates :application_id, uniqueness: true
     validates :scheduled_at, presence: true
+    validate :application_must_be_shortlisted, on: :create
     validate :scheduled_cannot_be_in_the_past, if: :will_save_change_to_scheduled_at?
+    validate :application_must_be_shortlisted
+    def application_must_be_shortlisted
+      return if application.blank?
+
+      unless application.shortlisted?
+        errors.add(:application, "must be shortlisted before proposing a visit")
+      end
+    end
 
     private
+    def application_must_be_shortlisted
+        return if application.blank?
 
+        unless application.shortlisted?
+            errors.add(:application, "must be shortlisted before proposing a visit")
+        end
+    end
     def scheduled_cannot_be_in_the_past
         return if scheduled_at.blank?
 

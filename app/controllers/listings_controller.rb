@@ -13,12 +13,14 @@ class ListingsController < ApplicationController
   end
 
   def new
-    @listing = Listing.new(property_id: params[:property_id])
+   @properties = current_user.properties.order(:title)
+   @listing = Listing.new(property_id: params[:property_id])
   end
 
   def create
-    @listing = Listing.new(listing_params)
-
+    property = current_user.properties.find(listing_params[:property_id])
+    @listing = property.listings.build(listing_params.except(:property_id))
+    @listing.status = :draft
     if @listing.save
       redirect_to @listing, notice: "Listing created."
     else
@@ -50,14 +52,17 @@ class ListingsController < ApplicationController
   private
 
   def set_listing
-    @listing = Listing.find(params[:id])
+    @listing = Listing.joins(:property)
+                      .where(properties: { owner_id: current_user.id })
+                      .or(Listing.where(status: :published))
+                      .find(params[:id])
   end
 
   def listing_params
     params.require(:listing).permit(
-      :property_id, :title, :monthly_rent, :deposit, :available_from,
+      :title, :monthly_rent, :deposit, :available_from,
       :minimum_stay, :furnished, :private_bathroom,
       :description, :house_rules, photos: []
-    )
+      )
   end
 end

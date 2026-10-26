@@ -5,11 +5,36 @@ Rails.application.routes.draw do
   root "pages#home"
 
   resources :properties
-  resources :listings
+  resources :amenities
+  resources :listings do 
+    member do 
+      patch :publish
+      patch :withdraw
+      patch :mark_rented
+    end 
+  end
   resources :neighborhoods
   resources :applications
-  resources :visits
-  resources :reviews
-
+  
+  resources :properties do
+    resources :reviews, only: %i[new create edit update destroy]
+  end
+  resource :current_user, only: :update
+  resource :amenities
+  resources :applications do
+    member do
+      patch :shortlist
+      patch :reject
+      patch :accept
+      patch :withdraw
+    end
+  end
+  resources :applications do
+    resource :visit, only: %i[create update destroy] do
+      patch :confirm
+      patch :cancel
+      patch :complete
+    end
+  end
 
 end

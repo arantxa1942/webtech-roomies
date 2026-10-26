@@ -8,6 +8,19 @@ class PropertiesController < ApplicationController
 def show
     @property = Property.find(params[:id])
     @listings = @property.listings
+    @reviewable_visits =
+      if current_user.present?
+        Visit.joins(application: { listing: :property })
+            .left_outer_joins(:review)
+            .where(
+              applications: { applicant_id: current_user.id },
+              properties: { id: @property.id },
+              status: :completed,
+              reviews: { id: nil }
+            )
+      else
+        Visit.none
+      end
     @reviews = @property.reviews # Agregamos esta línea para definir las reseñas
   end
 
@@ -16,8 +29,7 @@ def show
   end
 
   def create
-    @property = Property.new(property_params)
-    @property.owner_id = params[:user_id] || User.first.id
+    @property = current_user.properties.build(property_params)
 
     if @property.save
       redirect_to @property, notice: 'Propiedad creada exitosamente.'
@@ -48,6 +60,9 @@ def show
     @property = Property.find(params[:id])
   end
   def property_params
-    params.require(:property).permit(:title, :address, :neighborhood_id, :property_type, :bedrooms, :bathrooms, :shared_spaces)
+    params.require(:property).permit(
+      :title, :address, :neighborhood_id, :property_type,
+      :bedrooms, :bathrooms, :shared_spaces, amenity_ids: []
+    )
   end
 end

@@ -1,54 +1,119 @@
 <div class="container py-4">
-    <h1 class="mb-3"><%= @property.title %></h1>
-
-    <p><strong>Neighborhood:</strong> <%= @property.neighborhood.name %></p>
-    <p><strong>Address:</strong> <%= @property.address %></p>
-    <p><strong>Bedrooms:</strong> <%= @property.bedrooms %></p>
-    <p><strong>Bathrooms:</strong> <%= @property.bathrooms %></p>
-    <p><strong>Shared spaces:</strong> <%= @property.shared_spaces ? "Yes" : "No" %></p>
-    <% if @property.description.present? %>
-        <p><%= @property.description %></p>
-    <% end %>
-
-    <!-- Botones unificados utilizando link_to con clases de Bootstrap para que se vean idénticos -->
-    <div class="mt-4 d-flex gap-2 align-items-center">
-        <%= link_to "Edit", edit_property_path(@property), class: "btn btn-warning text-dark" %>
-        
-        <%= link_to "Delete", property_path(@property), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro de que quieres eliminar esto?" }, class: "btn btn-danger" %>
-
-        <%= link_to "Back to properties", properties_path, class: "btn btn-outline-secondary" %>
+  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+    <div>
+      <h1 class="mb-3"><%= @property.title %></h1>
+      <p><strong>Neighborhood:</strong> <%= @property.neighborhood.name %></p>
+      <p><strong>Address:</strong> <%= @property.address %></p>
+      <p><strong>Property type:</strong> <%= @property.property_type&.humanize || "Not specified" %></p>
+      <p><strong>Bedrooms:</strong> <%= @property.bedrooms %></p>
+      <p><strong>Bathrooms:</strong> <%= @property.bathrooms %></p>
+      <p><strong>Shared spaces:</strong> <%= @property.shared_spaces ? "Yes" : "No" %></p>
     </div>
 
-    <h2 class="h4 mt-4">Listings</h2>
-    <% if @property.listings.empty? %>
-        <div class="d-flex justify-content-between align-items-center mt-2">
-            <p class="mb-0">This property has no listings.</p>
-            <%= link_to "New listing", new_listing_path(property_id: @property.id), class: "btn btn-primary btn-sm" %>
-        </div>
+    <% if current_user.present? && @property.owner_id == current_user.id %>
+      <div class="d-flex gap-2">
+        <%= link_to "Edit property",
+              edit_property_path(@property),
+              class: "btn btn-warning" %>
+
+        <%= button_to "Delete property",
+              property_path(@property),
+              method: :delete,
+              class: "btn btn-danger",
+              form: { data: { turbo_confirm: "Delete this property?" } } %>
+      </div>
+    <% end %>
+  </div>
+
+  <h2 class="h4 mt-4">Amenities</h2>
+  <% if @property.amenities.any? %>
+    <ul>
+      <% @property.amenities.order(:name).each do |amenity| %>
+        <li><%= amenity.name %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No amenities listed.</p>
+  <% end %>
+
+  <section class="mt-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <h2 class="h4 mb-0">Listings</h2>
+
+      <% if current_user.present? && @property.owner_id == current_user.id %>
+        <%= link_to "New listing",
+              new_listing_path(property_id: @property.id),
+              class: "btn btn-primary btn-sm" %>
+      <% end %>
+    </div>
+
+    <% if @listings.any? %>
+      <ul class="list-group">
+        <% @listings.each do |listing| %>
+          <li class="list-group-item d-flex flex-wrap justify-content-between gap-2">
+            <%= link_to listing.title, listing_path(listing) %>
+
+            <span>
+              <%= number_to_currency(listing.monthly_rent, unit: "$", precision: 0) %>
+              · <%= listing.status.humanize %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
     <% else %>
-        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-            <span class="text-muted">Listado de habitaciones/espacios</span>
-            <%= link_to "New listing", new_listing_path(property_id: @property.id), class: "btn btn-primary btn-sm" %>
-        </div>
-        <ul>
-            <% @property.listings.each do |listing| %>
-                <li>
-                    <%= link_to listing.title, listing_path(listing) %> - <%= number_to_currency(listing.monthly_rent, unit: "$", precision: 0) %>
-                </li>
+      <p>This property has no listings.</p>
+    <% end %>
+  </section>
+
+  <section class="mt-4">
+    <h2 class="h4">Reviews</h2>
+
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <article class="card mb-3">
+          <div class="card-body">
+            <h3 class="h6"><%= review.reviewer.full_name %></h3>
+            <p class="mb-2">Rating: <%= review.rating %> / 5</p>
+            <p class="mb-2"><%= review.comment %></p>
+
+            <% if current_user.present? && review.reviewer_id == current_user.id %>
+              <div class="d-flex gap-2">
+                <%= link_to "Edit review",
+                      edit_property_review_path(@property, review),
+                      class: "btn btn-sm btn-outline-primary" %>
+
+                <%= button_to "Delete review",
+                      property_review_path(@property, review),
+                      method: :delete,
+                      class: "btn btn-sm btn-outline-danger",
+                      form: { data: { turbo_confirm: "Delete this review?" } } %>
+              </div>
             <% end %>
-        </ul>
+          </div>
+        </article>
+      <% end %>
+    <% else %>
+      <p>No reviews yet.</p>
     <% end %>
 
-    <h2 class="h4 mt-4">Reviews</h2>
-    <% if @property.respond_to?(:reviews) && @property.reviews.any? %>
-        <% @property.reviews.each do |review| %>
-            <div class="mb-3">
-                <h3 class="h6"><%= review.reviewer.full_name %></h3>
-                <p>Rating: <%= review.rating %> / 5</p>
-                <p><%= review.comment %></p>
-            </div>
+    <% if current_user.present? && @reviewable_visits.present? && @reviewable_visits.any? %>
+      <div class="mt-3">
+        <h3 class="h6">Write a review for a completed visit</h3>
+
+        <% @reviewable_visits.each do |visit| %>
+          <p>
+            <%= link_to "Review visit on #{l(visit.scheduled_at, format: :long)}",
+                  new_property_review_path(@property, visit_id: visit.id),
+                  class: "btn btn-primary btn-sm" %>
+          </p>
         <% end %>
-    <% else %>
-        <p>No reviews yet.</p>
+      </div>
     <% end %>
+  </section>
+
+  <div class="mt-4">
+    <%= link_to "Back to properties",
+          properties_path,
+          class: "btn btn-outline-secondary" %>
+  </div>
 </div>

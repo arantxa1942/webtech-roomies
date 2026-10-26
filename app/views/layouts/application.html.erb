@@ -11,17 +11,14 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     
-    <%# Estilos requeridos para Action Text (Trix) %>
+    
     <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
 
     <%= javascript_importmap_tags %>
@@ -43,7 +40,17 @@
             <li class="nav-item">
               <%= link_to "Neighborhoods", neighborhoods_path, class: "nav-link" %>
             </li>
+            <li class="nav-item">
+              <%= link_to "Amenities", amenities_path, class: "nav-link" %>
+            </li>
           </ul>
+          <%= form_with url: current_user_path, method: :patch, class: "d-flex gap-2" do %>
+            <%= select_tag :user_id,
+                  options_from_collection_for_select(User.order(:full_name), :id, :full_name, current_user&.id),
+                  class: "form-select",
+                  aria: { label: "Acting as" } %>
+            <%= submit_tag "Switch user", class: "btn btn-outline-primary" %>
+          <% end %>
         </div>
       </nav>
     </header>

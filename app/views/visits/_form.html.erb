@@ -1,0 +1,41 @@
+<%= form_with model: visit,
+      url: application_visit_path(application),
+      method: visit.persisted? ? :patch : :post do |form| %>
+
+  <% if visit.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <p class="mb-1">
+        <%= pluralize(visit.errors.count, "error") %>
+        prevented the visit from being saved:
+      </p>
+      <ul class="mb-0">
+        <% visit.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :scheduled_at, "Visit date and time", class: "form-label" %>
+    <%= form.datetime_field :scheduled_at,
+          required: true,
+          min: Time.current.strftime("%Y-%m-%dT%H:%M"),
+          class: "form-control #{invalid_class(visit, :scheduled_at)}" %>
+    <%= field_errors(visit, :scheduled_at) %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :notes, "Notes for the visit", class: "form-label" %>
+    <%= form.text_area :notes,
+          rows: 3,
+          placeholder: "Add any details the applicant should know.",
+          class: "form-control #{invalid_class(visit, :notes)}" %>
+    <%= field_errors(visit, :notes) %>
+  </div>
+
+  <%= form.submit(
+        visit.persisted? ? "Save new visit time" : "Propose visit",
+        class: "btn btn-primary"
+      ) %>
+<% end %>

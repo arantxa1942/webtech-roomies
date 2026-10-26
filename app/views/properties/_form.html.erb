@@ -30,6 +30,21 @@
       <%= form.label :property_type, "Property Type", class: "form-label" %>
       <%= form.select :property_type, options_for_select([['Apartment', 'apartment'], ['House', 'house'], ['Studio', 'studio'], ['Room', 'room']], @property.property_type), { prompt: "Select property type" }, { class: "form-select" } %>
     </div>
+      <div class="mb-3">
+    <%= form.label :amenity_ids, "Amenities", class: "form-label" %>
+    <%= form.collection_select :amenity_ids,
+          Amenity.order(:name),
+          :id,
+          :name,
+          {},
+          { multiple: true, class: "form-select" } %>
+    <div class="form-text">Hold Ctrl or Command to choose multiple amenities.</div>
+  </div>
+    <div class="mb-3">
+      <%= form.label :amenity_ids, "Amenities", class: "form-label" %>
+      <%= form.collection_select :amenity_ids, Amenity.order(:name), :id, :name,
+          {}, { multiple: true, class: "form-select" } %>
+    </div>
   </div>
 
   <div class="row">

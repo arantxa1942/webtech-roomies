@@ -1,0 +1,42 @@
+<%= form_with model: [property, review] do |form| %>
+  <% if review.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <p class="mb-1">
+        <%= pluralize(review.errors.count, "error") %>
+        prevented the review from being saved:
+      </p>
+      <ul class="mb-0">
+        <% review.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    Review for visit on
+    <strong><%= l(visit.scheduled_at, format: :long) %></strong>
+  </p>
+
+  <div class="mb-3">
+    <%= form.label :rating, "Rating (1 to 5)", class: "form-label" %>
+    <%= form.select :rating,
+          options_for_select((1..5).map { |rating| ["#{rating} / 5", rating] }, review.rating),
+          { prompt: "Choose a rating" },
+          { required: true, class: "form-select #{invalid_class(review, :rating)}" } %>
+    <%= field_errors(review, :rating) %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :comment, "Comment", class: "form-label" %>
+    <%= form.text_area :comment,
+          rows: 5,
+          required: true,
+          placeholder: "Describe your experience with the property.",
+          class: "form-control #{invalid_class(review, :comment)}" %>
+    <%= field_errors(review, :comment) %>
+  </div>
+
+  <%= form.submit "Save review", class: "btn btn-primary" %>
+  <%= link_to "Cancel", property_path(property), class: "btn btn-outline-secondary ms-2" %>
+<% end %>

@@ -20,9 +20,30 @@ class Application < ApplicationRecord
 
     validate :cannot_apply_to_own_listing
     validate :listing_must_be_published, on: :create
+    validate :listing_must_accept_applications, on: :create
     validate :move_in_date_cannot_be_in_the_past, if: :will_save_change_to_move_in_date?
+    def self.accept!(application)
+      transaction do
+        listing = application.listing
 
+        application.update!(status: :accepted)
+
+        listing.applications
+               .where(status: %w[pending shortlisted])
+               .where.not(id: application.id)
+               .find_each { |other| other.update!(status: :rejected) }
+
+        listing.update!(status: :reserved)
+      end
+    end
     private
+    def listing_must_accept_applications
+        return if listing.blank?
+
+        unless listing.published?
+          errors.add(:listing, "is not accepting applications")
+        end
+    end
 
     def cannot_apply_to_own_listing
         return if listing.blank? || applicant_id.blank?

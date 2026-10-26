@@ -1,7 +1,7 @@
 <%= form_with model: listing do |f| %>
   <div class="mb-3">
     <%= f.label :property_id, "Property", class: "form-label" %>
-    <%= f.collection_select :property_id, Property.order(:title), :id, :title,
+    <%= f.collection_select :property_id, @properties, :id, :title,
           { prompt: "Select property" },
           { class: "form-select #{invalid_class(listing, :property)}", required: true } %>
     <%= field_errors(listing, :property) %>

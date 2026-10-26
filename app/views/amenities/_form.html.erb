@@ -1,0 +1,31 @@
+<%= form_with model: amenity do |form| %>
+  <% if amenity.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <p class="mb-1">The amenity could not be saved:</p>
+      <ul class="mb-0">
+        <% amenity.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name,
+          required: true,
+          class: "form-control #{invalid_class(amenity, :name)}" %>
+    <%= field_errors(amenity, :name) %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :category, class: "form-label" %>
+    <%= form.text_field :category,
+          required: true,
+          class: "form-control #{invalid_class(amenity, :category)}" %>
+    <%= field_errors(amenity, :category) %>
+  </div>
+
+  <%= form.submit class: "btn btn-primary" %>
+  <%= link_to "Cancel", amenities_path, class: "btn btn-outline-secondary ms-2" %>
+<% end %>
