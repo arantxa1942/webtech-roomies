@@ -37,7 +37,12 @@ class VisitsController < ApplicationController
   end
 
   def confirm
-    change_status(:confirm!, "Visit confirmed.")
+    @visit = Visit.find(params[:id])
+    if @visit.update(status: :confirmed) # (o el método de tu máquina de estados)
+      redirect_to @visit.application, notice: "Visit confirmed successfully."
+    else
+      redirect_to @visit.application, alert: "Could not confirm visit."
+    end
   end
 
   def cancel
@@ -45,9 +50,13 @@ class VisitsController < ApplicationController
   end
 
   def complete
-    change_status(:complete!, "Visit marked as completed. The applicant can now review the property.")
+    @visit = Visit.find(params[:id])
+    if @visit.update(status: :completed) # (o el estado correspondiente en tu modelo)
+      redirect_to @visit.application, notice: "Visit marked as completed."
+    else
+      redirect_to @visit.application, alert: "Could not complete visit."
+    end
   end
-
   private
 
   def set_application

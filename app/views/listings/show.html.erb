@@ -1,173 +1,63 @@
 <div class="container py-4">
-  <h1><%= @listing.title %></h1>
-
-<<<<<<< HEAD
-  <% if @listing.photos.attached? %>
-    <div class="row g-3 mb-4">
-      <% @listing.photos.each do |photo| %>
-        <div class="col-md-4">
-          <%= image_tag photo.variant(:large), class: "img-fluid rounded shadow-sm", alt: "Photo of #{@listing.title}" %>
-        </div>
-      <% end %>
-=======
-    <!-- Fotografías con Active Storage y tamaño controlado -->
-    <% if @listing.photos.attached? %>
-        <div class="row g-3 mb-4">
-            <% @listing.photos.each do |photo| %>
-                <div class="col-md-4 mb-3">
-                    <%= image_tag photo.variant(resize_to_limit: [600, 400]), class: "img-fluid rounded shadow-sm w-100", style: "object-fit: cover; height: 220px;", alt: "Photo of #{@listing.title}" %>
-                </div>
-            <% end %>
-        </div>
-    <% else %>
-        <p class="text-muted">No photos available.</p>
-    <% end %>
-    
-    <!-- Descripciones de Action Text -->
-    <div class="mb-3">
-        <h3>Description</h3>
-        <div><%= @listing.description %></div>
->>>>>>> f85dde4 (Assignment 4)
-    </div>
-  <% else %>
-    <p>No photos available.</p>
-  <% end %>
-
-  <h2 class="h4">Description</h2>
-  <div class="mb-4"><%= @listing.description %></div>
-
-  <h2 class="h4">House rules</h2>
-  <% if @listing.house_rules.present? %>
-    <div class="mb-4"><%= @listing.house_rules %></div>
-  <% else %>
-    <p>No house rules specified.</p>
-  <% end %>
-
-  <ul class="list-group mb-4">
-    <li class="list-group-item"><strong>Monthly rent:</strong> <%= number_to_currency(@listing.monthly_rent, unit: "$", precision: 0) %></li>
-    <li class="list-group-item"><strong>Deposit:</strong> <%= @listing.deposit ? number_to_currency(@listing.deposit, unit: "$", precision: 0) : "Not specified" %></li>
-    <li class="list-group-item"><strong>Minimum stay:</strong> <%= @listing.minimum_stay ? "#{@listing.minimum_stay} months" : "Not specified" %></li>
-    <li class="list-group-item"><strong>Available from:</strong> <%= @listing.available_from %></li>
-    <li class="list-group-item"><strong>Status:</strong> <%= @listing.status.humanize %></li>
-    <li class="list-group-item"><strong>Furnished:</strong> <%= @listing.furnished ? "Yes" : "No" %></li>
-    <li class="list-group-item"><strong>Private bathroom:</strong> <%= @listing.private_bathroom ? "Yes" : "No" %></li>
-  </ul>
-
-  <h2 class="h4">Property</h2>
-  <p><%= link_to @property.title, property_path(@property) %></p>
-  <p>Neighborhood: <%= @property.neighborhood.name %></p>
-  <p>Address: <%= @property.address %></p>
-  <p>Property type: <%= @property.property_type.presence&.humanize || "Not specified" %></p>
-  <p>Bedrooms: <%= @property.bedrooms %></p>
-  <p>Bathrooms: <%= @property.bathrooms %></p>
-  <p>Shared spaces: <%= @property.shared_spaces ? "Yes" : "No" %></p>
-
-  <h2 class="h4">Amenities</h2>
-  <% if @amenities.empty? %>
-    <p>No amenities listed.</p>
-  <% else %>
-    <ul>
-      <% @amenities.each do |amenity| %>
-        <li><%= amenity.name %></li>
-      <% end %>
-    </ul>
-  <% end %>
-
-  <h2 class="h4">Reviews</h2>
-  <% if @reviews.empty? %>
-    <p>No reviews yet.</p>
-  <% else %>
-    <% @reviews.each do |review| %>
-      <article class="card mb-3">
-        <div class="card-body">
-          <h3 class="h6"><%= review.reviewer.full_name %></h3>
-          <p>Rating: <%= review.rating %> / 5</p>
-          <p><%= review.comment %></p>
-        </div>
-      </article>
-    <% end %>
-  <% end %>
+  <% carlos = User.find_by(email_address: "carlos@roomies.cl") %>
   
-  <%= link_to "View property and review options", property_path(@property), class: "btn btn-outline-primary mb-4" %>
-  <%= render "applications/application_block", listing: @listing, application: @application %>
+  <%# Detección robusta del dueño para evitar que la sesión falle %>
+  <% is_owner = (current_user.present? && @property.owner_id == current_user.id) || 
+                (carlos.present? && @property.owner_id == carlos.id && current_user&.email_address == "carlos@roomies.cl") %>
 
-<<<<<<< HEAD
-  <% is_host = @listing.property.owner_id == current_user&.id %>
-  <div class="mt-4 d-flex flex-wrap gap-2 align-items-center">
-    <% if is_host %>
-      <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-warning" %>
-
-      <% if @listing.draft? %>
-        <%= button_to "Publish", publish_listing_path(@listing), method: :patch, class: "btn btn-success" %>
-      <% end %>
-
-      <% if @listing.reserved? %>
-        <%= button_to "Mark as rented", mark_rented_listing_path(@listing), method: :patch, class: "btn btn-primary" %>
-      <% end %>
-
-      <% if @listing.draft? || @listing.published? || @listing.reserved? %>
-        <%= button_to "Withdraw", withdraw_listing_path(@listing), method: :patch,
-              class: "btn btn-outline-secondary",
-              form: { data: { turbo_confirm: "Withdraw this listing?" } } %>
-      <% end %>
-
-      <%= button_to "Delete", listing_path(@listing), method: :delete,
-            form: { data: { turbo_confirm: "Delete this listing?" } },
-            class: "btn btn-danger" %>
-    <% end %>
-    <%= link_to "Back to listings", listings_path, class: "btn btn-outline-secondary" %>
-  </div>
-=======
-    <!-- Formulario de postulación (Application) corregido con ruta anidada -->
-    <hr class="my-5">
-    <div class="card shadow-sm mb-5">
-        <div class="card-body">
-            <h3 class="card-title h4 mb-3">Apply for this Room</h3>
-            
-            <%= form_with(model: [ @listing, Application.new ], url: listing_applications_path(@listing), local: true, class: "row g-3") do |f| %>
-                <div class="col-12">
-                    <%= f.label :message, "Introduction Message", class: "form-label" %>
-                    <%= f.text_area :message, rows: 3, class: "form-control", placeholder: "Introduce yourself to the host..." %>
-                </div>
-
-                <div class="col-md-6">
-                    <%= f.label :move_in_date, "Preferred Move-in Date", class: "form-label" %>
-                    <%= f.date_field :move_in_date, class: "form-control" %>
-                </div>
-
-                <div class="col-md-6">
-                    <%= f.label :stay_length, "Intended Stay Length (months)", class: "form-label" %>
-                    <%= f.number_field :stay_length, class: "form-control", placeholder: "6" %>
-                </div>
-
-                <div class="col-12">
-                    <%= f.submit "Send Application", class: "btn btn-primary" %>
-                </div>
-            <% end %>
-        </div>
+  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <h1><%= @listing.title %></h1>
+      <p class="text-muted mb-1">Property: <%= link_to @property.title, property_path(@property) %></p>
+      <span class="badge bg-info text-dark"><%= @listing.status.humanize %></span>
     </div>
 
-    <h2 class="h4">Reviews</h2>
-    <% if @reviews.empty? %>
-        <p>No reviews yet.</p>
-    <% else %>
-        <% @reviews.each do |review| %>
-            <article class="card mb-3">
-                <div class="card-body">
-                    <h3 class="h6"><%= review.reviewer.full_name %></h3>
-                    <p>Rating: <%= review.rating %> / 5</p>
-                    <p><%= review.comment %></p>
-                </div>
-            </article>
+    <% if is_owner %>
+      <%#--- VISTA EXCLUSIVA PARA EL DUEÑO (CARLOS) ---%>
+      <div class="d-flex flex-wrap gap-2">
+        <%= link_to "Edit listing", edit_listing_path(@listing), class: "btn btn-warning" %>
+
+        <% if @listing.draft? || @listing.withdrawn? %>
+          <%= button_to "Publish", publish_listing_path(@listing), method: :patch, class: "btn btn-success" %>
         <% end %>
-    <% end %>
 
-    <div class="mt-4 d-flex gap-2 align-items-center">
-        <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-warning text-dark" %>
-        
-        <%= button_to "Delete", listing_path(@listing), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-outline-danger" %>
+        <% if @listing.published? %>
+          <%= button_to "Withdraw", withdraw_listing_path(@listing), method: :patch, class: "btn btn-secondary" %>
+          <%= button_to "Mark as rented", mark_rented_listing_path(@listing), method: :patch, class: "btn btn-dark" %>
+        <% end %>
 
-        <%= link_to "Back to properties", properties_path, class: "btn btn-outline-secondary" %>
+        <%= button_to "Delete listing", listing_path(@listing), method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Are you sure?" } } %>
+      </div>
+    <% elsif @listing.published? %>
+        <% elsif current_user.present? && @listing.published? %>
+        <div class="d-flex gap-2">
+            <%= button_to "Apply to this listing", listing_applications_path(@listing), method: :post, class: "btn btn-primary" %>
+        </div>
+        <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <p><strong>Monthly Rent:</strong> <%= number_to_currency(@listing.monthly_rent, unit: "$", precision: 0) %></p>
+      <p><strong>Deposit:</strong> <%= number_to_currency(@listing.deposit, unit: "$", precision: 0) %></p>
+      <p><strong>Available From:</strong> <%= @listing.available_from %></p>
+      <p><strong>Minimum Stay:</strong> <%= @listing.minimum_stay %> months</p>
+      <p><strong>Furnished:</strong> <%= @listing.furnished? ? "Yes" : "No" %></p>
+      <p><strong>Private Bathroom:</strong> <%= @listing.private_bathroom? ? "Yes" : "No" %></p>
+
+      <% if @listing.description.present? %>
+        <h2 class="h5 mt-4">Description</h2>
+        <p><%= @listing.description %></p>
+      <% end %>
+
+      <% if @listing.house_rules.present? %>
+        <h2 class="h5 mt-4">House Rules</h2>
+        <p><%= @listing.house_rules %></p>
+      <% end %>
     </div>
->>>>>>> f85dde4 (Assignment 4)
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Back to property", property_path(@property), class: "btn btn-outline-secondary" %>
+  </div>
 </div>

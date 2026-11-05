@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class ApplicationsController < ApplicationController
   include ActionView::RecordIdentifier
 
@@ -18,17 +17,15 @@ class ApplicationsController < ApplicationController
   def create
     @listing = Listing.find(params[:listing_id])
     @application = @listing.applications.build(application_params)
-    @application.applicant = current_user
+    @application.user = current_user
 
     if @application.save
-      redirect_to listing_path(@listing), notice: "Application submitted."
+        redirect_to @listing, notice: "Application submitted successfully."
     else
-      render partial: "applications/application_block",
-             locals: { listing: @listing, application: @application },
-             status: :unprocessable_entity
+        # Redirigimos de vuelta mostrando por qué falló la validación
+        redirect_to @listing, alert: "Error: #{@application.errors.full_messages.to_sentence}"
     end
   end
-
   def shortlist
     respond_to_transition(:shortlist!, "Application shortlisted.")
   end
@@ -53,9 +50,8 @@ class ApplicationsController < ApplicationController
   def set_application
     @application = Application.includes(listing: :property).find(params[:id])
   end
-
   def application_params
-    params.require(:application).permit(:message, :move_in_date, :stay_length)
+    params.fetch(:application, {}).permit(:message, :move_in_date, :stay_length)
   end
 
   def authorize_host!
@@ -77,17 +73,21 @@ class ApplicationsController < ApplicationController
   def load_inbox
     @applications = Application
       .joins(listing: :property)
-      .where(properties: { owner_id: current_user.id })
+      .where(properties: { owner_id: current_user&.id })
       .includes(:applicant, listing: :property)
       .order(created_at: :desc)
     @pending_count = Application.joins(listing: :property)
-                                .where(properties: { owner_id: current_user.id })
+                                .where(properties: { owner_id: current_user&.id })
                                 .pending.count
   end
 
-  def respond_to_transition(action, message)
+def respond_to_transition(action, message)
     begin
       @application.public_send(action)
+      
+      # 🚀 AQUÍ AGREGAMOS EL DISPARO DEL JOB DE NOTIFICACIÓN ASÍNCRONA
+      ApplicationNotificationJob.perform_later(@application.id)
+
     rescue ActiveRecord::RecordInvalid => e
       return respond_with_error(e.record.errors.full_messages.to_sentence)
     end
@@ -109,7 +109,7 @@ class ApplicationsController < ApplicationController
           turbo_stream.replace(dom_id(app), partial: "applications/application_row", locals: { application: app })
         end
         streams << turbo_stream.replace("pending_count", partial: "applications/pending_count",
-                                        locals: { pending_count: @pending_count })
+                                                   locals: { pending_count: @pending_count })
         streams << turbo_stream.update("flash", partial: "shared/flash")
         render turbo_stream: streams
       end
@@ -126,35 +126,3 @@ class ApplicationsController < ApplicationController
     end
   end
 end
-=======
-class ApplicationsController < ApplicationController
-  def index
-    # En el siguiente paso con Pundit filtraremos esto por usuario
-    @applications = Application.all
-  end
-
-  def show
-    @application = Application.find(params[:id])
-  end
-
-  def create
-    @listing = Listing.find(params[:listing_id])
-    @application = @listing.applications.new(application_params)
-    
-    # Asignamos al usuario que inició sesión actualmente
-    @application.applicant = Current.user # O current_user según tu implementación
-
-    if @application.save
-      redirect_to @listing, notice: "Application sent successfully."
-    else
-      redirect_to @listing, alert: @application.errors.full_messages.to_sentence
-    end
-  end
-
-  private
-
-  def application_params
-    params.require(:application).permit(:message, :move_in_date, :stay_length)
-  end
-end
->>>>>>> f85dde4 (Assignment 4)

@@ -1,27 +1,21 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-5">
-      <div class="card shadow-sm">
-        <div class="card-body p-4">
-          <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-4">
+    <h1 class="h3 mb-3 text-center">Sign in</h1>
 
-          <%= form_with(url: session_path, class: "row g-3") do |f| %>
-            <div class="col-12">
-              <%= f.label :email, "Correo electrónico", class: "form-label" %>
-              <%= f.email_field :email, required: true, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "tu@correo.com" %>
-            </div>
-
-            <div class="col-12">
-              <%= f.label :password, "Contraseña", class: "form-label" %>
-              <%= f.password_field :password, required: true, autocomplete: "current-password", class: "form-control", placeholder: "••••••••" %>
-            </div>
-
-            <div class="col-12 d-grid mt-4">
-              <%= f.submit "Entrar", class: "btn btn-primary" %>
-            </div>
-          <% end %>
-        </div>
+    <%= form_with url: session_path do |form| %>
+      <div class="mb-3">
+        <%= form.label :email_address, "Email address", class: "form-label" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, class: "form-control" %>
       </div>
-    </div>
+
+      <div class="mb-3">
+        <%= form.label :password, class: "form-label" %>
+        <%= form.password_field :password, required: true, class: "form-control" %>
+      </div>
+
+      <div class="mb-3 d-grid">
+        <%= form.submit "Sign in", class: "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
 </div>

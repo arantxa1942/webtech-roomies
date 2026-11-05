@@ -1,6 +1,4 @@
-<%= form_with model: visit,
-      url: application_visit_path(application),
-      method: visit.persisted? ? :patch : :post do |form| %>
+<%= form_with model: [application, visit] do |form| %>
 
   <% if visit.errors.any? %>
     <div class="alert alert-danger" role="alert">
@@ -20,6 +18,8 @@
     <%= form.label :scheduled_at, "Visit date and time", class: "form-label" %>
     <%= form.datetime_field :scheduled_at,
           required: true,
+          step: 60,
+          value: visit.scheduled_at&.strftime("%Y-%m-%dT%H:%M"),
           min: Time.current.strftime("%Y-%m-%dT%H:%M"),
           class: "form-control #{invalid_class(visit, :scheduled_at)}" %>
     <%= field_errors(visit, :scheduled_at) %>

@@ -11,16 +11,19 @@
 
     <%= yield :head %>
 
-    
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    
-    
-    <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
-
+    <link rel="stylesheet" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+<script type="importmap">
+  {
+    "imports": {
+      "trix": "https://ga.jspm.io/npm:trix@2.0.8/dist/trix.esm.js",
+      "@rails/actiontext": "https://cdn.jsdelivr.net/npm/@rails/actiontext@7.2.0/app/assets/javascripts/actiontext.esm.js"
+    }
+  }
+</script>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -38,40 +41,19 @@
               <%= link_to "Properties", properties_path, class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "Neighborhoods", neighborhoods_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-<<<<<<< HEAD
-              <%= link_to "Amenities", amenities_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item"><%= link_to "Inbox", applications_path, class: "nav-link" %></li>
-=======
               <%= link_to "Applications", applications_path, class: "nav-link" %>
             </li>
-
-            <!-- Botones dinámicos de sesión -->
-            <% if Current.user %>
-              <li class="nav-item text-muted small align-self-center">
-                <%= Current.user.email %>
-              </li>
-              <li class="nav-item">
-                <%= button_to "Cerrar sesión", session_path, method: :delete, class: "btn btn-outline-danger btn-sm border-0 bg-transparent" %>
-              </li>
+            <% if authenticated? %>
+              <li><%= link_to "Edit Profile", edit_profile_path %></li>
+              <li><%= Current.user.email_address %></li>
+              <li><%= button_to "Sign out", session_path, method: :delete %></li>
             <% else %>
-              <li class="nav-item">
-                <%= link_to "Iniciar sesión", new_session_path, class: "btn btn-primary btn-sm" %>
-              </li>
+              <li><%= link_to "Sign in", new_session_path %></li>
             <% end %>
->>>>>>> f85dde4 (Assignment 4)
+
           </ul>
-          <%= form_with url: current_user_path, method: :patch, class: "d-flex flex-wrap align-items-center gap-2" do %>
-            <%= label_tag :user_id, "Acting as", class: "form-label mb-0" %>
-            <%= select_tag :user_id,
-                  options_from_collection_for_select(User.order(:full_name), :id, :full_name, current_user&.id),
-                  class: "form-select",
-                  aria: { label: "Acting as" } %>
-            <%= submit_tag "Switch user", class: "btn btn-outline-primary" %>
-          <% end %>
+
+
         </div>
       </nav>
     </header>

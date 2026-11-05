@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 class Property < ApplicationRecord
   PROPERTY_TYPES = %w[apartment house studio room].freeze
-
   belongs_to :owner, class_name: "User"
   belongs_to :neighborhood
-
+  belongs_to :user, foreign_key: "owner_id"
   has_many :listings, dependent: :restrict_with_error
   has_many :reviews, dependent: :destroy
   has_many :property_amenities, dependent: :destroy
@@ -16,16 +14,3 @@ class Property < ApplicationRecord
   validates :bathrooms, numericality: { only_integer: true, greater_than: 0 }
   validates :shared_spaces, inclusion: { in: [ true, false ] }
 end
-=======
-class Property < ApplicationRecord
-  belongs_to :owner, class_name: "User", foreign_key: "owner_id"
-  belongs_to :neighborhood
-  
-  has_many :listings, dependent: :destroy
-  has_many :property_amenities, dependent: :destroy
-  has_many :amenities, through: :property_amenities
-  has_many :reviews, dependent: :destroy
-
-  validates :title, :address, :bedrooms, :bathrooms, presence: true
-end
->>>>>>> f85dde4 (Assignment 4)
