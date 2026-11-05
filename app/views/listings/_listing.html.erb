@@ -1,4 +1,5 @@
 <div class="col-md-4">
+<<<<<<< HEAD
   <article class="card h-100">
     <% if listing.photos.attached? %>
       <%= image_tag listing.photos.first.variant(:card), class: "card-img-top", alt: "Photo of #{listing.title}" %>
@@ -15,4 +16,33 @@
       <p>Available from: <%= listing.available_from %></p>
     </div>
   </article>
+=======
+    <article class="card h-100 shadow-sm">
+    
+        <div class="card-body">
+        
+            <h2 class="h5 card-title">
+                <%= link_to listing.title, listing_path(listing) %>
+            </h2>
+            <% if listing.photos.attached? %>
+                <%= image_tag listing.photos.first.variant(resize_to_limit: [400, 250]), class: "card-img-top", alt: "Photo of #{listing.title}", style: "object-fit: cover; height: 200px;" %>
+            <% end %>
+            <p class="mb-1 text-muted small">
+                Property: <%= link_to listing.property.title, property_path(listing.property) %>
+            </p>
+
+            <p class="mb-1 text-muted small">
+                Neighborhood: <%= listing.property.neighborhood.name %>
+            </p>
+
+            <p class="mb-1 fw-bold text-primary">
+                Monthly rent: <%= number_to_currency(listing.monthly_rent, unit: "$", precision: 0) %>
+            </p>
+            <%= button_to "Delete listing", listing_path(listing), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-outline-danger btn-sm" %>
+            <p class="mb-0 text-muted small">
+                Available from: <%= listing.available_from %>
+            </p>
+        </div>
+    </article>
+>>>>>>> f85dde4 (Assignment 4)
 </div>

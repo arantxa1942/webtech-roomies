@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class ApplicationsController < ApplicationController
   include ActionView::RecordIdentifier
 
@@ -125,3 +126,35 @@ class ApplicationsController < ApplicationController
     end
   end
 end
+=======
+class ApplicationsController < ApplicationController
+  def index
+    # En el siguiente paso con Pundit filtraremos esto por usuario
+    @applications = Application.all
+  end
+
+  def show
+    @application = Application.find(params[:id])
+  end
+
+  def create
+    @listing = Listing.find(params[:listing_id])
+    @application = @listing.applications.new(application_params)
+    
+    # Asignamos al usuario que inició sesión actualmente
+    @application.applicant = Current.user # O current_user según tu implementación
+
+    if @application.save
+      redirect_to @listing, notice: "Application sent successfully."
+    else
+      redirect_to @listing, alert: @application.errors.full_messages.to_sentence
+    end
+  end
+
+  private
+
+  def application_params
+    params.require(:application).permit(:message, :move_in_date, :stay_length)
+  end
+end
+>>>>>>> f85dde4 (Assignment 4)

@@ -1,0 +1,27 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+
+          <%= form_with(url: session_path, class: "row g-3") do |f| %>
+            <div class="col-12">
+              <%= f.label :email, "Correo electrónico", class: "form-label" %>
+              <%= f.email_field :email, required: true, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "tu@correo.com" %>
+            </div>
+
+            <div class="col-12">
+              <%= f.label :password, "Contraseña", class: "form-label" %>
+              <%= f.password_field :password, required: true, autocomplete: "current-password", class: "form-control", placeholder: "••••••••" %>
+            </div>
+
+            <div class="col-12 d-grid mt-4">
+              <%= f.submit "Entrar", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

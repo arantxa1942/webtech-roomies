@@ -1,6 +1,7 @@
 <div class="container py-4">
   <h1><%= @listing.title %></h1>
 
+<<<<<<< HEAD
   <% if @listing.photos.attached? %>
     <div class="row g-3 mb-4">
       <% @listing.photos.each do |photo| %>
@@ -8,6 +9,25 @@
           <%= image_tag photo.variant(:large), class: "img-fluid rounded shadow-sm", alt: "Photo of #{@listing.title}" %>
         </div>
       <% end %>
+=======
+    <!-- Fotografías con Active Storage y tamaño controlado -->
+    <% if @listing.photos.attached? %>
+        <div class="row g-3 mb-4">
+            <% @listing.photos.each do |photo| %>
+                <div class="col-md-4 mb-3">
+                    <%= image_tag photo.variant(resize_to_limit: [600, 400]), class: "img-fluid rounded shadow-sm w-100", style: "object-fit: cover; height: 220px;", alt: "Photo of #{@listing.title}" %>
+                </div>
+            <% end %>
+        </div>
+    <% else %>
+        <p class="text-muted">No photos available.</p>
+    <% end %>
+    
+    <!-- Descripciones de Action Text -->
+    <div class="mb-3">
+        <h3>Description</h3>
+        <div><%= @listing.description %></div>
+>>>>>>> f85dde4 (Assignment 4)
     </div>
   <% else %>
     <p>No photos available.</p>
@@ -71,6 +91,7 @@
   <%= link_to "View property and review options", property_path(@property), class: "btn btn-outline-primary mb-4" %>
   <%= render "applications/application_block", listing: @listing, application: @application %>
 
+<<<<<<< HEAD
   <% is_host = @listing.property.owner_id == current_user&.id %>
   <div class="mt-4 d-flex flex-wrap gap-2 align-items-center">
     <% if is_host %>
@@ -96,4 +117,57 @@
     <% end %>
     <%= link_to "Back to listings", listings_path, class: "btn btn-outline-secondary" %>
   </div>
+=======
+    <!-- Formulario de postulación (Application) corregido con ruta anidada -->
+    <hr class="my-5">
+    <div class="card shadow-sm mb-5">
+        <div class="card-body">
+            <h3 class="card-title h4 mb-3">Apply for this Room</h3>
+            
+            <%= form_with(model: [ @listing, Application.new ], url: listing_applications_path(@listing), local: true, class: "row g-3") do |f| %>
+                <div class="col-12">
+                    <%= f.label :message, "Introduction Message", class: "form-label" %>
+                    <%= f.text_area :message, rows: 3, class: "form-control", placeholder: "Introduce yourself to the host..." %>
+                </div>
+
+                <div class="col-md-6">
+                    <%= f.label :move_in_date, "Preferred Move-in Date", class: "form-label" %>
+                    <%= f.date_field :move_in_date, class: "form-control" %>
+                </div>
+
+                <div class="col-md-6">
+                    <%= f.label :stay_length, "Intended Stay Length (months)", class: "form-label" %>
+                    <%= f.number_field :stay_length, class: "form-control", placeholder: "6" %>
+                </div>
+
+                <div class="col-12">
+                    <%= f.submit "Send Application", class: "btn btn-primary" %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+
+    <h2 class="h4">Reviews</h2>
+    <% if @reviews.empty? %>
+        <p>No reviews yet.</p>
+    <% else %>
+        <% @reviews.each do |review| %>
+            <article class="card mb-3">
+                <div class="card-body">
+                    <h3 class="h6"><%= review.reviewer.full_name %></h3>
+                    <p>Rating: <%= review.rating %> / 5</p>
+                    <p><%= review.comment %></p>
+                </div>
+            </article>
+        <% end %>
+    <% end %>
+
+    <div class="mt-4 d-flex gap-2 align-items-center">
+        <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-warning text-dark" %>
+        
+        <%= button_to "Delete", listing_path(@listing), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this listing?" }, class: "btn btn-outline-danger" %>
+
+        <%= link_to "Back to properties", properties_path, class: "btn btn-outline-secondary" %>
+    </div>
+>>>>>>> f85dde4 (Assignment 4)
 </div>

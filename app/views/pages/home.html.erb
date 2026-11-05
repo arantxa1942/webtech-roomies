@@ -38,24 +38,24 @@
 
 <section id="busqueda" class="container py-5">
     <h2 class="text-center">Search</h2>
-    <form class="row g-3">
+    <%= form_with url: listings_path, method: :get, local: true, class: "row g-3" do |f| %>
         <div class="col-md-4">
-            <label for="barrio" class="form-label">Neighborhood</label>
-            <input type="text" id="barrio" name="barrio" class="form-control" placeholder="ej. providencia">
+            <%= f.label :neighborhood_id, "Neighborhood", class: "form-label" %>
+            <%= f.select :neighborhood_id, Neighborhood.all.collect { |n| [n.name, n.id] }, { include_blank: "All Neighborhoods" }, class: "form-control" %>
         </div>
  
         <div class="col-md-4">
-            <label for="arriendo" class="form-label">Maximum rent</label>
-            <input type="number" id="arriendo" name="arriendo" class="form-control" placeholder="300000">
+            <%= f.label :max_rent, "Maximum rent", class: "form-label" %>
+            <%= f.number_field :max_rent, class: "form-control", placeholder: "300000" %>
         </div>
  
         <div class="col-md-4">
-            <label for="fecha" class="form-label">Availability date</label>
-            <input type="date" id="fecha" name="fecha" class="form-control">
+            <%= f.label :move_in_date, "Availability date", class: "form-label" %>
+            <%= f.date_field :move_in_date, class: "form-control" %>
         </div>
  
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <%= f.submit "Search", class: "btn btn-primary" %>
         </div>
-    </form>
+    <% end %>
 </section>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Listing < ApplicationRecord
   MAX_PHOTO_SIZE = 5.megabytes
   ALLOWED_PHOTO_TYPES = %w[image/jpeg image/png image/webp].freeze
@@ -81,3 +82,38 @@ class Listing < ApplicationRecord
     end
   end
 end
+=======
+class Listing < ApplicationRecord
+belongs_to :property
+  
+  # Callback para asignar "published" por defecto a los nuevos listings
+  before_validation :set_default_status, on: :create
+
+  private
+
+  def set_default_status
+    self.status ||= "published"
+  end
+
+  has_many_attached :photos, dependent: :destroy
+  has_many :applications, dependent: :destroy
+  has_many :saved_listings, dependent: :destroy
+  has_many :reports, dependent: :destroy
+  after_initialize :set_default_status, if: :new_record?
+  has_rich_text :description
+  has_rich_text :house_rules
+
+  enum :status, {
+    draft: "draft",
+    published: "published",
+    reserved: "reserved",
+    rented: "rented",
+    withdrawn: "withdrawn"
+  }, validate: true
+
+  validates :title, :available_from, presence: true
+  validates :monthly_rent, numericality: { greater_than: 0 }
+  validates :deposit, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :minimum_stay, numericality: { only_integer: true, greater_than_or_equal_to: 1 }, allow_nil: true
+end
+>>>>>>> f85dde4 (Assignment 4)

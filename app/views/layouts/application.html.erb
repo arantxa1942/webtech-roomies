@@ -30,7 +30,7 @@
         <div class="container flex-wrap gap-2">
           <%= link_to "Roomies", root_path, class: "navbar-brand" %>
 
-          <ul class="navbar-nav flex-row flex-wrap gap-3">
+          <ul class="navbar-nav flex-row flex-wrap gap-3 ms-auto align-items-center">
             <li class="nav-item">
               <%= link_to "Search", listings_path, class: "nav-link" %>
             </li>
@@ -41,9 +41,28 @@
               <%= link_to "Neighborhoods", neighborhoods_path, class: "nav-link" %>
             </li>
             <li class="nav-item">
+<<<<<<< HEAD
               <%= link_to "Amenities", amenities_path, class: "nav-link" %>
             </li>
             <li class="nav-item"><%= link_to "Inbox", applications_path, class: "nav-link" %></li>
+=======
+              <%= link_to "Applications", applications_path, class: "nav-link" %>
+            </li>
+
+            <!-- Botones dinámicos de sesión -->
+            <% if Current.user %>
+              <li class="nav-item text-muted small align-self-center">
+                <%= Current.user.email %>
+              </li>
+              <li class="nav-item">
+                <%= button_to "Cerrar sesión", session_path, method: :delete, class: "btn btn-outline-danger btn-sm border-0 bg-transparent" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Iniciar sesión", new_session_path, class: "btn btn-primary btn-sm" %>
+              </li>
+            <% end %>
+>>>>>>> f85dde4 (Assignment 4)
           </ul>
           <%= form_with url: current_user_path, method: :patch, class: "d-flex flex-wrap align-items-center gap-2" do %>
             <%= label_tag :user_id, "Acting as", class: "form-label mb-0" %>

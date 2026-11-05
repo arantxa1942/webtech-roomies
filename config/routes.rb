@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   root "pages#home"
@@ -37,3 +38,18 @@ Rails.application.routes.draw do
     end
   end
 end
+=======
+Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
+  root "pages#home"
+  resource :session, only: [:new, :create, :destroy]
+  resources :properties
+  resources :listings do
+    resources :applications, only: [:create, :update, :destroy]
+  end
+  resources :neighborhoods
+  resources :applications, only: [:index, :show]
+  resources :visits
+  resources :reviews
+end
+>>>>>>> f85dde4 (Assignment 4)
