@@ -9,6 +9,9 @@ module Authentication
   class_methods do
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
+      # Public pages must still know who is signed in (e.g. a host viewing
+      # their own draft listing), so the session is resumed without forcing it.
+      before_action :resume_session, **options
     end
   end
 

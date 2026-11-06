@@ -1,0 +1,64 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="h3 mb-4 fw-normal text-center">Sign up</h1>
+
+        <%= form_with model: @user, url: users_path do |form| %>
+          <div class="mb-3">
+            <%= form.label :full_name, "Full name", class: "form-label" %>
+            <%= form.text_field :full_name, required: true, autofocus: true, placeholder: "Your name",
+                  class: "form-control #{invalid_class(@user, :full_name)}" %>
+            <%= field_errors(@user, :full_name) %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :email_address, "Email address", class: "form-label" %>
+            <%= form.email_field :email_address, required: true, autocomplete: "email",
+                  placeholder: "you@example.com",
+                  class: "form-control #{invalid_class(@user, :email_address)}" %>
+            <%= field_errors(@user, :email_address) %>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <%= form.label :password, class: "form-label" %>
+              <%= form.password_field :password, required: true, autocomplete: "new-password",
+                    minlength: 8, maxlength: 72, placeholder: "At least 8 characters",
+                    class: "form-control #{invalid_class(@user, :password)}" %>
+              <%= field_errors(@user, :password) %>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <%= form.label :password_confirmation, "Confirm password", class: "form-label" %>
+              <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password",
+                    maxlength: 72, placeholder: "Repeat your password",
+                    class: "form-control #{invalid_class(@user, :password_confirmation)}" %>
+              <%= field_errors(@user, :password_confirmation) %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :contact_details, "Contact details", class: "form-label" %>
+            <%= form.text_area :contact_details, rows: 2, placeholder: "Phone, WhatsApp...",
+                  class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :bio, "Short bio", class: "form-label" %>
+            <%= form.text_area :bio, rows: 3, placeholder: "Tell hosts and seekers a bit about yourself",
+                  class: "form-control" %>
+          </div>
+
+          <div class="mb-3 d-grid">
+            <%= form.submit "Create account", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+
+        <p class="text-center mt-3 mb-0">
+          Already have an account? <%= link_to "Sign in", new_session_path %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -34,14 +34,14 @@
 
       <div class="d-flex gap-2 mt-3">
         <% if @visit.proposed? %>
-          <%= button_to "Confirm visit", confirm_application_visit_path(@application),
+          <%= button_to "Confirm visit", confirm_application_visit_path(@application, @visit),
                 method: :patch, class: "btn btn-success" %>
         <% end %>
         <% if @visit.confirmed? %>
-          <%= button_to "Mark as completed", complete_application_visit_path(@application),
+          <%= button_to "Mark as completed", complete_application_visit_path(@application, @visit),
                 method: :patch, class: "btn btn-primary" %>
         <% end %>
-        <%= button_to "Cancel visit", cancel_application_visit_path(@application),
+        <%= button_to "Cancel visit", cancel_application_visit_path(@application, @visit),
               method: :patch, class: "btn btn-outline-danger",
               form: { data: { turbo_confirm: "Cancel this visit?" } } %>
       </div>

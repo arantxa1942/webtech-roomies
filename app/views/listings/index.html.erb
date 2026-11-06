@@ -1,8 +1,32 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Published listings</h1>
-    <%= link_to "New listing", new_listing_path, class: "btn btn-primary" %>
+    <% if authenticated? %>
+      <%= link_to "New listing", new_listing_path, class: "btn btn-primary" %>
+    <% end %>
   </div>
+
+  <%= form_with url: listings_path, method: :get, class: "row g-3 mb-4" do |f| %>
+    <div class="col-md-4">
+      <%= f.label :neighborhood_id, "Neighborhood", class: "form-label" %>
+      <%= f.collection_select :neighborhood_id, Neighborhood.order(:name), :id, :name,
+            { include_blank: "All neighborhoods", selected: params[:neighborhood_id] },
+            { class: "form-select" } %>
+    </div>
+    <div class="col-md-3">
+      <%= f.label :max_rent, "Maximum rent", class: "form-label" %>
+      <%= f.number_field :max_rent, value: params[:max_rent], min: 0, step: 1000,
+            placeholder: "400000", class: "form-control" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.label :move_in_date, "Move-in date", class: "form-label" %>
+      <%= f.date_field :move_in_date, value: params[:move_in_date], class: "form-control" %>
+    </div>
+    <div class="col-md-2 d-flex align-items-end gap-2">
+      <%= f.submit "Search", class: "btn btn-primary" %>
+      <%= link_to "Clear", listings_path, class: "btn btn-outline-secondary" %>
+    </div>
+  <% end %>
 
   <% if @listings.empty? %>
     <p>No published listings are available.</p>

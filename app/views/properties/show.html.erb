@@ -13,8 +13,8 @@
       <% end %>
     </div>
 
-    <% carlos = User.find_by(email_address: "carlos@roomies.cl") %>
-    <% if carlos.present? && @property.owner_id == carlos.id %>
+    <% is_host = current_user.present? && @property.owner_id == current_user.id %>
+    <% if is_host %>
       <div class="d-flex gap-2">
         <%= link_to "Edit property",
               edit_property_path(@property),
@@ -44,7 +44,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
       <h2 class="h4 mb-0">Listings</h2>
 
-      <% if carlos.present? && @property.owner_id == carlos.id %>
+      <% if is_host %>
         <%= link_to "New listing",
               new_listing_path(property_id: @property.id),
               class: "btn btn-primary btn-sm" %>

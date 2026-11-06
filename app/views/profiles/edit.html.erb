@@ -5,29 +5,28 @@
         <h1 class="h3 mb-4 fw-normal text-center">Edit profile</h1>
 
         <%= form_with model: current_user, url: profile_path, method: :patch do |form| %>
-          <% if current_user.errors.any? %>
-            <div class="alert alert-danger">
-              <ul class="mb-0">
-                <% current_user.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-
-            <div class="mb-3">
-            <%= form.label :full_name, "Name", class: "form-label" %>
-            <%= form.text_field :full_name, class: "form-control" %>
-            </div>
-
           <div class="mb-3">
-            <%= form.label :contact_details, class: "form-label" %>
-            <%= form.text_area :contact_details, class: "form-control", rows: 2 %>
+            <%= form.label :full_name, "Full name", class: "form-label" %>
+            <%= form.text_field :full_name, required: true,
+                  class: "form-control #{invalid_class(current_user, :full_name)}" %>
+            <%= field_errors(current_user, :full_name) %>
           </div>
 
           <div class="mb-3">
-            <%= form.label :bio, class: "form-label" %>
-            <%= form.text_area :bio, class: "form-control", rows: 3 %>
+            <%= form.label :email_address, "Email address", class: "form-label" %>
+            <%= form.email_field :email_address, disabled: true, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :contact_details, "Contact details", class: "form-label" %>
+            <%= form.text_area :contact_details, rows: 2, placeholder: "Phone, WhatsApp...",
+                  class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :bio, "Short bio", class: "form-label" %>
+            <%= form.text_area :bio, rows: 3, placeholder: "Tell hosts and seekers a bit about yourself",
+                  class: "form-control" %>
           </div>
 
           <div class="mb-3 d-grid">

@@ -17,15 +17,22 @@ class ApplicationsController < ApplicationController
   def create
     @listing = Listing.find(params[:listing_id])
     @application = @listing.applications.build(application_params)
-    @application.user = current_user
+    @application.applicant = current_user
 
     if @application.save
+      if turbo_frame_request?
+        # Turbo Frame: only the application block is replaced, in place.
+        render_application_block(@application)
+      else
         redirect_to @listing, notice: "Application submitted successfully."
+      end
+    elsif turbo_frame_request?
+      render_application_block(@application, status: :unprocessable_entity)
     else
-        # Redirigimos de vuelta mostrando por qué falló la validación
-        redirect_to @listing, alert: "Error: #{@application.errors.full_messages.to_sentence}"
+      redirect_to @listing, alert: "Error: #{@application.errors.full_messages.to_sentence}"
     end
   end
+
   def shortlist
     respond_to_transition(:shortlist!, "Application shortlisted.")
   end
@@ -40,7 +47,12 @@ class ApplicationsController < ApplicationController
 
   def withdraw
     @application.withdraw!
-    redirect_to listing_path(@application.listing), notice: "Application withdrawn."
+
+    if turbo_frame_request?
+      render_application_block(@application)
+    else
+      redirect_to listing_path(@application.listing), notice: "Application withdrawn."
+    end
   rescue ActiveRecord::RecordInvalid => e
     redirect_to listing_path(@application.listing), alert: e.record.errors.full_messages.to_sentence
   end
@@ -50,6 +62,13 @@ class ApplicationsController < ApplicationController
   def set_application
     @application = Application.includes(listing: :property).find(params[:id])
   end
+
+  def render_application_block(application, status: :ok)
+    render partial: "applications/application_block",
+           locals: { listing: application.listing, application: application },
+           status: status
+  end
+
   def application_params
     params.fetch(:application, {}).permit(:message, :move_in_date, :stay_length)
   end
@@ -81,13 +100,12 @@ class ApplicationsController < ApplicationController
                                 .pending.count
   end
 
-def respond_to_transition(action, message)
+  def respond_to_transition(action, message)
     begin
       @application.public_send(action)
-      
-      # 🚀 AQUÍ AGREGAMOS EL DISPARO DEL JOB DE NOTIFICACIÓN ASÍNCRONA
-      ApplicationNotificationJob.perform_later(@application.id)
 
+      # Notify the applicant through Active Job (never inside the request).
+      ApplicationNotificationJob.perform_later(@application.id)
     rescue ActiveRecord::RecordInvalid => e
       return respond_with_error(e.record.errors.full_messages.to_sentence)
     end

@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
   resources :passwords, param: :token
+  resources :users, only: %i[new create]
   get "up" => "rails/health#show", as: :rails_health_check
   root "pages#home"
   resource :profile, only: %i[edit update]
-  resource :current_user, only: :update
 
   resources :properties do
     resources :reviews, only: [:new, :create, :edit, :update, :destroy]

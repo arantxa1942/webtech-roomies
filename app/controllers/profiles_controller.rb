@@ -4,8 +4,9 @@ class ProfilesController < ApplicationController
 
   def update
     if current_user.update(profile_params)
-      redirect_to root_path, notice: "Profile updated successfully."
+      redirect_to edit_profile_path, notice: "Profile updated successfully."
     else
+      flash.now[:alert] = "Could not update your profile."
       render :edit, status: :unprocessable_entity
     end
   end
@@ -13,7 +14,6 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    # Reemplazamos :name por :full_name (y mantenemos los demás campos del formulario)
-    params.require(:user).permit(:full_name, :phone, :bio, :contact_details)
+    params.require(:user).permit(:full_name, :bio, :contact_details)
   end
 end

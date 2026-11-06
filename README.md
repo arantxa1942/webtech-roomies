@@ -81,5 +81,29 @@ webtech-roomies/
   images are accepted, with a **maximum of 5 MB per file**. Cards use the `:card` variant
   (400×300) and the listing page uses the `:large` variant (max 1200×900).
 * **Rich text (Action Text):** listing description and house rules.
-* **Acting as a user:** use the select in the navigation bar (no authentication yet).
+* **Acting as a user:** replaced in Assignment 4 by real accounts (see below).
 * **Listing lifecycle:** draft → published → reserved → rented; withdrawn from draft, published or reserved.
+
+## Assignment 4 — Authentication (part 1)
+
+* **Authentication:** native Rails 8 generator (`Session`, `Current`, `Authentication` concern) plus
+  sign up (`/users/new`), sign in, sign out, password reset by email and an editable profile
+  (name, contact details, short bio). All views are styled with Bootstrap.
+* **Public part (no account needed):** landing page, search and listing pages, property pages and
+  reviews. Everything else redirects to the sign-in page.
+* **Roles:** `member` (default for every new account) and `moderator`. The *visitor* is not a role:
+  it is simply not being signed in.
+* **Password reset emails in development:** emails are written to `tmp/mails/` (open the newest
+  file to copy the reset link). In production configure SMTP in `config/environments/production.rb`.
+* **New setup step:** run `bin/rails db:migrate` (adds the default `member` role) and then
+  `bin/rails db:seed`.
+
+### Seed credentials (all passwords: `password123`)
+
+| Email | Role | Notes |
+|-------|------|-------|
+| `carlos@roomies.cl` | member | Host of the Providencia property |
+| `valeria@roomies.cl` | member | Host of the Las Condes property |
+| `mateo@gmail.com` | member | Seeker with applications and a completed visit |
+| `camila@gmail.com` | member | Seeker with a shortlisted application |
+| `moderator@roomies.cl` | moderator | Moderator |

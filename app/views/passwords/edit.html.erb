@@ -4,10 +4,6 @@
       <div class="card-body p-4">
         <h1 class="h3 mb-4 fw-normal text-center">New password</h1>
 
-        <% if alert.present? %>
-          <div class="alert alert-danger" role="alert"><%= alert %></div>
-        <% end %>
-
         <%= form_with url: password_path(params[:token]), method: :patch do |form| %>
           <div class="mb-3">
             <%= form.label :password, "New password", class: "form-label" %>

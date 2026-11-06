@@ -4,6 +4,11 @@
   <% if application&.persisted? %>
     <section>
       <h2 class="h4">Your application</h2>
+      <% if application.pending? %>
+        <div class="alert alert-success py-2" role="status">
+          Application sent. The host will review it soon.
+        </div>
+      <% end %>
       <p>Status: <strong><%= application.status.humanize %></strong></p>
       <p class="mb-2">
         Move-in: <%= application.move_in_date %> · Stay: <%= application.stay_length %> months
@@ -18,6 +23,12 @@
 
   <% elsif is_host %>
     <p class="text-muted">You cannot apply to a listing for your own property.</p>
+
+  <% elsif listing.published? && current_user.nil? %>
+    <p class="text-muted mb-0">
+      <%= link_to "Sign in", new_session_path, data: { turbo_frame: "_top" } %> or
+      <%= link_to "create an account", new_user_path, data: { turbo_frame: "_top" } %> to apply for this room.
+    </p>
 
   <% elsif listing.published? %>
     <section>

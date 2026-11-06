@@ -2,7 +2,6 @@ class Application < ApplicationRecord
   belongs_to :listing
   belongs_to :applicant, class_name: "User"
   has_one :visit, dependent: :destroy
-  belongs_to :user, foreign_key: "applicant_id", class_name: "User"
   enum :status, {
     pending: "pending",
     shortlisted: "shortlisted",
@@ -10,8 +9,6 @@ class Application < ApplicationRecord
     rejected: "rejected",
     withdrawn: "withdrawn"
   }, validate: true
-
-  scope :pending, -> { where(status: "pending") }
 
   validates :message, :move_in_date, :stay_length, presence: true
   validates :stay_length, numericality: { only_integer: true, greater_than: 0 }

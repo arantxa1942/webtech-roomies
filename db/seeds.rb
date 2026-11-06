@@ -1,6 +1,6 @@
 puts "Cleaning the database..."
 ActiveStorage::Attachment.find_each(&:purge) rescue nil
-[ Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, User ].each do |model|
+[ Report, SavedListing, Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, Session, User ].each do |model|
   model.destroy_all if defined?(model)
 end
 
@@ -13,14 +13,14 @@ host1 = User.create!(
   full_name: "Carlos Mendoza",
   email_address: "carlos@roomies.cl",
   password: "password123", 
-  role: "host",
+  role: "member",
   created_at: Time.current
 )
 host2 = User.create!(
   full_name: "Valeria Gómez",
   email_address: "valeria@roomies.cl",
   password: "password123",
-  role: "host",
+  role: "member",
   created_at: Time.current
 )
 
@@ -28,15 +28,22 @@ seeker1 = User.create!(
   full_name: "Mateo Silva",
   email_address: "mateo@gmail.com",
   password: "password123", 
-  role: "seeker",
+  role: "member",
   created_at: Time.current
 )
 seeker2 = User.create!(
   full_name: "Camila Rojas",
   email_address: "camila@gmail.com",
   password: "password123", 
-  role: "seeker",
+  role: "member",
   created_at: Time.current
+)
+
+moderator = User.create!(
+  full_name: "Moderator Roomies",
+  email_address: "moderator@roomies.cl",
+  password: "password123",
+  role: "moderator"
 )
 
 puts "Creating Amenities..."

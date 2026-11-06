@@ -1,7 +1,9 @@
 class PropertiesController < ApplicationController
+  allow_unauthenticated_access only: %i[index show]
+
   before_action :set_property, only: %i[show edit update destroy]
   before_action :require_owner!, only: %i[edit update destroy]
-  allow_unauthenticated_access only: [:show]
+
   def index
     @properties = Property.includes(:neighborhood).order(:title)
   end

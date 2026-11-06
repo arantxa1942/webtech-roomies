@@ -59,12 +59,15 @@
 
   <div class="mb-3">
     <%= f.label :description, class: "form-label" %>
-    <%= f.text_area :description %>
+    <%= f.rich_text_area :description, placeholder: "Describe the room: size, light, who lives in the house..." %>
   </div>
 
   <div class="mb-3">
-    <%= f.label :house_rules, class: "form-label" %>
-    <%= f.text_area :house_rules %>
+    <%= f.label :house_rules, "House rules", class: "form-label" %>
+    <%= f.rich_text_area :house_rules, placeholder: "Quiet hours, guests, smoking, pets..." %>
+  </div>
+
+  <div class="mb-3">
     <% if listing.persisted? && listing.photos_attachments.any? %>
       <div class="row g-2 mt-2">
         <% listing.photos_attachments.each do |photo| %>
