@@ -1,0 +1,51 @@
+<div class="container py-4">
+  <h1 class="mb-4">Reports</h1>
+
+  <% if @reports.empty? %>
+    <p class="text-muted">There are no reports.</p>
+  <% else %>
+    <% @reports.each do |report| %>
+      <article class="card mb-3 shadow-sm <%= "border-warning" if report.pending? %>">
+        <div class="card-body">
+          <div class="d-flex justify-content-between flex-wrap gap-2">
+            <h2 class="h6 mb-1">
+              <%= link_to report.listing.title, listing_path(report.listing) %>
+            </h2>
+            <span class="badge <%= report.pending? ? "text-bg-warning" : "text-bg-secondary" %>">
+              <%= report.status.humanize %>
+            </span>
+          </div>
+
+          <p class="text-muted small mb-2">
+            Reported by <%= report.reporter.full_name %>
+            on <%= l(report.created_at, format: :long) %>
+          </p>
+          <p class="mb-3"><%= report.reason %></p>
+
+          <% if report.pending? && policy(report).resolve? %>
+            <%= form_with model: report, url: resolve_report_path(report), method: :patch do |form| %>
+              <div class="mb-2">
+                <%= form.text_area :moderator_notes, rows: 2, class: "form-control",
+                      placeholder: "Notes for the record (optional)" %>
+              </div>
+              <div class="d-flex gap-2">
+                <%= form.button "Mark as reviewed", name: "report[status]", value: "reviewed",
+                      class: "btn btn-sm btn-success" %>
+                <%= form.button "Dismiss", name: "report[status]", value: "dismissed",
+                      class: "btn btn-sm btn-outline-secondary" %>
+              </div>
+            <% end %>
+          <% elsif !report.pending? %>
+            <p class="small text-muted mb-0">
+              <%= report.status.humanize %> by <%= report.moderator&.full_name %>
+              on <%= l(report.reviewed_at, format: :long) if report.reviewed_at %>.
+              <% if report.moderator_notes.present? %>
+                Notes: <%= report.moderator_notes %>
+              <% end %>
+            </p>
+          <% end %>
+        </div>
+      </article>
+    <% end %>
+  <% end %>
+</div>

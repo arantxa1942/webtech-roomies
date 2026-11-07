@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_after_action :verify_authorized
   allow_unauthenticated_access only: %i[new create]
   before_action :redirect_if_signed_in, only: %i[new create]
 

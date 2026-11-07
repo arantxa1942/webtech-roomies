@@ -1,6 +1,6 @@
 <div class="container py-4">
   <h1>Application details</h1>
-  <% is_host = @application.listing.property.owner_id == current_user&.id %>
+  <% is_host = policy(@application).shortlist? %>
 
   <p>Applicant: <%= @application.applicant.full_name %></p>
   <p>Listing: <%= link_to @application.listing.title, listing_path(@application.listing) %></p>
@@ -28,26 +28,29 @@
     <p>Status: <%= @visit.status.humanize %></p>
     <p><%= @visit.notes %></p>
 
-    <% if is_host && (@visit.proposed? || @visit.confirmed?) %>
+    <% if (@visit.proposed? || @visit.confirmed?) && policy(@visit).update? %>
       <h3 class="h6">Reschedule</h3>
       <%= render "visits/form", visit: @visit, application: @application %>
 
       <div class="d-flex gap-2 mt-3">
-        <% if @visit.proposed? %>
+        <% if @visit.proposed? && policy(@visit).confirm? %>
           <%= button_to "Confirm visit", confirm_application_visit_path(@application, @visit),
                 method: :patch, class: "btn btn-success" %>
         <% end %>
-        <% if @visit.confirmed? %>
+        <% if @visit.confirmed? && policy(@visit).complete? %>
           <%= button_to "Mark as completed", complete_application_visit_path(@application, @visit),
                 method: :patch, class: "btn btn-primary" %>
         <% end %>
-        <%= button_to "Cancel visit", cancel_application_visit_path(@application, @visit),
-              method: :patch, class: "btn btn-outline-danger",
-              form: { data: { turbo_confirm: "Cancel this visit?" } } %>
+        <% if policy(@visit).cancel? %>
+          <%= button_to "Cancel visit", cancel_application_visit_path(@application, @visit),
+                method: :patch, class: "btn btn-outline-danger",
+                form: { data: { turbo_confirm: "Cancel this visit?" } } %>
+        <% end %>
       </div>
     <% end %>
 
-  <% elsif is_host && @application.shortlisted? %>
+  <% elsif @application.shortlisted? && policy(Visit.new(application: @application)).create? %>
+    <h3 class="h6">Propose a visit</h3>
     <%= render "visits/form", visit: (@visit || Visit.new), application: @application %>
   <% else %>
     <p>No visit has been scheduled.</p>

@@ -2,13 +2,13 @@ class ApplicationsController < ApplicationController
   include ActionView::RecordIdentifier
 
   before_action :set_application, only: %i[show shortlist reject accept withdraw]
-  before_action :authorize_application_view!, only: :show
-  before_action :authorize_host!, only: %i[shortlist reject accept]
-  before_action :authorize_applicant!, only: :withdraw
+ 
 
   def index
+    authorize Application
     load_inbox
   end
+
 
   def show
     @visit = @application.visit
@@ -18,7 +18,7 @@ class ApplicationsController < ApplicationController
     @listing = Listing.find(params[:listing_id])
     @application = @listing.applications.build(application_params)
     @application.applicant = current_user
-
+    authorize @application
     if @application.save
       if turbo_frame_request?
         # Turbo Frame: only the application block is replaced, in place.
@@ -58,9 +58,19 @@ class ApplicationsController < ApplicationController
   end
 
   private
+  def load_inbox
+    visible = policy_scope(Application).includes(:applicant, listing: :property).order(created_at: :desc)
 
+    @applications = visible.joins(listing: :property).where(properties: { owner_id: current_user.id })
+    @pending_count = @applications.pending.count
+
+    @my_applications = visible.where(applicant_id: current_user.id)
+
+    @all_applications = visible if current_user.moderator?
+  end
   def set_application
-    @application = Application.includes(listing: :property).find(params[:id])
+    @application = policy_scope(Application).includes(listing: :property).find(params[:id])
+    authorize @application
   end
 
   def render_application_block(application, status: :ok)
@@ -73,38 +83,11 @@ class ApplicationsController < ApplicationController
     params.fetch(:application, {}).permit(:message, :move_in_date, :stay_length)
   end
 
-  def authorize_host!
-    return if @application.listing.property.owner_id == current_user&.id
-    redirect_to root_path, alert: "You are not allowed to manage this application."
-  end
-
-  def authorize_applicant!
-    return if @application.applicant_id == current_user&.id
-    redirect_to root_path, alert: "You are not allowed to withdraw this application."
-  end
-
-  def authorize_application_view!
-    allowed = @application.applicant_id == current_user&.id ||
-              @application.listing.property.owner_id == current_user&.id
-    redirect_to root_path, alert: "You are not allowed to view this application." unless allowed
-  end
-
-  def load_inbox
-    @applications = Application
-      .joins(listing: :property)
-      .where(properties: { owner_id: current_user&.id })
-      .includes(:applicant, listing: :property)
-      .order(created_at: :desc)
-    @pending_count = Application.joins(listing: :property)
-                                .where(properties: { owner_id: current_user&.id })
-                                .pending.count
-  end
 
   def respond_to_transition(action, message)
     begin
       @application.public_send(action)
 
-      # Notify the applicant through Active Job (never inside the request).
       ApplicationNotificationJob.perform_later(@application.id)
     rescue ActiveRecord::RecordInvalid => e
       return respond_with_error(e.record.errors.full_messages.to_sentence)

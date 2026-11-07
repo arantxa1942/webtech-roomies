@@ -1,0 +1,11 @@
+<p>Hello <%= @application.applicant.full_name %>,</p>
+
+<p>
+  The status of your application for
+  <strong><%= @application.listing.title %></strong>
+  has been updated.
+</p>
+
+<p>Current status: <strong><%= @application.status.humanize %></strong></p>
+
+<p><%= link_to "View the listing", listing_url(@application.listing) %></p>

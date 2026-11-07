@@ -5,15 +5,19 @@
       <p>City: <%= @neighborhood.city %></p>
     </div>
 
-    <div class="d-flex gap-2">
-      <%= link_to "Edit", edit_neighborhood_path(@neighborhood),
-            class: "btn btn-warning" %>
-      <%= button_to "Delete",
-            neighborhood_path(@neighborhood),
-            method: :delete,
-            class: "btn btn-danger",
-            form: { data: { turbo_confirm: "Delete this neighborhood?" } } %>
-    </div>
+    <% if policy(@neighborhood).update? %>
+      <div class="d-flex gap-2">
+        <%= link_to "Edit", edit_neighborhood_path(@neighborhood),
+              class: "btn btn-warning" %>
+        <% if policy(@neighborhood).destroy? %>
+          <%= button_to "Delete",
+                neighborhood_path(@neighborhood),
+                method: :delete,
+                class: "btn btn-danger",
+                form: { data: { turbo_confirm: "Delete this neighborhood?" } } %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <h2 class="h4 mt-4">Properties</h2>

@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h3 mb-2">Report a listing</h1>
+          <p class="text-muted mb-4">
+            Listing: <%= link_to @listing.title, listing_path(@listing) %>
+          </p>
+
+          <%= form_with model: @report, url: listing_reports_path(@listing) do |form| %>
+            <div class="mb-3">
+              <%= form.label :reason, "What is wrong with this listing?", class: "form-label" %>
+              <%= form.text_area :reason, rows: 4, required: true, minlength: 10,
+                    placeholder: "Misleading photos, fake address, offensive content...",
+                    class: "form-control #{invalid_class(@report, :reason)}" %>
+              <%= field_errors(@report, :reason) %>
+            </div>
+
+            <div class="d-flex gap-2">
+              <%= form.submit "Send report", class: "btn btn-danger" %>
+              <%= link_to "Cancel", listing_path(@listing), class: "btn btn-outline-secondary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

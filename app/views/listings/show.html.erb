@@ -9,7 +9,7 @@
     </div>
 
     <%# Host actions change with the state of the listing %>
-    <% if is_host %>
+    <% if policy(@listing).update? %>
       <div class="d-flex flex-wrap gap-2">
         <%= link_to "Edit listing", edit_listing_path(@listing), class: "btn btn-warning" %>
 
@@ -99,7 +99,10 @@
     </div>
   </div>
 
-  <div class="mt-4">
+  <div class="mt-4 d-flex gap-2">
     <%= link_to "Back to property", property_path(@property), class: "btn btn-outline-secondary" %>
+    <% if policy(Report.new(listing: @listing)).create? %>
+      <%= link_to "Report this listing", new_listing_report_path(@listing), class: "btn btn-outline-danger" %>
+    <% end %>
   </div>
 </div>

@@ -1,11 +1,12 @@
 <div class="container py-4">
+
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>Applications inbox</h1>
     <%= render "applications/pending_count", pending_count: @pending_count %>
   </div>
 
   <% if @applications.empty? %>
-    <p>No applications available.</p>
+    <p class="text-muted">No applications received on your listings.</p>
   <% else %>
     <div class="table-responsive">
       <table class="table align-middle">
@@ -21,4 +22,53 @@
       </table>
     </div>
   <% end %>
+
+  <h2 class="h3 mt-5 mb-3">My applications</h2>
+
+  <% if @my_applications.empty? %>
+    <p class="text-muted">You have not applied to any listing yet.</p>
+  <% else %>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Listing</th><th>Move-in</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @my_applications.each do |app| %>
+            <tr>
+              <td><%= link_to app.listing.title, listing_path(app.listing) %></td>
+              <td><%= app.move_in_date %></td>
+              <td><span class="badge text-bg-secondary"><%= app.status.humanize %></span></td>
+              <td><%= link_to "View", application_path(app), class: "btn btn-sm btn-outline-primary" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <% if @all_applications %>
+    <h2 class="h3 mt-5 mb-3">All applications (moderator)</h2>
+
+    <% if @all_applications.empty? %>
+      <p class="text-muted">There are no applications.</p>
+    <% else %>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Applicant</th><th>Listing</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "applications/application_row",
+                       collection: @all_applications, as: :application %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  <% end %>
+
 </div>

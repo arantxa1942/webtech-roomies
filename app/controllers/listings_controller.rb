@@ -1,12 +1,11 @@
 class ListingsController < ApplicationController
   allow_unauthenticated_access only: %i[index show]
 
-  before_action :set_listing, only: :show
-  before_action :set_owned_listing, only: %i[edit update destroy publish withdraw mark_rented]
+  before_action :set_listing, only: %i[show edit update destroy publish withdraw mark_rented]
   before_action :load_properties, only: %i[new create edit update]
-
   def index
-    @listings = Listing.published.with_attached_photos.includes(property: :neighborhood)
+    authorize Listing
+    @listings = policy_scope(Listing).published.with_attached_photos.includes(property: :neighborhood)
     @listings = @listings.in_neighborhood(params[:neighborhood_id]) if params[:neighborhood_id].present?
     @listings = @listings.under_rent(max_rent) if max_rent
     @listings = @listings.available_by(move_in_date) if move_in_date
@@ -21,12 +20,14 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new(property_id: params[:property_id])
+    authorize @listing
   end
 
   def create
     @listing = Listing.new(listing_params)
     @listing.property = current_user.properties.find_by(id: params.dig(:listing, :property_id))
     @listing.status = :draft
+    authorize @listing
 
     if @listing.save
       redirect_to @listing, notice: "Listing created as draft."
@@ -39,8 +40,6 @@ class ListingsController < ApplicationController
   def edit; end
 
   def update
-    # Photos are attached separately: assigning an empty file field to a
-    # has_many_attached would otherwise wipe every existing photo.
     @listing.assign_attributes(listing_params.except(:photos))
     @listing.photos.attach(new_photos) if new_photos.any?
 
@@ -77,25 +76,10 @@ class ListingsController < ApplicationController
 
   private
 
-  # A draft is visible only to its host; every other state is public.
   def set_listing
     @listing = Listing.includes(property: :neighborhood).find(params[:id])
     @property = @listing.property
-
-    return unless @listing.draft? && @property.owner_id != current_user&.id
-    redirect_to listings_path, alert: "This listing is not available."
-  end
-
-  def set_owned_listing
-    @listing = Listing.joins(:property)
-                      .where(properties: { owner_id: current_user.id })
-                      .find_by(id: params[:id])
-
-    if @listing
-      @property = @listing.property
-    else
-      redirect_to listings_path, alert: "Only the host can manage this listing."
-    end
+    authorize @listing
   end
 
   def load_properties

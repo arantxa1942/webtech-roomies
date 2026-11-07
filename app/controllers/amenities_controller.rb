@@ -2,7 +2,8 @@ class AmenitiesController < ApplicationController
   before_action :set_amenity, only: %i[show edit update destroy]
 
   def index
-    @amenities = Amenity.order(:category, :name)
+    authorize Amenity
+    @amenities = policy_scope(Amenity).order(:category, :name)
   end
 
   def show
@@ -11,10 +12,13 @@ class AmenitiesController < ApplicationController
 
   def new
     @amenity = Amenity.new
+    authorize @amenity
   end
 
   def create
     @amenity = Amenity.new(amenity_params)
+    authorize @amenity
+    
 
     if @amenity.save
       redirect_to @amenity, notice: "Amenity created."
@@ -47,6 +51,7 @@ class AmenitiesController < ApplicationController
 
   def set_amenity
     @amenity = Amenity.find(params[:id])
+    authorize @amenity
   end
 
   def amenity_params

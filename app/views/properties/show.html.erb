@@ -14,17 +14,19 @@
     </div>
 
     <% is_host = current_user.present? && @property.owner_id == current_user.id %>
-    <% if is_host %>
+    <% if policy(@property).update? %>
       <div class="d-flex gap-2">
         <%= link_to "Edit property",
               edit_property_path(@property),
               class: "btn btn-warning" %>
 
-        <%= button_to "Delete property",
-              property_path(@property),
-              method: :delete,
-              class: "btn btn-danger",
-              form: { data: { turbo_confirm: "Delete this property?" } } %>
+        <% if policy(@property).destroy? %>
+          <%= button_to "Delete property",
+                property_path(@property),
+                method: :delete,
+                class: "btn btn-danger",
+                form: { data: { turbo_confirm: "Delete this property?" } } %>
+        <% end %>
       </div>
     <% end %>
   </div>
@@ -80,19 +82,21 @@
             <p class="mb-2">Rating: <%= review.rating %> / 5</p>
             <p class="mb-2"><%= review.comment %></p>
 
-            <% if current_user.present? && review.reviewer_id == current_user.id %>
-              <div class="d-flex gap-2">
+            <div class="d-flex gap-2">
+              <% if policy(review).update? %>
                 <%= link_to "Edit review",
                       edit_property_review_path(@property, review),
                       class: "btn btn-sm btn-outline-primary" %>
+              <% end %>
 
+              <% if policy(review).destroy? %>
                 <%= button_to "Delete review",
                       property_review_path(@property, review),
                       method: :delete,
                       class: "btn btn-sm btn-outline-danger",
                       form: { data: { turbo_confirm: "Delete this review?" } } %>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
         </article>
       <% end %>

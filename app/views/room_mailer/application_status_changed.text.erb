@@ -1,0 +1,7 @@
+Hello <%= @application.applicant.full_name %>,
+
+The status of your application for "<%= @application.listing.title %>" has been updated.
+
+Current status: <%= @application.status.humanize %>
+
+View the listing: <%= listing_url(@application.listing) %>

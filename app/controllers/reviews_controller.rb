@@ -1,7 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_property
   before_action :set_review, only: %i[edit update destroy]
-  before_action :authorize_reviewer!, only: %i[edit update destroy]
 
   def new
     @visit = completed_visits.find(params[:visit_id])
@@ -9,7 +8,9 @@ class ReviewsController < ApplicationController
       visit: @visit,
       reviewer: current_user
     )
+    authorize @review
   rescue ActiveRecord::RecordNotFound
+    skip_authorization
     redirect_to @property,
                 alert: "You can only review your own completed visits."
   end
@@ -19,6 +20,7 @@ class ReviewsController < ApplicationController
     @review = @property.reviews.build(review_params)
     @review.visit = @visit
     @review.reviewer = current_user
+    authorize @review
 
     if @review.save
       redirect_to @property, notice: "Review submitted."
@@ -61,16 +63,12 @@ class ReviewsController < ApplicationController
     @property = Property.find(params[:property_id])
   end
 
-  def set_review
+ def set_review
     @review = @property.reviews.find(params[:id])
+    authorize @review
   end
 
-  def authorize_reviewer!
-    return if @review.reviewer_id == current_user&.id
-
-    redirect_to @property,
-                alert: "You are not allowed to manage this review."
-  end
+  
 
   def completed_visits
     Visit.joins(application: { listing: :property })

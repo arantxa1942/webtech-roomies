@@ -1,11 +1,10 @@
 class VisitsController < ApplicationController
   before_action :set_application
-  before_action :authorize_host!
-  before_action :set_visit, only: %i[update destroy confirm cancel complete]
-
+  before_action :set_visit, only: %i[update confirm cancel complete]
   def create
     @visit = Visit.new(visit_params)
     @visit.application = @application
+    authorize @visit
 
     if @visit.save
       redirect_to application_path(@application), notice: "Visit proposed."
@@ -50,12 +49,13 @@ class VisitsController < ApplicationController
 
   private
 
-  def set_application
-    @application = Application.includes(listing: :property).find(params[:application_id])
+ def set_application
+    @application = policy_scope(Application).includes(listing: :property).find(params[:application_id])
   end
 
-  def set_visit
+ def set_visit
     @visit = @application.visit || raise(ActiveRecord::RecordNotFound)
+    authorize @visit
   end
 
   def authorize_host!

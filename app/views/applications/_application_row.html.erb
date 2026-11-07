@@ -6,12 +6,12 @@
     <div class="d-flex flex-wrap gap-1">
       <%= link_to "View", application_path(application), class: "btn btn-sm btn-outline-primary" %>
 
-      <% if application.pending? %>
+      <% if application.pending? && policy(application).shortlist? %>
         <%= button_to "Shortlist", shortlist_application_path(application),
               method: :patch, class: "btn btn-sm btn-info" %>
       <% end %>
 
-      <% if application.pending? || application.shortlisted? %>
+      <% if (application.pending? || application.shortlisted?) && policy(application).reject? %>
         <%= button_to "Reject", reject_application_path(application),
               method: :patch, class: "btn btn-sm btn-outline-danger" %>
         <% if application.listing.published? %>

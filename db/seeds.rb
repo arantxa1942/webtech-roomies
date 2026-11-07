@@ -4,39 +4,68 @@ ActiveStorage::Attachment.find_each(&:purge) rescue nil
   model.destroy_all if defined?(model)
 end
 
+[ Report, SavedListing, Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, Session, User ].each do |model|
+  ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
+end
+
+def attach_seed_photo(listing, filename)
+  path = Rails.root.join("app/assets/images", filename)
+  if File.exist?(path)
+    listing.photos.attach(io: File.open(path), filename: filename, content_type: "image/jpeg")
+  end
+rescue => e
+  puts "Skipping photo attachment for #{filename}: #{e.message}"
+end
+
 puts "Creating Neighborhoods..."
 providencia = Neighborhood.create!(name: "Providencia", city: "Santiago")
 las_condes = Neighborhood.create!(name: "Las Condes", city: "Santiago")
 santiago_c = Neighborhood.create!(name: "Santiago Centro", city: "Santiago")
+
 puts "Creating Users..."
 host1 = User.create!(
   full_name: "Carlos Mendoza",
   email_address: "carlos@roomies.cl",
-  password: "password123", 
+  password: "password123",
   role: "member",
-  created_at: Time.current
+  contact_details: "+56 9 1111 2222",
+  bio: "Host in Providencia, renting rooms to students and young professionals."
 )
+
 host2 = User.create!(
   full_name: "Valeria Gómez",
   email_address: "valeria@roomies.cl",
   password: "password123",
   role: "member",
-  created_at: Time.current
+  contact_details: "+56 9 3333 4444",
+  bio: "Architect renting a room in my Las Condes penthouse."
 )
 
 seeker1 = User.create!(
   full_name: "Mateo Silva",
   email_address: "mateo@gmail.com",
-  password: "password123", 
+  password: "password123",
   role: "member",
-  created_at: Time.current
+  contact_details: "+56 9 5555 6666",
+  bio: "University student looking for a room near the metro."
 )
+
 seeker2 = User.create!(
   full_name: "Camila Rojas",
   email_address: "camila@gmail.com",
-  password: "password123", 
+  password: "password123",
   role: "member",
-  created_at: Time.current
+  contact_details: "+56 9 7777 8888",
+  bio: "Moving to Santiago for work next month."
+)
+
+seeker3 = User.create!(
+  full_name: "Diego Fuentes",
+  email_address: "diego@gmail.com",
+  password: "password123",
+  role: "member",
+  contact_details: "+56 9 5555 1234",
+  bio: "Engineering student looking for a quiet room."
 )
 
 moderator = User.create!(
@@ -64,6 +93,7 @@ prop1 = Property.create!(
   shared_spaces: true,
   property_type: "apartment"
 )
+
 prop2 = Property.create!(
   owner_id: host2.id,
   neighborhood_id: las_condes.id,
@@ -76,7 +106,6 @@ prop2 = Property.create!(
   property_type: "apartment"
 )
 
-puts "Associating Amenities with Properties..."
 prop1.amenities << [ wifi, ac ]
 prop2.amenities << [ wifi, gym, pool ]
 
@@ -109,18 +138,35 @@ listing2 = Listing.create!(
   status: "published"
 )
 
-def attach_seed_photo(listing, filename)
-  path = Rails.root.join("app/assets/images", filename)
-  if File.exist?(path)
-    listing.photos.attach(io: File.open(path), filename: filename, content_type: "image/jpeg")
-  end
-rescue => e
-  puts "Skipping photo attachment for #{filename}: #{e.message}"
-end
+draft_listing = Listing.create!(
+  property_id: prop1.id,
+  title: "Small Room (coming soon)",
+  description: "<div>Still being renovated.</div>",
+  monthly_rent: 250000,
+  deposit: 250000,
+  minimum_stay: 6,
+  available_from: Date.today + 30.days,
+  status: "draft"
+)
+
+listing3 = Listing.create!(
+  property_id: prop2.id,
+  title: "Penthouse Room with Terrace View",
+  description: "<div>Bright room with access to the <strong>terrace</strong>.</div>",
+  house_rules: "<ul><li>No pets</li></ul>",
+  monthly_rent: 520000,
+  deposit: 520000,
+  minimum_stay: 6,
+  furnished: true,
+  private_bathroom: true,
+  available_from: Date.today + 7.days,
+  status: "published"
+)
 
 attach_seed_photo(listing1, "providencia.jpeg")
 attach_seed_photo(listing1, "las-condes.jpeg")
 attach_seed_photo(listing2, "providencia.jpeg")
+attach_seed_photo(listing3, "las-condes.jpeg")
 
 puts "Creating Applications..."
 Application.create!(
@@ -141,6 +187,18 @@ accepted_app = Application.create!(
   move_in_date: Date.today + 12.days, stay_length: 10, status: "shortlisted"
 )
 
+Application.create!(
+  listing_id: listing3.id, applicant_id: seeker2.id,
+  message: "I love the terrace, is it shared with other tenants?",
+  move_in_date: Date.today + 14.days, stay_length: 6, status: "pending"
+)
+
+diego_app = Application.create!(
+  listing_id: listing3.id, applicant_id: seeker3.id,
+  message: "I study nearby and I am looking for a long stay.",
+  move_in_date: Date.today + 10.days, stay_length: 12, status: "shortlisted"
+)
+
 puts "Creating Visits..."
 Visit.create!(
   application: shortlisted_app,
@@ -154,6 +212,13 @@ completed_visit = Visit.create!(
   notes: "Visit successfully completed."
 )
 completed_visit.update_columns(scheduled_at: 3.days.ago, status: "completed")
+
+diego_visit = Visit.create!(
+  application: diego_app,
+  scheduled_at: Time.current + 1.day,
+  notes: "Visit to the penthouse."
+)
+diego_visit.update_columns(scheduled_at: 2.days.ago, status: "completed")
 
 begin
   accepted_app.accept!
@@ -170,4 +235,19 @@ Review.create!(
   comment: "Excellent property and a great host."
 )
 
-puts "Database successfully populated!"
+puts "Creating Reports..."
+Report.create!(
+  listing: listing3, reporter: seeker1,
+  reason: "The photos do not match the address in the listing."
+)
+
+Report.create!(
+  listing: listing1, reporter: seeker2,
+  reason: "The rent shown here is different from what the host told me.",
+  status: "dismissed", moderator: moderator,
+  moderator_notes: "Checked with the host; the listed rent is correct.",
+  reviewed_at: 1.day.ago
+)
+
+puts "Done! Sign in with any of these accounts (password: password123):"
+User.order(:id).each { |u| puts "  #{u.email_address.ljust(24)} #{u.role}" }

@@ -1,4 +1,7 @@
 class Application < ApplicationRecord
+  def self.policy_class
+    RoomApplicationPolicy
+  end
   belongs_to :listing
   belongs_to :applicant, class_name: "User"
   has_one :visit, dependent: :destroy

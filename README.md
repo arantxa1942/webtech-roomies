@@ -41,9 +41,9 @@ Open your browser at http://localhost:3000.
 ## 4. Seed Data Overview (db/seeds.rb)
 Running bin/rails db:seed on an empty database populates the app with realistic sample data representing real Santiago neighborhoods (Providencia, Las Condes, Ñuñoa, Santiago Centro):
 
-Complete Model Coverage: Populates Neighborhood, User (Hosts & Seekers), Property, Amenity, PropertyAmenity, Listing, Application, Visit, and Review.
+Complete Model Coverage: Populates Neighborhood, User (members and a moderator), Property, Amenity, PropertyAmenity, Listing, Application, Visit, Review and Report.
 
-Lifecycles (Enums): Demonstrates listings in draft, published, and archived states; applications in pending, accepted, and rejected states; and visits in scheduled and completed states.
+Lifecycles (Enums): Listings in draft, published and reserved states; applications pending, shortlisted and accepted; visits proposed and completed; reports pending and dismissed.
 
 Many-to-Many Associations: Properties associated with multiple amenities through join tables.
 
@@ -62,18 +62,18 @@ You can view the updated relational diagram here:
 
 ## 6. Repository Structure
 webtech-roomies/
-├── app/                  # Controllers, Models, Views, Layouts, Partials
+├── app/                  
 ├── bin/
-│   └── dev               # Development server startup script (Rails + CSS/JS bundling)
-├── config/               # Routes and application configurations
+│   └── dev               
+├── config/               
 ├── db/
-│   ├── migrate/          # Database migrations with constraints & foreign keys
-│   └── seeds.rb          # Seed file with realistic, complete sample data
-├── photo/                # Pictures used on the landing page
-├── index.html            # Original Assignment 1 static landing page
-├── user-stories.md       # User stories covering core application functionality
-├── design-decisions.md   # Rationale behind architectural & domain decisions
-└── README.md             # Setup guide, structure, seed info & domain model update
+│   ├── migrate/          
+│   └── seeds.rb          
+├── photo/                
+├── index.html            
+├── user-stories.md       
+├── Design Decisions.pdf  
+└── README.md             
 
 ## Assignment 3 — Photos, rich text and business rules
 
@@ -84,26 +84,84 @@ webtech-roomies/
 * **Acting as a user:** replaced in Assignment 4 by real accounts (see below).
 * **Listing lifecycle:** draft → published → reserved → rented; withdrawn from draft, published or reserved.
 
-## Assignment 4 — Authentication (part 1)
+## Assignment 4 — Accounts, roles and permissions
 
-* **Authentication:** native Rails 8 generator (`Session`, `Current`, `Authentication` concern) plus
-  sign up (`/users/new`), sign in, sign out, password reset by email and an editable profile
-  (name, contact details, short bio). All views are styled with Bootstrap.
-* **Public part (no account needed):** landing page, search and listing pages, property pages and
-  reviews. Everything else redirects to the sign-in page.
-* **Roles:** `member` (default for every new account) and `moderator`. The *visitor* is not a role:
-  it is simply not being signed in.
-* **Password reset emails in development:** emails are written to `tmp/mails/` (open the newest
-  file to copy the reset link). In production configure SMTP in `config/environments/production.rb`.
-* **New setup step:** run `bin/rails db:migrate` (adds the default `member` role) and then
-  `bin/rails db:seed`.
+### Setup
+```bash
+bundle install
+bin/rails db:reset   
+bin/dev
+```
+Emails (password reset, application notifications) are written to `tmp/mails/` in development.
+
+### Authentication
+Native Rails 8 generator (`Session`, `Current`, `Authentication` concern) plus sign up, sign in,
+sign out, password reset by email and an editable profile (name, contact details, short bio).
+All views are styled with Bootstrap.
+
+### Roles
+| Role | How you get it | What it means |
+|------|----------------|---------------|
+| **Visitor** | Not signed in (not a value of the enum) | Can browse the landing page, search, listings, properties and reviews. Nothing else. |
+| **Member** | Default for every new account | Hosts their own properties and listings, applies to other people's listings, proposes visits and writes reviews. |
+| **Moderator** | Set in the database / seeds only (never from a form) | Everything a member can do, plus: sees drafts and all applications, edits or deletes any property, listing or review, resolves reports and manages neighborhoods and amenities. |
+
+### Authorization (Pundit)
+Every model that users act on has a policy in `app/policies/`. Policies answer correctly when
+there is no current user (visitor).
+
+| Action | Visitor | Member | Moderator |
+|---|---|---|---|
+| Browse and search published listings | Yes | Yes | Yes |
+| See a draft listing | No | Only their own | Yes |
+| Create a property or a listing | No | Yes | Yes |
+| Edit or delete a property or listing | No | Only their own | Any |
+| Apply to a listing | No | Yes, except on their own | Same as a member |
+| See the applications on a listing | No | On their own listings, plus the ones they wrote | Yes |
+| Shortlist, reject or accept an application | No | Only on their own listings | No |
+| Propose, reschedule, confirm or cancel a visit | No | Host of the listing or the applicant | No |
+| Mark a visit as completed | No | Host of the listing only | No |
+| Write a review | No | Only after their own completed visit | No |
+| Edit a review | No | Only their own | No |
+| Delete a review | No | Only their own | Any |
+| Report a listing | No | Yes | Yes |
+| Resolve a report | No | No | Yes |
+| Manage neighborhoods and amenities | No | No (can view the lists) | Yes |
+| Edit a profile | No | Only their own | Only their own |
+
+**How it is enforced**
+- **Controllers, not buttons.** Every action calls `authorize`; `after_action :verify_authorized`
+  (and `verify_policy_scoped` on `index`) raises in development if one is forgotten. Buttons are
+  hidden with `policy(record).action?` only as a courtesy.
+- **Scopes.** The host inbox, the seeker's list of applications, the moderator's list of reports
+  and the listing search are built from `policy_scope`, so the query only returns permitted records.
+- **No data leaks through URLs.** Applications, visits and reports are looked up inside
+  `policy_scope(...)`, so typing someone else's id returns *Not found* (we do not even confirm the
+  record exists).
+- **Friendly errors.** An unauthorized signed-in user sees an *Access denied* page (HTTP 403)
+  explaining what they tried to do; a visitor is sent to sign in and brought back afterwards.
+  Missing records show a *Not found* page (HTTP 404).
+- The model is called `Application`, which clashes with Pundit's base `ApplicationPolicy`,
+  so it declares `policy_class` → `RoomApplicationPolicy`.
 
 ### Seed credentials (all passwords: `password123`)
+| Email | Role | Use it to check |
+|-------|------|-----------------|
+| `carlos@roomies.cl` | member | Host of the Providencia property: inbox with 3 applications, a **draft** listing, a reserved listing |
+| `valeria@roomies.cl` | member | Host of the Las Condes property: inbox with 2 applications |
+| `mateo@gmail.com` | member | Seeker: one pending application, one accepted with a completed and reviewed visit |
+| `camila@gmail.com` | member | Seeker: shortlisted application with a proposed visit (can confirm or cancel it as the applicant) |
+| `diego@gmail.com` | member | Seeker with a **completed visit and no review yet**: can write a review of Valeria's property |
+| `moderator@roomies.cl` | **moderator** | Sees everything, a pending report to resolve, Neighborhoods and Amenities in the menu |
 
-| Email | Role | Notes |
-|-------|------|-------|
-| `carlos@roomies.cl` | member | Host of the Providencia property |
-| `valeria@roomies.cl` | member | Host of the Las Condes property |
-| `mateo@gmail.com` | member | Seeker with applications and a completed visit |
-| `camila@gmail.com` | member | Seeker with a shortlisted application |
-| `moderator@roomies.cl` | moderator | Moderator |
+### Quick walkthrough
+The seeds restart every id at 1, so after `bin/rails db:seed` these URLs always match:
+1. **Drafts:** as Carlos open `/listings/3` (draft) → visible. As Valeria → *Access denied*. As the moderator → visible and editable. As a visitor → redirected to sign in.
+2. **Applications through the URL:** as Camila open `/applications/1` (Mateo's) → *Not found*.
+3. **Inboxes:** Carlos and Valeria each see only the applications on their own listings under *Applications*; Mateo, Camila and Diego see theirs under *My applications*.
+4. **Visits:** as Camila open `/applications/2` → she can confirm or cancel the visit; only Carlos sees *Mark as completed*.
+5. **Reviews:** as Diego open Valeria's property (`/properties/2`) → *Write a review*. As the moderator, any review shows *Delete* only.
+6. **Reports:** as the moderator open *Reports* → resolve the pending one.
+7. **Moderator-only pages:** as Mateo open `/neighborhoods/new` → *Access denied*.
+
+### JSON API

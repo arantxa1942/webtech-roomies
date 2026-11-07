@@ -2,17 +2,15 @@ class PropertiesController < ApplicationController
   allow_unauthenticated_access only: %i[index show]
 
   before_action :set_property, only: %i[show edit update destroy]
-  before_action :require_owner!, only: %i[edit update destroy]
 
   def index
-    @properties = Property.includes(:neighborhood).order(:title)
+    @properties = policy_scope(Property).includes(:neighborhood).order(:title)
   end
 
   def show
-    @listings = @property.listings
-    unless @property.owner_id == current_user&.id
-      @listings = @listings.where.not(status: :draft)
-    end
+    
+    @listings = policy_scope(@property.listings)
+ 
     @reviews = @property.reviews.includes(:reviewer)
     @reviewable_visits =
       Visit.joins(application: { listing: :property })
@@ -61,12 +59,9 @@ class PropertiesController < ApplicationController
 
   def set_property
     @property = Property.find(params[:id])
+    authorize @property
   end
 
-  def require_owner!
-    return if @property.owner_id == current_user&.id
-    redirect_to @property, alert: "Only the host can modify this property."
-  end
 
   def property_params
     params.require(:property).permit(

@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  skip_after_action :verify_authorized
   allow_unauthenticated_access only: :home
 
   def home

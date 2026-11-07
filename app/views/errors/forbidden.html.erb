@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-danger">
+        <div class="card-body p-4 text-center">
+          <h1 class="h3 mb-3 text-danger">Access denied</h1>
+
+          <p class="lead mb-2"><%= @message %></p>
+          <p class="text-muted mb-4">
+            Your account does not have permission to perform this action.
+            If you think this is a mistake, contact a moderator.
+          </p>
+
+          <div class="d-flex justify-content-center gap-2">
+            <%= link_to "Go back", request.referer || root_path, class: "btn btn-outline-secondary" %>
+            <%= link_to "Home", root_path, class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   root "pages#home"
   resource :profile, only: %i[edit update]
+  resources :neighborhoods
+  resources :amenities
 
   resources :properties do
     resources :reviews, only: [:new, :create, :edit, :update, :destroy]
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
       patch :mark_rented
     end
     resources :applications, only: [:create]
+    resources :reports, only: [:new, :create]
   end
 
   resources :applications, only: [:index, :show] do
@@ -34,7 +37,11 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :reports, only: [:index] do
+    member do
+      patch :resolve
+    end
+  end
 
-  resources :saved_listings, only: [:index, :create, :destroy]
-  resources :reports, only: [:new, :create]
+
 end
