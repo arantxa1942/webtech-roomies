@@ -54,7 +54,7 @@ class VisitsController < ApplicationController
   end
 
  def set_visit
-    @visit = @application.visit || raise(ActiveRecord::RecordNotFound)
+    @visit = Visit.find_by!( id: params[:id], application_id: @application.id )
     authorize @visit
   end
 

@@ -2,7 +2,7 @@
     <h1 class="display-5 fw-bold">Find a room or list one </h1>
     <p>Roomies is a platform where people who have a free room in a shared house or apartment can offer it to people looking for a place to live. The host publishes the room with the necessary details for seekers to apply, visit, and move in. </p>
     <a href="#busqueda" class="btn btn-light fw-normal">Find a room</a>
-    <a href="#accion" class="btn btn-light fw-normal">Publish a room</a>
+    <%= link_to "Publish a room", new_listing_path, class: "btn btn-light fw-normal" %>
 </section>
            
 <section id="funcionamiento"  class="container">
@@ -36,26 +36,61 @@
     <% end %>
 </section>
 
-<section id="busqueda" class="container py-5">
-    <h2 class="text-center">Search</h2>
-    <%= form_with url: listings_path, method: :get, local: true, class: "row g-3" do |f| %>
-        <div class="col-md-4">
-            <%= f.label :neighborhood_id, "Neighborhood", class: "form-label" %>
-            <%= f.select :neighborhood_id, Neighborhood.all.collect { |n| [n.name, n.id] }, { include_blank: "All Neighborhoods" }, class: "form-control" %>
-        </div>
- 
-        <div class="col-md-4">
-            <%= f.label :max_rent, "Maximum rent", class: "form-label" %>
-            <%= f.number_field :max_rent, class: "form-control", placeholder: "300000" %>
-        </div>
- 
-        <div class="col-md-4">
-            <%= f.label :move_in_date, "Availability date", class: "form-label" %>
-            <%= f.date_field :move_in_date, class: "form-control" %>
-        </div>
- 
-        <div class="col-12">
-            <%= f.submit "Search", class: "btn btn-primary" %>
-        </div>
-    <% end %>
+<section id="busqueda"
+         class="container py-5"
+         data-controller="search"
+         data-search-url-value="<%= api_v1_listings_path %>">
+
+  <h2 class="text-center">Search</h2>
+
+  <%= form_with url: listings_path,
+        method: :get,
+        class: "row g-3",
+        data: {
+          search_target: "form",
+          action: "submit->search#search"
+        } do |form| %>
+
+    <div class="col-md-4">
+      <%= form.label :neighborhood_id, "Neighborhood", class: "form-label" %>
+      <%= form.collection_select :neighborhood_id,
+            Neighborhood.order(:name),
+            :id,
+            :name,
+            { prompt: "All neighborhoods" },
+            { class: "form-select" } %>
+    </div>
+
+    <div class="col-md-4">
+      <%= form.label :max_rent, "Maximum rent (CLP)", class: "form-label" %>
+      <%= form.number_field :max_rent,
+            min: 0,
+            step: 0.01,
+            placeholder: "350000",
+            class: "form-control" %>
+    </div>
+
+    <div class="col-md-4">
+      <%= form.label :move_in_date, "Move-in date", class: "form-label" %>
+      <%= form.date_field :move_in_date, class: "form-control" %>
+    </div>
+
+    <div class="col-12">
+      <%= form.submit "Search",
+            class: "btn btn-primary",
+            data: {
+              search_target: "submit",
+              turbo_submits_with: "Searching..."
+            } %>
+    </div>
+  <% end %>
+
+  <p class="text-muted mt-3"
+     data-search-target="message"
+     role="status"
+     aria-live="polite"></p>
+
+  <div class="row g-4"
+       data-search-target="results"
+       aria-busy="false"></div>
 </section>

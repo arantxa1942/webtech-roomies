@@ -21,7 +21,7 @@ class ReviewsController < ApplicationController
     @review.visit = @visit
     @review.reviewer = current_user
     authorize @review
-
+    
     if @review.save
       redirect_to @property, notice: "Review submitted."
     else
@@ -29,6 +29,7 @@ class ReviewsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   rescue ActiveRecord::RecordNotFound
+    skip_authorization
     redirect_to @property,
                 alert: "You can only review your own completed visits."
   end

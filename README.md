@@ -29,6 +29,7 @@ Follow these steps to set up the local environment, initialize the PostgreSQL da
    ```bash
    bundle install
    yarn install
+   ```
 Prepare database and load Seed Data:
 
 bin/rails db:prepare
@@ -41,7 +42,7 @@ Open your browser at http://localhost:3000.
 ## 4. Seed Data Overview (db/seeds.rb)
 Running bin/rails db:seed on an empty database populates the app with realistic sample data representing real Santiago neighborhoods (Providencia, Las Condes, Ñuñoa, Santiago Centro):
 
-Complete Model Coverage: Populates Neighborhood, User (members and a moderator), Property, Amenity, PropertyAmenity, Listing, Application, Visit, Review and Report.
+Complete Model Coverage: Populates Neighborhood, User (members and a moderator), Property, Amenity, PropertyAmenity, Listing, Application, Visit, Review, Report and SavedListing.
 
 Lifecycles (Enums): Listings in draft, published and reserved states; applications pending, shortlisted and accepted; visits proposed and completed; reports pending and dismissed.
 
@@ -52,9 +53,9 @@ Competing Applications & Visits: Multiple seekers applying for the same room, wi
 ## 5. Updated Domain Model
 
 ### Changes from Assignment 1
-* **Lifecycle Enums:** Added enum status columns to `Listing` (`draft`, `published`, `archived`), `Application` (`pending`, `accepted`, `rejected`), and `Visit` (`scheduled`, `completed`, `cancelled`).
+* **Lifecycle Enums:** Added enum status columns to `Listing` (`draft`, `published`, `reserved`, `rented`, `withdrawn`), `Application` (`pending`, `shortlisted`, `accepted`, `rejected`, `withdrawn`), and `Visit` (`proposed`, `confirmed`, `cancelled`, `completed`).
 * **Database Constraints:** Added unique composite indexes for `[applicant_id, listing_id]` on `applications` to prevent duplicate applications, and for `[property_id, amenity_id]` on `property_amenities`.
-* **Validations:** Added mandatory field constraints (`null: false`) for `rent`, `deposit`, `available_from`, and `rating`.
+* **Validations:** Added numerical validations for positive `monthly_rent` and `minimum_stay`, non-negative `deposit`, and `rating` between 1 and 5. Visit dates must be after the application creation date.
 
 ### Updated Diagram
 You can view the updated relational diagram here:
@@ -104,7 +105,7 @@ All views are styled with Bootstrap.
 |------|----------------|---------------|
 | **Visitor** | Not signed in (not a value of the enum) | Can browse the landing page, search, listings, properties and reviews. Nothing else. |
 | **Member** | Default for every new account | Hosts their own properties and listings, applies to other people's listings, proposes visits and writes reviews. |
-| **Moderator** | Set in the database / seeds only (never from a form) | Everything a member can do, plus: sees drafts and all applications, edits or deletes any property, listing or review, resolves reports and manages neighborhoods and amenities. |
+| **Moderator** | Set in the database / seeds only (never from a form) | Moderators can inspect all applications and draft listings, edit or delete any property or listing, delete any review, resolve reports, and manage neighborhoods and amenities. They cannot shortlist, reject or accept applications, manage visits, or create reviews.|
 
 ### Authorization (Pundit)
 Every model that users act on has a policy in `app/policies/`. Policies answer correctly when
@@ -151,8 +152,8 @@ there is no current user (visitor).
 | `valeria@roomies.cl` | member | Host of the Las Condes property: inbox with 2 applications |
 | `mateo@gmail.com` | member | Seeker: one pending application, one accepted with a completed and reviewed visit |
 | `camila@gmail.com` | member | Seeker: shortlisted application with a proposed visit (can confirm or cancel it as the applicant) |
-| `diego@gmail.com` | member | Seeker with a **completed visit and no review yet**: can write a review of Valeria's property |
-| `moderator@roomies.cl` | **moderator** | Sees everything, a pending report to resolve, Neighborhoods and Amenities in the menu |
+| `diego@gmail.com` | member | Seeker with a completed visit and no review yet: can write a review of Valeria's property |
+| `moderator@roomies.cl` | moderator | Sees everything, a pending report to resolve, Neighborhoods and Amenities in the menu |
 
 ### Quick walkthrough
 The seeds restart every id at 1, so after `bin/rails db:seed` these URLs always match:
@@ -165,3 +166,21 @@ The seeds restart every id at 1, so after `bin/rails db:seed` these URLs always 
 7. **Moderator-only pages:** as Mateo open `/neighborhoods/new` → *Access denied*.
 
 ### JSON API
+
+The public API returns only published listings. No authentication is required.
+
+- `GET /api/v1/listings`: lists published listings.
+- `GET /api/v1/listings/:id`: shows one published listing.
+
+Optional filters:
+- `neighborhood_id`: positive integer.
+- `max_rent`: maximum monthly rent in CLP.
+- `move_in_date`: availability on or before this date (`YYYY-MM-DD`).
+
+Responses contain `data`; listing collections also include `meta.count`.
+Errors contain `error.code` and `error.message`.
+
+Status codes: `200` success, `400` invalid filter, `404` missing or
+unpublished listing.
+
+The API excludes user information, application messages and exact property addresses. The landing-page search uses `fetch` to display results without reloading the page.

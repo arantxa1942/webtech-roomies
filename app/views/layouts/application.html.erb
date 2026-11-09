@@ -16,14 +16,6 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <link rel="stylesheet" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-<script type="importmap">
-  {
-    "imports": {
-      "trix": "https://ga.jspm.io/npm:trix@2.0.8/dist/trix.esm.js",
-      "@rails/actiontext": "https://cdn.jsdelivr.net/npm/@rails/actiontext@7.2.0/app/assets/javascripts/actiontext.esm.js"
-    }
-  }
-</script>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -35,7 +27,10 @@
 
           <ul class="navbar-nav flex-row flex-wrap gap-3 ms-auto align-items-center">
             <li class="nav-item">
-              <%= link_to "Search", listings_path, class: "nav-link" %>
+              <%= link_to "Search", root_path(anchor: "busqueda"), class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Listings", listings_path, class: "nav-link" %>
             </li>
             <li class="nav-item">
               <%= link_to "Properties", properties_path, class: "nav-link" %>

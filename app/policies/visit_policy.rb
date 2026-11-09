@@ -1,22 +1,22 @@
 class VisitPolicy < ApplicationPolicy
   def create?
-    participant?
+    !moderator? && participant?
   end
 
   def update?
-    participant?
+    !moderator? && participant?
   end
 
   def confirm?
-    participant?
+    !moderator? && participant?
   end
 
   def cancel?
-    participant?
+    !moderator? && participant?
   end
 
   def complete?
-    host?
+    !moderator? && host?
   end
 
   private

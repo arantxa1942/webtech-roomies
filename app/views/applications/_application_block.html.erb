@@ -13,7 +13,11 @@
       <p class="mb-2">
         Move-in: <%= application.move_in_date %> · Stay: <%= application.stay_length %> months
       </p>
-
+      <%= link_to "View application and visit",
+        application_path(application),
+        class: "btn btn-outline-primary mb-3",
+        data: { turbo_frame: "_top" } %>
+      
       <% if application.pending? || application.shortlisted? %>
         <%= button_to "Withdraw application", withdraw_application_path(application),
               method: :patch, class: "btn btn-outline-danger",

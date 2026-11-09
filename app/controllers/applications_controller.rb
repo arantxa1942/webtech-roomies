@@ -86,11 +86,29 @@ class ApplicationsController < ApplicationController
 
   def respond_to_transition(action, message)
     begin
-      @application.public_send(action)
+      automatically_rejected_ids = []
 
-      ApplicationNotificationJob.perform_later(@application.id)
+      if action == :accept!
+        @application.listing.with_lock do
+          automatically_rejected_ids =
+            @application.listing.applications
+                        .where(status: %w[pending shortlisted])
+                        .where.not(id: @application.id)
+                        .pluck(:id)
+
+          @application.public_send(action)
+        end
+      else
+        @application.public_send(action)
+      end
     rescue ActiveRecord::RecordInvalid => e
       return respond_with_error(e.record.errors.full_messages.to_sentence)
+    end
+
+    notification_ids = [@application.id] + automatically_rejected_ids
+
+    notification_ids.each do |application_id|
+      ApplicationNotificationJob.perform_later(application_id)
     end
 
     respond_to do |format|

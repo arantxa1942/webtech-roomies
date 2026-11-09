@@ -1,5 +1,5 @@
 puts "Cleaning the database..."
-ActiveStorage::Attachment.find_each(&:purge) rescue nil
+ActiveStorage::Attachment.find_each(&:purge)
 [ Report, SavedListing, Review, Visit, Application, PropertyAmenity, Amenity, Listing, Property, Neighborhood, Session, User ].each do |model|
   model.destroy_all if defined?(model)
 end
@@ -10,11 +10,11 @@ end
 
 def attach_seed_photo(listing, filename)
   path = Rails.root.join("app/assets/images", filename)
-  if File.exist?(path)
-    listing.photos.attach(io: File.open(path), filename: filename, content_type: "image/jpeg")
+
+  File.open(path, "rb") do |file|
+    listing.photos.attach( io: file, filename: filename, content_type: "image/jpeg" )
   end
-rescue => e
-  puts "Skipping photo attachment for #{filename}: #{e.message}"
+  listing.save!
 end
 
 puts "Creating Neighborhoods..."
@@ -211,20 +211,54 @@ completed_visit = Visit.create!(
   scheduled_at: Time.current + 1.day,
   notes: "Visit successfully completed."
 )
-completed_visit.update_columns(scheduled_at: 3.days.ago, status: "completed")
+accepted_app.update_columns(
+  created_at: 7.days.ago,
+  updated_at: 4.days.ago
+)
+
+completed_visit.update_columns(
+  created_at: 4.days.ago,
+  updated_at: 3.days.ago,
+  scheduled_at: 3.days.ago,
+  status: "completed"
+)
 
 diego_visit = Visit.create!(
   application: diego_app,
   scheduled_at: Time.current + 1.day,
   notes: "Visit to the penthouse."
 )
-diego_visit.update_columns(scheduled_at: 2.days.ago, status: "completed")
+diego_app.update_columns(
+  created_at: 6.days.ago,
+  updated_at: 3.days.ago
+)
 
-begin
-  accepted_app.accept!
-rescue => e
-  puts "Notice during application acceptance in seeds: #{e.message}"
-end
+diego_visit.update_columns(
+  created_at: 3.days.ago,
+  updated_at: 2.days.ago,
+  scheduled_at: 2.days.ago,
+  status: "completed"
+)
+
+competing_app = Application.create!(
+  listing: listing2,
+  applicant: seeker2,
+  message: "I am interested in this room and would like to visit.",
+  move_in_date: Date.current + 15.days,
+  stay_length: 6
+)
+
+accepted_app.accept!
+
+withdrawn_app = Application.create!(
+  listing: listing1,
+  applicant: seeker3,
+  message: "I am looking for a quiet room near the university.",
+  move_in_date: Date.current + 20.days,
+  stay_length: 6
+)
+
+withdrawn_app.withdraw!
 
 puts "Creating Reviews..."
 Review.create!(
@@ -237,17 +271,132 @@ Review.create!(
 
 puts "Creating Reports..."
 Report.create!(
-  listing: listing3, reporter: seeker1,
+  listing: listing3,
+  reporter: seeker1,
   reason: "The photos do not match the address in the listing."
 )
 
 Report.create!(
-  listing: listing1, reporter: seeker2,
+  listing: listing1,
+  reporter: seeker2,
   reason: "The rent shown here is different from what the host told me.",
-  status: "dismissed", moderator: moderator,
+  status: "dismissed",
+  moderator: moderator,
   moderator_notes: "Checked with the host; the listed rent is correct.",
-  reviewed_at: 1.day.ago
+  reviewed_at: Time.current
 )
 
-puts "Done! Sign in with any of these accounts (password: password123):"
-User.order(:id).each { |u| puts "  #{u.email_address.ljust(24)} #{u.role}" }
+puts "Creating Saved Listings..."
+SavedListing.create!(
+  user: seeker1,
+  listing: listing3,
+  saved_at: Time.current
+)
+
+SavedListing.create!(
+  user: seeker2,
+  listing: listing1,
+  saved_at: Time.current
+)
+
+puts "Creating additional lifecycle examples..."
+
+withdrawn_listing = Listing.create!(
+  property: prop2,
+  title: "Room temporarily unavailable",
+  description: "<div>This room is no longer being offered.</div>",
+  house_rules: "<div>No smoking indoors.</div>",
+  monthly_rent: 300000,
+  deposit: 300000,
+  minimum_stay: 3,
+  furnished: true,
+  private_bathroom: false,
+  available_from: Date.current + 15.days
+)
+
+withdrawn_listing.publish!
+withdrawn_listing.withdraw!
+
+rented_listing = Listing.create!(
+  property: prop2,
+  title: "Room already rented",
+  description: "<div>Furnished room with a desk.</div>",
+  house_rules: "<div>Quiet hours after 22:00.</div>",
+  monthly_rent: 320000,
+  deposit: 320000,
+  minimum_stay: 6,
+  furnished: true,
+  private_bathroom: false,
+  available_from: Date.current
+)
+
+rented_listing.publish!
+
+rented_application = Application.create!(
+  listing: rented_listing,
+  applicant: seeker1,
+  message: "I would like to rent this room.",
+  move_in_date: Date.current,
+  stay_length: 6
+)
+
+rented_application.shortlist!
+rented_application.accept!
+rented_listing.mark_rented!
+
+visit_listing = Listing.create!(
+  property: prop1,
+  title: "Bright room available for visits",
+  description: "<div>A furnished room close to public transport.</div>",
+  house_rules: "<div>Keep shared spaces clean.</div>",
+  monthly_rent: 340000,
+  deposit: 340000,
+  minimum_stay: 3,
+  furnished: true,
+  private_bathroom: false,
+  available_from: Date.current + 7.days
+)
+
+visit_listing.publish!
+attach_seed_photo(visit_listing, "providencia.jpeg")
+
+confirmed_application = Application.create!(
+  listing: visit_listing,
+  applicant: seeker1,
+  message: "I would like to arrange a visit.",
+  move_in_date: Date.current + 15.days,
+  stay_length: 6
+)
+
+confirmed_application.shortlist!
+
+confirmed_visit = Visit.create!(
+  application: confirmed_application,
+  scheduled_at: 2.days.from_now,
+  notes: "The applicant confirmed the visit."
+)
+
+confirmed_visit.confirm!
+
+cancelled_application = Application.create!(
+  listing: visit_listing,
+  applicant: seeker2,
+  message: "I am interested in seeing the room.",
+  move_in_date: Date.current + 20.days,
+  stay_length: 6
+)
+
+cancelled_application.shortlist!
+
+cancelled_visit = Visit.create!(
+  application: cancelled_application,
+  scheduled_at: 3.days.from_now,
+  notes: "The visit was cancelled."
+)
+
+cancelled_visit.cancel!
+
+puts "Done. Sign in with any of these accounts (password: password123):"
+User.order(:id).each do |user|
+  puts "  #{user.email_address.ljust(24)} #{user.role}"
+end

@@ -13,6 +13,7 @@ class Visit < ApplicationRecord
   validates :scheduled_at, presence: true
   validate :application_must_be_shortlisted, on: :create
   validate :scheduled_cannot_be_in_the_past, if: :will_save_change_to_scheduled_at?
+  validate :scheduled_after_application
 
   def confirm!
     transition_to!(:confirmed, from: %w[proposed])
@@ -44,5 +45,13 @@ class Visit < ApplicationRecord
   def scheduled_cannot_be_in_the_past
     return if scheduled_at.blank?
     errors.add(:scheduled_at, "cannot be in the past") if scheduled_at <= Time.current
+  end
+
+  def scheduled_after_application
+    return if scheduled_at.blank? || application&.created_at.blank?
+
+    if scheduled_at <= application.created_at
+      errors.add(:scheduled_at, "must be after the application was created")
+    end
   end
 end

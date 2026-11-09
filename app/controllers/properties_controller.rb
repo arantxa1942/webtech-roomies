@@ -4,6 +4,7 @@ class PropertiesController < ApplicationController
   before_action :set_property, only: %i[show edit update destroy]
 
   def index
+    authorize Property
     @properties = policy_scope(Property).includes(:neighborhood).order(:title)
   end
 
@@ -23,10 +24,12 @@ class PropertiesController < ApplicationController
 
   def new
     @property = Property.new
+    authorize @property
   end
 
   def create
     @property = current_user.properties.build(property_params)
+    authorize @property
 
     if @property.save
       redirect_to @property, notice: "Property created."

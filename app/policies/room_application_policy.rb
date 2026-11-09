@@ -15,15 +15,15 @@ class RoomApplicationPolicy < ApplicationPolicy
 
  
   def shortlist?
-    host?
+    !moderator? && host?
   end
 
   def reject?
-    host?
+    !moderator? && host?
   end
 
   def accept?
-    host?
+    !moderator? && host?
   end
 
   def withdraw?
