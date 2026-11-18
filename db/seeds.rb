@@ -18,9 +18,27 @@ def attach_seed_photo(listing, filename)
 end
 
 puts "Creating Neighborhoods..."
-providencia = Neighborhood.create!(name: "Providencia", city: "Santiago")
-las_condes = Neighborhood.create!(name: "Las Condes", city: "Santiago")
-santiago_c = Neighborhood.create!(name: "Santiago Centro", city: "Santiago")
+COMUNAS_RM = [
+  "Alhué", "Buin", "Calera de Tango", "Cerrillos", "Cerro Navia", "Colina",
+  "Conchalí", "Curacaví", "El Bosque", "El Monte", "Estación Central",
+  "Huechuraba", "Independencia", "Isla de Maipo", "La Cisterna", "La Florida",
+  "La Granja", "La Pintana", "La Reina", "Lampa", "Las Condes", "Lo Barnechea",
+  "Lo Espejo", "Lo Prado", "Macul", "Maipú", "María Pinto", "Melipilla",
+  "Ñuñoa", "Padre Hurtado", "Paine", "Pedro Aguirre Cerda", "Peñaflor",
+  "Peñalolén", "Pirque", "Providencia", "Pudahuel", "Puente Alto", "Quilicura",
+  "Quinta Normal", "Recoleta", "Renca", "San Bernardo", "San Joaquín",
+  "San José de Maipo", "San Miguel", "San Pedro", "San Ramón",
+  "Santiago Centro", "Talagante", "Tiltil", "Vitacura"
+].freeze
+
+COMUNAS_RM.each do |name|
+  Neighborhood.find_or_create_by!(name: name, city: "Santiago")
+end
+
+providencia = Neighborhood.find_by!(name: "Providencia")
+las_condes  = Neighborhood.find_by!(name: "Las Condes")
+santiago_c  = Neighborhood.find_by!(name: "Santiago Centro")
+
 
 puts "Creating Users..."
 host1 = User.create!(
